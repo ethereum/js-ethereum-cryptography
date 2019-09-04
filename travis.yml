@@ -6,14 +6,11 @@ node_js:
   - "12"
 
 install:
-  - cd packages/ethereum-cryptography && npm i
-  - cd packages/ethereum-cryptography-native && npm i
+  - bash scripts/install.sh
 
 script:
-  - cd packages/ethereum-cryptography && npm run test
-  - cd packages/ethereum-cryptography && npm run lint
-  - cd packages/ethereum-cryptography-native && npm run test
-  - cd packages/ethereum-cryptography-native && npm run lint
+  - bash scripts/test.sh
+  - bash scripts/lint.sh
   
 
 cache:
