@@ -71,4 +71,4 @@ and this can be problematic in some environments.
 [3]: https://img.shields.io/travis/alcuadrado/ethereum-cryptography/master.svg?label=Travis%20CI
 [4]: https://travis-ci.org/alcuadrado/ethereum-cryptography
 [5]: https://img.shields.io/npm/l/ethereum-cryptography
-[6]: https://github.com/alcuadrado/ethereum-cryptography/blob/master/LICENSE
+[6]: https://github.com/alcuadrado/ethereum-cryptography/blob/master/packages/ethereum-cryptography/LICENSE
