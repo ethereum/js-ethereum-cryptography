@@ -1,9 +1,9 @@
 language: node_js
 
 node_js:
-  - "8"
-  - "10"
-  - "12"
+  - 8
+  - 10
+  - 12
 
 install:
   - bash scripts/install.sh
@@ -11,7 +11,6 @@ install:
 script:
   - bash scripts/test.sh
   - bash scripts/lint.sh
-  
 
 cache:
   npm: true

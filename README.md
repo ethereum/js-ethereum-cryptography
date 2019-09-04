@@ -22,7 +22,7 @@ $ npm install ethereum-cryptography
 Via `yarn`:
 
 ```bash
-$ yarn add ethereum-cryptography-native
+$ yarn add ethereum-cryptography
 ```
 
 ## Usage
