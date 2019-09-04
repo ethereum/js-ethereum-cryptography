@@ -1,6 +1,6 @@
 {
   "name": "ethereum-cryptography-native",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Native implementations of ethereum-cryptography for Node.js",
   "author": "Patricio Palladino <patricio@nomiclabs.io>",
   "repository": "github:alcuadrado/ethereum-cryptography",
