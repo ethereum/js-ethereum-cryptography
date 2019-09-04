@@ -34,7 +34,7 @@ package for the web.
 
 ### keccak
 
-The `keccack` submodule has for functions that receive a `Buffer` with the 
+The `keccack` submodule has four functions that receive a `Buffer` with the 
 message to hash, and return a `Buffer` with the hash. These are `keccak224`, 
 `keccak256`, `keccak384`, and `keccak512`.
 
