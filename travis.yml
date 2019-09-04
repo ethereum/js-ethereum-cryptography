@@ -18,7 +18,3 @@ cache:
     - $HOME/.npm
     - packages/ethereum-cryptography/node_modules
     - packages/ethereum-cryptography-native/node_modules
-
-branches:
-  only:
-    - master
