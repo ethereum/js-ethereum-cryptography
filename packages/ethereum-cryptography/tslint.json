@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "rules": {
+    "prettier": true,
+    "no-submodule-imports": false,
+    "only-arrow-functions": false,
+    "no-implicit-dependencies": [true, ["chai"]],
+    "no-var-requires": false
+  }
+}

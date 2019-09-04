@@ -1,0 +1,28 @@
+language: node_js
+
+node_js:
+  - "8"
+  - "10"
+  - "12"
+
+install:
+  - cd packages/ethereum-cryptography && npm i
+  - cd packages/ethereum-cryptography-native && npm i
+
+script:
+  - cd packages/ethereum-cryptography && npm run test
+  - cd packages/ethereum-cryptography && npm run lint
+  - cd packages/ethereum-cryptography-native && npm run test
+  - cd packages/ethereum-cryptography-native && npm run lint
+  
+
+cache:
+  npm: true
+  directories:
+    - $HOME/.npm
+    - packages/ethereum-cryptography/node_modules
+    - packages/ethereum-cryptography-native/node_modules
+
+branches:
+  only:
+    - master
