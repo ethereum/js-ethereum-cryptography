@@ -41,10 +41,15 @@ message to hash, and return a `Buffer` with the hash. These are `keccak224`,
 
 #### Function types
 
-* `function keccak224(msg: Buffer): Buffer`
-* `function keccak256(msg: Buffer): Buffer`
-* `function keccak384(msg: Buffer): Buffer`
-* `function keccak512(msg: Buffer): Buffer`
+```ts
+function keccak224(msg: Buffer): Buffer;
+
+function keccak256(msg: Buffer): Buffer;
+
+function keccak384(msg: Buffer): Buffer;
+
+function keccak512(msg: Buffer): Buffer;
+```
 
 #### Example usage
 
@@ -69,8 +74,11 @@ before using this submodule.
 
 #### Function types
 
-* `function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer`
-* `function scryptAsync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>`
+```ts
+function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer;
+
+function scryptAsync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>;
+```
 
 #### Example usage
 
