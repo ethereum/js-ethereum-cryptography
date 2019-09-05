@@ -85,7 +85,16 @@ function scryptAsync(password: Buffer, salt: Buffer, n: number, p: number, r: nu
 ```js
 const { scrypt } = require("ethereum-cryptography/scrypt");
 
-console.log(scrypt(Buffer.from("ascii password", "ascii"), Buffer.from('AAAA', 'hex'), 16, 1, 1, 64).toString("hex"));
+console.log(
+  scrypt(
+    Buffer.from("ascii password", "ascii"),
+    Buffer.from("AAAA", "hex"),
+    16,
+    1,
+    1,
+    64
+  ).toString("hex")
+);
 ```
 
 ## Browser usage
