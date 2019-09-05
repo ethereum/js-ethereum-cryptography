@@ -9,6 +9,7 @@
     "no-submodule-imports": false,
     "only-arrow-functions": false,
     "no-implicit-dependencies": [true, ["chai"]],
-    "no-var-requires": false
+    "no-var-requires": false,
+    "object-literal-sort-keys": false
   }
 }

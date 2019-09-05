@@ -10,6 +10,7 @@ developing Javascript/TypeScript applications and tools for Ethereum.
 This package contains pure-js implementations of these primitives:
 
 * `keccak`
+* `scrypt`
 
 ## Installation
 
@@ -29,14 +30,21 @@ $ yarn add ethereum-cryptography
 
 There's a submodule available for each cryprographic primitive. 
 
-No `index.js` is provided, as that would lead to huge bundles when using this 
-package for the web.
+No `index.js`/`main` is provided, as that would lead to huge bundles when using 
+this package for the web.
 
-### keccak
+### keccak submodule
 
 The `keccack` submodule has four functions that receive a `Buffer` with the 
 message to hash, and return a `Buffer` with the hash. These are `keccak224`, 
 `keccak256`, `keccak384`, and `keccak512`.
+
+#### Function types
+
+* `function keccak224(msg: Buffer): Buffer`
+* `function keccak256(msg: Buffer): Buffer`
+* `function keccak384(msg: Buffer): Buffer`
+* `function keccak512(msg: Buffer): Buffer`
 
 #### Example usage
 
@@ -44,6 +52,32 @@ message to hash, and return a `Buffer` with the hash. These are `keccak224`,
 const { keccak256 } = require("ethereum-cryptography/keccak");
 
 console.log(keccak256(Buffer.from("Hello, world!", "ascii")).toString("hex"));
+```
+
+### scrypt submodule
+
+The `scrypt` submodule has two functions implementing the `scrypt` hash 
+algorithm in synchronous and asynchronous ways. This algorithm is very slow,
+and using the synchronous version in the browser is not recommended, as it will
+block its main thread and hang your ui.
+
+#### Password encoding
+
+Encoding passwords is a frequent source of errors. Please read 
+[these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes) 
+before using this submodule.
+
+#### Function types
+
+* `function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer`
+* `function scryptAsync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>`
+
+#### Example usage
+
+```js
+const { scrypt } = require("ethereum-cryptography/scrypt");
+
+console.log(scrypt(Buffer.from("ascii password", "ascii"), Buffer.from('AAAA', 'hex'), 16, 1, 1, 64).toString("hex"));
 ```
 
 ## Browser usage

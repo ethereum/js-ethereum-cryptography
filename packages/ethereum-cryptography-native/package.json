@@ -42,6 +42,7 @@
     "typescript": "~3.6.2"
   },
   "optionalDependencies": {
+    "scrypt": "^6.0.3",
     "sha3": "^1.2.3"
   }
 }

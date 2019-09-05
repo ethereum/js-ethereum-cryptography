@@ -9,6 +9,7 @@ makes `ethereum-cryptography` use native implementations of these cryptographic
 primitives:
 
 * `keccak`
+* `scrypt`
 
 ## Installation
 

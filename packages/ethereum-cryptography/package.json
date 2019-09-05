@@ -23,7 +23,8 @@
     "pure/**/*.d.ts.map"
   ],
   "browser": {
-    "./keccak.js": "./pure/keccak.js"
+    "./keccak.js": "./pure/keccak.js",
+    "./scrypt.js": "./pure/scrypt.js"
   },
   "sideEffects": false,
   "scripts": {
@@ -49,6 +50,7 @@
     "typescript": "~3.6.2"
   },
   "dependencies": {
-    "js-sha3": "^0.8.0"
+    "js-sha3": "^0.8.0",
+    "scryptsy": "^2.1.0"
   }
 }
