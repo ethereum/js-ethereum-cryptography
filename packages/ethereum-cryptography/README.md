@@ -13,6 +13,7 @@ This package contains pure-js implementations of these primitives:
 * `scrypt`
 * `sha256`
 * `ripemd160`
+* `secp256k1`
 
 ## Installation
 
@@ -135,6 +136,34 @@ function ripemd160(msg: Buffer): Buffer;
 const { ripemd160 } = require("ethereum-cryptography/ripemd160");
 
 console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
+```
+
+### secp256k1 submodule
+
+The `secp256k1` submodule has the same API than the native module 
+[`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node) 
+version `3.x`, but it's backed by [`elliptic`](https://www.npmjs.com/package/elliptic).
+
+#### Function types
+
+Consult [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node).
+
+#### Example usage
+
+```js
+const { sign } = require("ethereum-cryptography/secp256k1");
+
+const msgHash = Buffer.from(
+  "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
+  "hex"
+);
+
+const privateKey = Buffer.from(
+  "3c9229289a6125f7fdf1885a77bb12c37a8d3b4962d936f7e3084dece32a3ca1",
+  "hex"
+);
+
+console.log(sign(msgHash, privateKey).toString("hex"));
 ```
 
 ## Browser usage

@@ -3,3 +3,6 @@
 /*.d.ts
 /*.d.ts.map
 /pure
+/test-builds
+/node_modules
+elliptic-secp256k1.js

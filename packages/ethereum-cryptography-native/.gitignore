@@ -2,4 +2,4 @@
 /*.js.map
 /*.d.ts
 /*.d.ts.map
-/pure
+/node_modules

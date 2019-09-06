@@ -3,6 +3,10 @@ set -e
 echo "Building tests with TypeScript"
 npx tsc --project tsconfig.json
 
+echo "Building elliptic shim"
+npm run elliptic-build
+cp src/elliptic-secp256k1.js test-builds/tsc/src
+
 echo "Building tests with Parcel"
 npx parcel build --no-cache --no-minify test-builds/tsc/src/pure/*.js test-builds/tsc/test/pure/*.js -d test-builds/parcel
 

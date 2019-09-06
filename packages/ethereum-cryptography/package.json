@@ -29,18 +29,21 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc --project tsconfig.prod.json",
+    "build": "npm-run-all elliptic-build build:tsc elliptic-copy",
+    "build:tsc": "tsc --project tsconfig.prod.json",
     "test": "mocha",
     "clean": "rimraf test-builds pure '*.js' '*.js.map' '*.d.ts' '*.d.ts.map'",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",
-    "browser-tests:build": "bash ../../scripts/build-browser-tests.sh",
+    "browser-tests:build": "bash -x ../../scripts/build-browser-tests.sh",
     "browser-tests:test": "npm-run-all browser-tests:test-parcel browser-tests:test-browserify browser-tests:test-webpack browser-tests:test-rollup",
     "browser-tests:test-parcel": "karma start --single-run --browsers ChromeHeadless test/karma.parcel.conf.js",
     "browser-tests:test-browserify": "karma start --single-run --browsers ChromeHeadless test/karma.browserify.conf.js",
     "browser-tests:test-webpack": "karma start --single-run --browsers ChromeHeadless test/karma.webpack.conf.js",
-    "browser-tests:test-rollup": "karma start --single-run --browsers ChromeHeadless test/karma.rollup.conf.js"
+    "browser-tests:test-rollup": "karma start --single-run --browsers ChromeHeadless test/karma.rollup.conf.js",
+    "elliptic-build": "rollup -c elliptic-secp256k1-config/rollup.config.js",
+    "elliptic-copy": "cp src/elliptic-secp256k1.js ./"
   },
   "devDependencies": {
     "@types/chai": "^4.2.1",
@@ -73,8 +76,14 @@
     "webpack-cli": "^3.3.8"
   },
   "dependencies": {
+    "@types/secp256k1": "^3.5.0",
+    "bip66": "^1.1.5",
+    "bn.js": "^4.11.8",
+    "create-hash": "^1.2.0",
+    "elliptic": "^6.4.1",
     "hash.js": "^1.1.7",
     "js-sha3": "^0.8.0",
+    "safe-buffer": "^5.1.2",
     "scrypt-js": "^2.0.4"
   }
 }
