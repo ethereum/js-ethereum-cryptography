@@ -178,9 +178,10 @@ and [`rollup-plugin-json`](https://www.npmjs.com/package/rollup-plugin-json).
 
 ## Opt-in native implementations (Node.js only)
 
-If you are using this package in Node, you can install 
-`ethereum-cryptography-native` to opt-in to use native implementations of some
-of the cryptographic primitives provided by this package. 
+If you are using this package in Node, you can install
+[`ethereum-cryptography-native`](https://www.npmjs.com/package/ethereum-cryptography-native)
+to opt-in to use native implementations of some of the cryptographic primitives
+provided by this package.
 
 No extra work is needed for this to work. This package will detect that 
 `ethereum-cryptography-native` is installed, and use it.
