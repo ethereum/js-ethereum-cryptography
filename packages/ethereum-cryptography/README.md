@@ -116,6 +116,25 @@ const { sha256 } = require("ethereum-cryptography/sha256");
 console.log(sha256(Buffer.from("message", "ascii")).toString("hex"));
 ```
 
+### ripemd160 submodule
+
+The `ripemd160` submodule contains a single functions implementing the
+`ripemd160` hash algorithm.
+
+#### Function types
+
+```ts
+function ripemd160(msg: Buffer): Buffer;
+```
+
+#### Example usage
+
+```js
+const { ripemd160 } = require("ethereum-cryptography/ripemd160");
+
+console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
+```
+
 ## Browser usage
 
 This package works with all the major Javascript bundlers. It is
