@@ -1,4 +1,3 @@
-
 import { assert } from "chai";
 import { keccak224, keccak256, keccak384, keccak512 } from "../src/pure/keccak";
 
