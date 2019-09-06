@@ -7,7 +7,14 @@
 This npm package contains all the cryptographic primitives normally used when 
 developing Javascript/TypeScript applications and tools for Ethereum.
 
-This package contains pure-js implementations of these primitives:
+Pure Javascript implementations of all the primitives are included, so it can
+be used out of the box for web applications and libraries. In Node, it takes
+advantage of the built-in implementations when possible. To improve performance
+in Node, you can install a
+[second package](https://www.npmjs.com/package/ethereum-cryptography-native)
+with native implemantations that will be detected and used by this one.
+
+The cryptographic primitives included are:
 
 * `keccak`
 * `scrypt`
