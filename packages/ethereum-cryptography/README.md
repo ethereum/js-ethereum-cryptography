@@ -4,7 +4,7 @@
 [![Travis CI][3]][4]
 [![license][5]][6]
 
-⚠️**WARNING: This projects is under active development. Don't use it until a stable version is relased.**⚠️
+⚠️ **WARNING: This projects is under active development. Don't use it until a stable version is relased.** ⚠️
 
 This npm package contains all the cryptographic primitives normally used when 
 developing Javascript/TypeScript applications and tools for Ethereum.
