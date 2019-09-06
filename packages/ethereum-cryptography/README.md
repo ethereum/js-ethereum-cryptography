@@ -36,13 +36,13 @@ There's a submodule available for each cryprographic primitive.
 No `index.js`/`main` is provided, as that would lead to huge bundles when using 
 this package for the web.
 
-### keccak submodule
+## keccak submodule
 
 The `keccack` submodule has four functions that receive a `Buffer` with the 
 message to hash, and return a `Buffer` with the hash. These are `keccak224`, 
 `keccak256`, `keccak384`, and `keccak512`.
 
-#### Function types
+### Function types
 
 ```ts
 function keccak224(msg: Buffer): Buffer;
@@ -54,7 +54,7 @@ function keccak384(msg: Buffer): Buffer;
 function keccak512(msg: Buffer): Buffer;
 ```
 
-#### Example usage
+### Example usage
 
 ```js
 const { keccak256 } = require("ethereum-cryptography/keccak");
@@ -62,20 +62,20 @@ const { keccak256 } = require("ethereum-cryptography/keccak");
 console.log(keccak256(Buffer.from("Hello, world!", "ascii")).toString("hex"));
 ```
 
-### scrypt submodule
+## scrypt submodule
 
 The `scrypt` submodule has two functions implementing the `scrypt` hash 
 algorithm in synchronous and asynchronous ways. This algorithm is very slow,
 and using the synchronous version in the browser is not recommended, as it will
 block its main thread and hang your ui.
 
-#### Password encoding
+### Password encoding
 
 Encoding passwords is a frequent source of errors. Please read 
 [these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes) 
 before using this submodule.
 
-#### Function types
+### Function types
 
 ```ts
 function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer;
@@ -83,7 +83,7 @@ function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number,
 function scryptAsync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>;
 ```
 
-#### Example usage
+### Example usage
 
 ```js
 const { scrypt } = require("ethereum-cryptography/scrypt");
@@ -100,18 +100,18 @@ console.log(
 );
 ```
 
-### sha256 submodule
+## sha256 submodule
 
 The `sha256` submodule contains a single functions implementing the `sha256`
 hash algorithm.
 
-#### Function types
+### Function types
 
 ```ts
 function sha256(msg: Buffer): Buffer;
 ```
 
-#### Example usage
+### Example usage
 
 ```js
 const { sha256 } = require("ethereum-cryptography/sha256");
@@ -119,18 +119,18 @@ const { sha256 } = require("ethereum-cryptography/sha256");
 console.log(sha256(Buffer.from("message", "ascii")).toString("hex"));
 ```
 
-### ripemd160 submodule
+## ripemd160 submodule
 
 The `ripemd160` submodule contains a single functions implementing the
 `ripemd160` hash algorithm.
 
-#### Function types
+### Function types
 
 ```ts
 function ripemd160(msg: Buffer): Buffer;
 ```
 
-#### Example usage
+### Example usage
 
 ```js
 const { ripemd160 } = require("ethereum-cryptography/ripemd160");
@@ -138,17 +138,17 @@ const { ripemd160 } = require("ethereum-cryptography/ripemd160");
 console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
 ```
 
-### secp256k1 submodule
+## secp256k1 submodule
 
 The `secp256k1` submodule has the same API than the native module 
 [`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node) 
 version `3.x`, but it's backed by [`elliptic`](https://www.npmjs.com/package/elliptic).
 
-#### Function types
+### Function types
 
 Consult [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node).
 
-#### Example usage
+### Example usage
 
 ```js
 const { sign } = require("ethereum-cryptography/secp256k1");
