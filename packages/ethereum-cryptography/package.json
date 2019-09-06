@@ -76,6 +76,7 @@
     "webpack-cli": "^3.3.8"
   },
   "dependencies": {
+    "@types/pbkdf2": "^3.0.0",
     "@types/secp256k1": "^3.5.0",
     "bip66": "^1.1.5",
     "bn.js": "^4.11.8",
@@ -83,6 +84,7 @@
     "elliptic": "^6.4.1",
     "hash.js": "^1.1.7",
     "js-sha3": "^0.8.0",
+    "pbkdf2": "^3.0.17",
     "safe-buffer": "^5.1.2",
     "scrypt-js": "^2.0.4"
   }

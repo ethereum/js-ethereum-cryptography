@@ -20,6 +20,7 @@ The cryptographic primitives included are:
 
 * `keccak`
 * `scrypt`
+* `pbkdf2`
 * `sha256`
 * `ripemd160`
 * `secp256k1`
@@ -73,10 +74,10 @@ console.log(keccak256(Buffer.from("Hello, world!", "ascii")).toString("hex"));
 
 ## scrypt submodule
 
-The `scrypt` submodule has two functions implementing the `scrypt` hash 
-algorithm in synchronous and asynchronous ways. This algorithm is very slow,
-and using the synchronous version in the browser is not recommended, as it will
-block its main thread and hang your ui.
+The `scrypt` submodule has two functions implementing the `scrypt` key
+derivation algorithm in synchronous and asynchronous ways. This algorithm is
+very slow, and using the synchronous version in the browser is not recommended,
+as it will block its main thread and hang your ui.
 
 ### Password encoding
 
@@ -100,11 +101,54 @@ const { scrypt } = require("ethereum-cryptography/scrypt");
 console.log(
   scrypt(
     Buffer.from("ascii password", "ascii"),
-    Buffer.from("AAAA", "hex"),
+    Buffer.from("salt", "hex"),
     16,
     1,
     1,
     64
+  ).toString("hex")
+);
+```
+
+## pbkdf2 submodule
+
+The `pbkdf2` submodule has two functions implementing the `pbkdf2` key
+derivation algorithm in synchronous and asynchronous ways.
+
+### Password encoding
+
+Encoding passwords is a frequent source of errors. Please read
+[these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes)
+before using this submodule.
+
+### Supported digets
+
+In Node this submodule uses the native implementation, and supports any digest
+returned by [`crypto.getHashes`](https://nodejs.org/api/crypto.html#crypto_crypto_gethashes).
+
+In the browser, it is tested to support at least `sha256`, the only digest
+normally used with `pbkdf2` in Ethereum. It may support more.
+
+### Function types
+
+```ts
+function pbkdf2(password: Buffer, salt: Buffer, iterations: number, keylen: number, digest: string): Promise<Buffer>;
+
+function pbkdf2Sync(password: Buffer, salt: Buffer, iterations: number, keylen: number, digest: string): Buffer;
+```
+
+### Example usage
+
+```js
+const { pbkdf2Sync } = require("ethereum-cryptography/pbkdf2");
+
+console.log(
+  pbkdf2Sync(
+    Buffer.from("ascii password", "ascii"),
+    Buffer.from("salt", "hex"),
+    4096,
+    32,
+    'sha256'
   ).toString("hex")
 );
 ```
