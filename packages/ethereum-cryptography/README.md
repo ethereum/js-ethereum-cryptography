@@ -11,6 +11,8 @@ This package contains pure-js implementations of these primitives:
 
 * `keccak`
 * `scrypt`
+* `sha256`
+* `ripemd160`
 
 ## Installation
 
