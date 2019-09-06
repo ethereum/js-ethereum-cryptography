@@ -97,6 +97,25 @@ console.log(
 );
 ```
 
+### sha256 submodule
+
+The `sha256` submodule contains a single functions implementing the `sha256`
+hash algorithm.
+
+#### Function types
+
+```ts
+function sha256(msg: Buffer): Buffer;
+```
+
+#### Example usage
+
+```js
+const { sha256 } = require("ethereum-cryptography/sha256");
+
+console.log(sha256(Buffer.from("message", "ascii")).toString("hex"));
+```
+
 ## Browser usage
 
 This package works with all the major Javascript bundlers. It is
