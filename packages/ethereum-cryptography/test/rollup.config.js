@@ -6,7 +6,7 @@ import nodeBuiltin from "rollup-plugin-node-builtins";
 import nodeGlobals from "rollup-plugin-node-globals";
 import json from "rollup-plugin-json";
 
-const TESTS_DIR = "./test-builds/tsc/test";
+const TESTS_DIR = "./test-builds/tsc/test/pure";
 const testFiles = fs
   .readdirSync(TESTS_DIR)
   .filter(name => name.endsWith(".js"))

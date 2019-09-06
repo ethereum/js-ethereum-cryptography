@@ -73,6 +73,7 @@
     "webpack-cli": "^3.3.8"
   },
   "dependencies": {
+    "hash.js": "^1.1.7",
     "js-sha3": "^0.8.0",
     "scrypt-js": "^2.0.4"
   }

@@ -5,6 +5,7 @@
     "strict": true,
     "esModuleInterop": true,
     "noEmit": true,
-    "rootDirs": ["./src", "./test"]
-  },
+    "rootDirs": ["./src", "./test"],
+    "downlevelIteration": true
+  }
 }
