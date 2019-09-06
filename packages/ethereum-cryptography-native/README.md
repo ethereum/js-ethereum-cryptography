@@ -10,6 +10,7 @@ primitives:
 
 * `keccak`
 * `scrypt`
+* `secp256k1`
 
 ## Installation
 
