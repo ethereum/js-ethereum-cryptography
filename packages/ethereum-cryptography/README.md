@@ -190,6 +190,9 @@ performance of your application, we recommend leaving the decision of installing
 it to your users. It has multiple native dependencies that need to be compiled,
 and this can be problematic in some environments.
 
+## License
+
+`ethereum-cryptography` is released under [the MIT License](./LICENSE).
 
 [1]: https://img.shields.io/npm/v/ethereum-cryptography.svg
 [2]: https://www.npmjs.com/package/ethereum-cryptography

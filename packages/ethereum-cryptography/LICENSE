@@ -1,3 +1,8 @@
+elliptic-secp256k1.js is based on secp256k1-node, which is released under the
+MIT license by the licesecp256k1-node contributors. See https://github.com/cryptocoinjs/secp256k1-node/blob/2f1c956d71c39e5667e6285a6dafc15ce28e86f0/LICENSE
+
+The rest of the project is released under this license:
+
 Copyright 2019 Patricio Palladino
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of 
