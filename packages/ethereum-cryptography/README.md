@@ -99,8 +99,13 @@ console.log(
 
 ## Browser usage
 
-This package works out of the box with all the major Javascript bundlers (e.g. 
-`webpack`, `Rollup`, `Parcel`, `Browserify`). 
+This package works with all the major Javascript bundlers. It is
+tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
+
+For using it with `Rollup` you need to use these plugins:
+[`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins),
+[`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals), 
+and [`rollup-plugin-json`](https://www.npmjs.com/package/rollup-plugin-json).
 
 ## Opt-in native implementations (Node.js only)
 

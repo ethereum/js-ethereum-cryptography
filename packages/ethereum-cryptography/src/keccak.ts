@@ -6,7 +6,7 @@ try {
   // tslint:disable-next-line no-implicit-dependencies
   keccakModule = require("ethereum-cryptography-native/keccak");
 } catch {
-  keccakModule = keccakPure;
+  keccakModule = require("./pure/keccak");
 }
 
 export const keccak224 = keccakModule.keccak224;

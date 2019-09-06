@@ -4,7 +4,10 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "noEmit": true,
-    "rootDirs": ["./src", "./test"]
+    "rootDirs": ["./src", "./test"],
+    "outDir": "./test-builds/tsc",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
   },
 }

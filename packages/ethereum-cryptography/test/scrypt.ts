@@ -1,5 +1,6 @@
+import { Buffer } from "buffer";
 import { assert } from "chai";
-import { scrypt, scryptAsync } from "../src/scrypt";
+import { scrypt, scryptAsync } from "../src/pure/scrypt";
 
 const TEST_VECTORS = [
   {
@@ -35,7 +36,7 @@ const TEST_VECTORS = [
 ];
 
 describe("scrypt", function() {
-  describe("scrypt sync", function() {
+  describe.skip("scrypt sync", function() {
     for (let i = 0; i < TEST_VECTORS.length; i++) {
       it(`Should process the test ${i} correctly`, function() {
         this.enableTimeouts(false);

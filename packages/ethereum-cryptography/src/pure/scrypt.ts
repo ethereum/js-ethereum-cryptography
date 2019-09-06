@@ -1,4 +1,4 @@
-const scryptsy = require("scryptsy");
+const scryptJs = require("scrypt-js");
 
 export function scrypt(
   password: Buffer,
@@ -8,7 +8,7 @@ export function scrypt(
   r: number,
   dklen: number
 ): Buffer {
-  return scryptsy(password, salt, n, r, p, dklen);
+  throw new Error("Not implemented yet");
 }
 
 export async function scryptAsync(
@@ -19,5 +19,17 @@ export async function scryptAsync(
   r: number,
   dklen: number
 ): Promise<Buffer> {
-  return scryptsy.async(password, salt, n, r, p, dklen);
+  return new Promise((resolve, reject) => {
+    scryptJs(password, salt, n, r, p, dklen, function(
+      error: any,
+      progress: any,
+      key: any
+    ) {
+      if (error) {
+        reject(error);
+      } else if (key) {
+        resolve(Buffer.from(key));
+      }
+    });
+  });
 }

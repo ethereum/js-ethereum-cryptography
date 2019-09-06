@@ -1,5 +1,6 @@
+
 import { assert } from "chai";
-import { keccak224, keccak256, keccak384, keccak512 } from "../src/keccak";
+import { keccak224, keccak256, keccak384, keccak512 } from "../src/pure/keccak";
 
 describe("keccak", function() {
   describe("keccak224", function() {

@@ -6,7 +6,7 @@ try {
   // tslint:disable-next-line no-implicit-dependencies
   scryptModule = require("ethereum-cryptography-native/scrypt");
 } catch {
-  scryptModule = scryptPure;
+  scryptModule = require("./pure/scrypt");
 }
 
 export const scrypt = scryptModule.scrypt;
