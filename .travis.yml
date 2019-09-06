@@ -6,11 +6,11 @@ node_js:
   - 12
 
 install:
-  - bash scripts/install.sh
+  - bash -x scripts/install.sh
 
 script:
-  - bash scripts/test.sh
-  - bash scripts/lint.sh
+  - bash -x scripts/test.sh
+  - bash -x scripts/lint.sh
 
 cache:
   npm: true
