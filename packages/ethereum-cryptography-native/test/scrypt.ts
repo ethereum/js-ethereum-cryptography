@@ -3,7 +3,7 @@ import { createTests } from "./test-vectors/scrypt";
 try {
   const scryptModule = require("../src/scrypt");
 
-  createTests(scryptModule.scrypt, scryptModule.scryptAsync);
+  createTests(scryptModule.scryptSync, scryptModule.scrypt);
 } catch (error) {
   if (error.code === "MODULE_NOT_FOUND") {
     console.warn(

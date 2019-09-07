@@ -88,18 +88,18 @@ before using this submodule.
 ### Function types
 
 ```ts
-function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer;
+function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>;
 
-function scryptAsync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>;
+function scryptSync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer;
 ```
 
 ### Example usage
 
 ```js
-const { scrypt } = require("ethereum-cryptography/scrypt");
+const { scryptSync } = require("ethereum-cryptography/scrypt");
 
 console.log(
-  scrypt(
+  scryptSync(
     Buffer.from("ascii password", "ascii"),
     Buffer.from("salt", "hex"),
     16,
