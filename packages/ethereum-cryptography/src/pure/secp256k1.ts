@@ -1,7 +1,7 @@
 // tslint:disable-next-line no-implicit-dependencies
 import * as Secp256k1T from "secp256k1";
 
-const secp256k1 = require("../elliptic-secp256k1");
+const secp256k1 = require("../vendor/elliptic-secp256k1");
 
 export const privateKeyVerify: typeof Secp256k1T.privateKeyVerify =
   secp256k1.privateKeyVerify;

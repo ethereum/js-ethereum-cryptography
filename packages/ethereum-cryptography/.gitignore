@@ -5,4 +5,7 @@
 /pure
 /test-builds
 /node_modules
+/scryptsy-without-crypto-build
+/vendor
 elliptic-secp256k1.js
+scryptsy-without-crypto.js

@@ -9,10 +9,11 @@
     "ethereum",
     "cryptography"
   ],
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "files": [
     "src",
+    "vendor",
     "*.js",
     "*.js.map",
     "*.d.ts",
@@ -33,10 +34,11 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm-run-all elliptic-build build:tsc elliptic-copy",
+    "build": "npm-run-all build:tsc elliptic-secp256k1:build elliptic-secp256k1:copy scryptsy-without-crypto:build scryptsy-without-crypto:copy",
     "build:tsc": "tsc --project tsconfig.prod.json",
-    "test": "mocha",
-    "clean": "rimraf test-builds pure '*.js' '*.js.map' '*.d.ts' '*.d.ts.map'",
+    "test": "npm-run-all elliptic-secp256k1:build scryptsy-without-crypto:build test:node",
+    "test:node": "mocha",
+    "clean": "rimraf vendor test-builds pure scryptsy-without-crypto-build '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",
@@ -46,8 +48,10 @@
     "browser-tests:test-browserify": "karma start --single-run --browsers ChromeHeadless test/karma.browserify.conf.js",
     "browser-tests:test-webpack": "karma start --single-run --browsers ChromeHeadless test/karma.webpack.conf.js",
     "browser-tests:test-rollup": "karma start --single-run --browsers ChromeHeadless test/karma.rollup.conf.js",
-    "elliptic-build": "rollup -c elliptic-secp256k1-config/rollup.config.js",
-    "elliptic-copy": "cp src/elliptic-secp256k1.js ./"
+    "elliptic-secp256k1:build": "rollup -c elliptic-secp256k1-config/rollup.config.js",
+    "elliptic-secp256k1:copy": "mkdir -p vendor && cp src/vendor/elliptic-secp256k1.js ./vendor",
+    "scryptsy-without-crypto:build": "bash -x scripts/build-scryptsy-without-crypto.sh",
+    "scryptsy-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/scryptsy-without-crypto.js ./vendor && cp src/pure/vendor/scryptsy-without-crypto.js ./pure/vendor"
   },
   "devDependencies": {
     "@types/chai": "^4.2.1",
@@ -66,11 +70,13 @@
     "prettier": "1.18.2",
     "rimraf": "^3.0.0",
     "rollup": "^1.20.3",
+    "rollup-plugin-alias": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
@@ -90,6 +96,6 @@
     "js-sha3": "^0.8.0",
     "pbkdf2": "^3.0.17",
     "safe-buffer": "^5.1.2",
-    "scrypt-js": "^2.0.4"
+    "setimmediate": "^1.0.5"
   }
 }

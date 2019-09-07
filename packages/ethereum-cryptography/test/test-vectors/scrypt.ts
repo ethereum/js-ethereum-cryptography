@@ -52,7 +52,7 @@ export function createTests(
   ) => Promise<Buffer>
 ) {
   describe("scrypt", function() {
-    describe.skip("scrypt sync", function() {
+    describe("scrypt sync", function() {
       for (let i = 0; i < TEST_VECTORS.length; i++) {
         it(`Should process the test ${i} correctly`, function() {
           this.enableTimeouts(false);

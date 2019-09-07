@@ -4,8 +4,15 @@ echo "Building tests with TypeScript"
 npx tsc --project tsconfig.json
 
 echo "Building elliptic shim"
-npm run elliptic-build
-cp src/elliptic-secp256k1.js test-builds/tsc/src
+npm run elliptic-secp256k1:build
+mkdir -p test-builds/tsc/src/vendor
+cp src/vendor/elliptic-secp256k1.js test-builds/tsc/src/vendor
+
+echo "Building scryptsy-without-crypto"
+npm run scryptsy-without-crypto:build
+mkdir -p test-builds/tsc/src/vendor test-builds/tsc/src/pure/vendor
+cp src/vendor/scryptsy-without-crypto.js test-builds/tsc/src/vendor
+cp src/pure/vendor/scryptsy-without-crypto.js test-builds/tsc/src/pure/vendor
 
 echo "Building tests with Parcel"
 npx parcel build --no-cache --no-minify test-builds/tsc/src/pure/*.js test-builds/tsc/test/pure/*.js -d test-builds/parcel

@@ -1,6 +1,6 @@
 import * as pbkdf2Js from "pbkdf2";
 
-export async function pbkdf2(
+export function pbkdf2(
   password: Buffer,
   salt: Buffer,
   iterations: number,

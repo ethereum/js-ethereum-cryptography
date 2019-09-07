@@ -1,5 +1,8 @@
 elliptic-secp256k1.js is based on secp256k1-node, which is released under the
-MIT license by the licesecp256k1-node contributors. See https://github.com/cryptocoinjs/secp256k1-node/blob/2f1c956d71c39e5667e6285a6dafc15ce28e86f0/LICENSE
+MIT license by the licesecp256k1-node contributors. Its license complete license can be found here: https://github.com/cryptocoinjs/secp256k1-node/blob/2f1c956d71c39e5667e6285a6dafc15ce28e86f0/LICENSE
+
+scryptsy-without-crypto.js is based on scryptsy, which is released under the
+MIT license by the cryptocoinjs. Its license complete license can be found here: https://github.com/cryptocoinjs/scryptsy/blob/395c3b09b21e06ea4a6cc2933e046c0984a414c5/LICENSE
 
 The rest of the project is released under this license:
 

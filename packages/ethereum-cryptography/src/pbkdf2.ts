@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-export async function pbkdf2(
+export function pbkdf2(
   password: Buffer,
   salt: Buffer,
   iterations: number,
