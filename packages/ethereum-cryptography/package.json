@@ -24,7 +24,11 @@
   ],
   "browser": {
     "./keccak.js": "./pure/keccak.js",
-    "./scrypt.js": "./pure/scrypt.js"
+    "./scrypt.js": "./pure/scrypt.js",
+    "./pbkdf2.js": "./pure/pbkdf2.js",
+    "./ripemd160.js": "./pure/ripemd160.js",
+    "./secp256k1.js": "./pure/secp256k1.js",
+    "./sha256.js": "./pure/sha256.js"
   },
   "sideEffects": false,
   "scripts": {
