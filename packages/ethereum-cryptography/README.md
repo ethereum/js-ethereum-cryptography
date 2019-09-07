@@ -3,6 +3,7 @@
 [![npm version][1]][2]
 [![Travis CI][3]][4]
 [![license][5]][6]
+[![Types][7]][8]
 
 ⚠️ **WARNING: This projects is under active development. Don't use it until a stable version is released.** ⚠️
 
@@ -254,3 +255,5 @@ and this can be problematic in some environments.
 [4]: https://travis-ci.org/alcuadrado/ethereum-cryptography
 [5]: https://img.shields.io/npm/l/ethereum-cryptography
 [6]: https://github.com/alcuadrado/ethereum-cryptography/blob/master/packages/ethereum-cryptography/LICENSE
+[7]: https://img.shields.io/npm/types/ethereum-cryptography.svg
+[8]: https://www.npmjs.com/package/ethereum-cryptography
