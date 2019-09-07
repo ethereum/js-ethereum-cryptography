@@ -3,7 +3,7 @@
 This folder contains the necessary config to bundle `scryptsy` with Rollup, but
 without including the `crypto` built-in module nor `crypto-browserify`.
 
-## Why we do this?
+## Why do we do this?
 
 `crypto-browserify` is a very large bundle that doesn't work well with some
 bundlers (e.g. Rollup).
