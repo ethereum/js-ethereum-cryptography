@@ -40,7 +40,7 @@
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",
-    "browser-tests:build": "bash -x ../../scripts/build-browser-tests.sh",
+    "browser-tests:build": "bash -x ./scripts/build-browser-tests.sh",
     "browser-tests:test": "npm-run-all browser-tests:test-parcel browser-tests:test-browserify browser-tests:test-webpack browser-tests:test-rollup",
     "browser-tests:test-parcel": "karma start --single-run --browsers ChromeHeadless test/karma.parcel.conf.js",
     "browser-tests:test-browserify": "karma start --single-run --browsers ChromeHeadless test/karma.browserify.conf.js",
