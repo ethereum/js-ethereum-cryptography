@@ -26,6 +26,7 @@ The cryptographic primitives included are:
 * [RIPEMD-160](#ripemd-160-submodule)
 * [AES](#aes-submodule)
 * [Secp256k1](#secp256k1-submodule)
+* [Hierarchical Deterministic keys]()
 
 ## Installation
 
@@ -265,8 +266,8 @@ console.log(
 
 ## Secp256k1 submodule
 
-The `secp256k1` submodule library for elliptic curve operations on the curve
-Secp256k1.
+The `secp256k1` submodule provides a library for elliptic curve operations on
+the curve Secp256k1.
 
 It has the exact same API than the version `3.x` of the native module
 [`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node),
@@ -293,6 +294,66 @@ const privateKey = Buffer.from(
 );
 
 console.log(sign(msgHash, privateKey).toString("hex"));
+```
+
+## Hierarchical Deterministic keys submodule
+
+The `hdkey` submodule provides a library for keys derivation according to
+[BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
+
+It has the exact same API than the version `1.x` of
+[`hdkey` from cryptocoinjs](https://github.com/cryptocoinjs/hdkey),
+but it's backed by this package's primitives, and with added TypeScript types.
+
+### Function types
+
+This module exports a single class whose type is
+
+```ts
+class HDKey {
+  public static HARDENED_OFFSET: number;
+  public static fromMasterSeed(seed: Buffer, versions: Versions): HDKey;
+  public static fromExtendedKey(base58key: string, versions: Versions): HDKey;
+  public static fromJSON(json: { xpriv: string }): HDKey;
+
+  public versions: Versions;
+  public depth: number;
+  public index: number;
+  public chainCode: Buffer | null;
+  public privateKey: Buffer | null;
+  public publicKey: Buffer | null;
+  public fingerprint: number;
+  public parentFingerprint: number;
+  public pubKeyHash: Buffer | undefined;
+  public identifier: Buffer | undefined;
+  public privateExtendedKey: string;
+  public publicExtendedKey: string;
+
+  private constructor(versios: Versions);
+  public derive(path: string): HDKey;
+  public deriveChild(index: number): HDKey;
+  public sign(hash: Buffer): Buffer;
+  public verify(hash: Buffer, signature: Buffer): boolean;
+  public wipePrivateData(): this;
+  public toJSON(): { xpriv: string; xpub: string };
+}
+
+interface Versions {
+  private: number;
+  public: number;
+}
+```
+
+### Example usage
+
+```js
+const HDKey = require("ethereum-cryptography/hdkey");
+
+const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
+const hdkey = HDKey.fromMasterSeed(Buffer.from(seed, "hex"));
+const childkey = hdkey.derive("m/0/2147483647'/1");
+
+console.log(childkey.privateExtendedKey);
 ```
 
 ## Browser usage
