@@ -355,7 +355,6 @@ const childkey = hdkey.derive("m/0/2147483647'/1");
 
 console.log(childkey.privateExtendedKey);
 ```
-
 ## Browser usage
 
 This package works with all the major Javascript bundlers. It is
@@ -380,6 +379,19 @@ While installing `ethereum-cryptography-native` will generally improve the
 performance of your application, we recommend leaving the decision of installing
 it to your users. It has multiple native dependencies that need to be compiled,
 and this can be problematic in some environments.
+
+## Missing cryptographic primitives
+
+This package intentionally excludes the the cryptographic primitives necessary
+to implement the following EIPs:
+
+* [EIP 196: Precompiled contracts for addition and scalar multiplication on the elliptic curve alt_bn128](https://eips.ethereum.org/EIPS/eip-196)
+* [EIP 197: Precompiled contracts for optimal ate pairing check on the elliptic curve alt_bn128](https://eips.ethereum.org/EIPS/eip-197)
+* [EIP 198: Big integer modular exponentiation](https://eips.ethereum.org/EIPS/eip-198)
+* [EIP 152: Add Blake2 compression function `F` precompile](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-152.md)
+
+Feel free to open an issue if you want this decision to be reconsidered, or if
+you found another primitive that is missing.
 
 ## License
 
