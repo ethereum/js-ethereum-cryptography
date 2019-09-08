@@ -5,7 +5,7 @@
 [![license][5]][6]
 [![Types][7]][8]
 
-⚠️ **WARNING: This projects is under active development. Don't use it until a stable version is released.** ⚠️
+⚠️ **WARNING: This project is under active development. Don't use it until a stable version is released.** ⚠️
 
 This npm package contains all the cryptographic primitives normally used when
 developing Javascript/TypeScript applications and tools for Ethereum.
@@ -15,7 +15,7 @@ be used out of the box for web applications and libraries. In Node, it takes
 advantage of the built-in implementations when possible. To improve performance
 in Node, you can install a
 [second package](https://www.npmjs.com/package/ethereum-cryptography-native)
-with native implemantations that will be detected and used by this one.
+with native implementations that will be detected and used by this one.
 
 The cryptographic primitives included are:
 
@@ -43,7 +43,7 @@ $ yarn add ethereum-cryptography
 
 ## Usage
 
-There's a submodule available for each cryprographic primitive.
+There's a submodule available for each cryptographic primitive.
 
 No `index.js`/`main` is provided, as that would lead to huge bundles when using
 this package for the web.
@@ -127,7 +127,7 @@ before using this submodule.
 
 ### Supported digests
 
-In Node this submodule uses the native implementation, and supports any digest
+In Node this submodule uses the native implementation and supports any digest
 returned by [`crypto.getHashes`](https://nodejs.org/api/crypto.html#crypto_crypto_gethashes).
 
 In the browser, it is tested to support at least `sha256`, the only digest
@@ -159,7 +159,7 @@ console.log(
 
 ## SHA-256 submodule
 
-The `sha256` submodule contains a single functions implementing the SHA-256
+The `sha256` submodule contains a single function implementing the SHA-256
 hashing algorithm.
 
 ### Function types
@@ -178,7 +178,7 @@ console.log(sha256(Buffer.from("message", "ascii")).toString("hex"));
 
 ## RIPEMD-160 submodule
 
-The `ripemd160` submodule contains a single functions implementing the
+The `ripemd160` submodule contains a single function implementing the
 RIPEMD-160 hashing algorithm.
 
 ### Function types
@@ -213,14 +213,14 @@ like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
 
 ### Operation modes
 
-This submodules works with different [block chipher modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+This submodule works with different [block cipher modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
 To choose one of them, you should pass the `mode` parameter a string with the
 same format as OpenSSL and Node use. You can take a look at them by running
 `openssl list -cipher-algorithms`.
 
 In Node, any mode that its OpenSSL version supports can be used.
 
-In the browser we test it to work with the modes that are normally used in
+In the browser, we test it to work with the modes that are normally used in
 Ethereum libraries and applications. Those are `aes-128-ctr`, `aes-126-cbc`, and
 `aes-256-cbc`, but other modes may work.
 
@@ -230,11 +230,11 @@ Some operation modes require the plaintext message to be a multiple of `16`. If
 that isn't the case, your message has to be padded.
 
 By default, this module automatically pads your messages according to [PKCS#7](https://tools.ietf.org/html/rfc2315).
-Note that this padding scheme always adds at least 1 byte of paddding. If you
+Note that this padding scheme always adds at least 1 byte of padding. If you
 are unsure what anything of this means, we **strongly** recommend you to use
 the defaults.
 
-If you need to encrypt without padding, or want to use another padding scheme,
+If you need to encrypt without padding or want to use another padding scheme,
 you can disable PKCS#7 padding by passing `false` as the last argument and
 handling padding yourself. Note that if you do this and your operation mode
 requires padding, `encrypt` will throw if your plaintext message isn't a
