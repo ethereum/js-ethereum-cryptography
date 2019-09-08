@@ -125,7 +125,7 @@ Encoding passwords is a frequent source of errors. Please read
 [these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes)
 before using this submodule.
 
-### Supported digets
+### Supported digests
 
 In Node this submodule uses the native implementation, and supports any digest
 returned by [`crypto.getHashes`](https://nodejs.org/api/crypto.html#crypto_crypto_gethashes).
