@@ -14,6 +14,12 @@ mkdir -p test-builds/tsc/src/vendor test-builds/tsc/src/pure/vendor
 cp src/vendor/scryptsy-without-crypto.js test-builds/tsc/src/vendor
 cp src/pure/vendor/scryptsy-without-crypto.js test-builds/tsc/src/pure/vendor
 
+echo "Building hdkey-without-crypto"
+npm run hdkey-without-crypto:build
+mkdir -p test-builds/tsc/src/vendor test-builds/tsc/src/pure/vendor
+cp src/vendor/hdkey-without-crypto.js test-builds/tsc/src/vendor
+cp src/pure/vendor/hdkey-without-crypto.js test-builds/tsc/src/pure/vendor
+
 echo "Building tests with Parcel"
 npx parcel build --no-cache --no-minify test-builds/tsc/src/pure/*.js test-builds/tsc/test/pure/*.js -d test-builds/parcel
 

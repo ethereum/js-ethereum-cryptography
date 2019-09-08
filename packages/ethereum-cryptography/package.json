@@ -14,6 +14,7 @@
   "files": [
     "src",
     "vendor",
+    "shims",
     "*.js",
     "*.js.map",
     "*.d.ts",
@@ -35,11 +36,11 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm-run-all build:tsc elliptic-secp256k1:build elliptic-secp256k1:copy scryptsy-without-crypto:build scryptsy-without-crypto:copy",
+    "build": "npm-run-all build:tsc elliptic-secp256k1:build elliptic-secp256k1:copy scryptsy-without-crypto:build scryptsy-without-crypto:copy hdkey-without-crypto:build hdkey-without-crypto:copy",
     "build:tsc": "tsc --project tsconfig.prod.json",
-    "test": "npm-run-all elliptic-secp256k1:build scryptsy-without-crypto:build test:node",
+    "test": "npm-run-all elliptic-secp256k1:build scryptsy-without-crypto:build hdkey-without-crypto:build test:node",
     "test:node": "mocha",
-    "clean": "rimraf vendor test-builds pure scryptsy-without-crypto-build '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
+    "clean": "rimraf vendor test-builds pure shims scryptsy-without-crypto-build hdkey-without-crypto-build '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",
@@ -52,7 +53,9 @@
     "elliptic-secp256k1:build": "rollup -c elliptic-secp256k1-config/rollup.config.js",
     "elliptic-secp256k1:copy": "mkdir -p vendor && cp src/vendor/elliptic-secp256k1.js ./vendor",
     "scryptsy-without-crypto:build": "bash -x scripts/build-scryptsy-without-crypto.sh",
-    "scryptsy-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/scryptsy-without-crypto.js ./vendor && cp src/pure/vendor/scryptsy-without-crypto.js ./pure/vendor"
+    "scryptsy-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/scryptsy-without-crypto.js ./vendor && cp src/pure/vendor/scryptsy-without-crypto.js ./pure/vendor",
+    "hdkey-without-crypto:build": "bash -x scripts/build-hdkey-without-crypto.sh",
+    "hdkey-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/hdkey-without-crypto.js ./vendor && cp src/pure/vendor/hdkey-without-crypto.js ./pure/vendor"
   },
   "devDependencies": {
     "@types/chai": "^4.2.1",
@@ -92,11 +95,14 @@
     "bip66": "^1.1.5",
     "bn.js": "^4.11.8",
     "browserify-aes": "^1.2.0",
+    "bs58check": "^2.1.2",
     "create-hash": "^1.2.0",
+    "create-hmac": "^1.1.7",
     "elliptic": "^6.4.1",
     "hash.js": "^1.1.7",
     "js-sha3": "^0.8.0",
     "pbkdf2": "^3.0.17",
+    "randombytes": "^2.1.0",
     "safe-buffer": "^5.1.2",
     "setimmediate": "^1.0.5"
   }

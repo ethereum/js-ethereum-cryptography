@@ -105,7 +105,7 @@ export function createTests(
     pkcs7PaddingEnabled: boolean
   ) => Buffer
 ) {
-  describe.only("aes", function() {
+  describe("aes", function() {
     for (const [i, vector] of TEST_VECTORS.entries()) {
       it(`Should encrypt the test ${i} correctly`, async function() {
         const encrypted = encrypt(
