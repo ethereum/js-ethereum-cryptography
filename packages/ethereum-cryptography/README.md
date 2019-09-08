@@ -354,9 +354,10 @@ console.log(sign(msgHash, privateKey).toString("hex"));
 The `hdkey` submodule provides a library for keys derivation according to
 [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
 
-It has the exact same API than the version `1.x` of
+It has almost the exact same API than the version `1.x` of
 [`hdkey` from cryptocoinjs](https://github.com/cryptocoinjs/hdkey),
 but it's backed by this package's primitives, and has built-in TypeScript types.
+Its only difference is that it has to be be used with a named import.
 
 ### Function types
 
@@ -400,7 +401,7 @@ interface Versions {
 ### Example usage
 
 ```js
-const HDKey = require("ethereum-cryptography/hdkey");
+const { HDKey } = require("ethereum-cryptography/hdkey");
 
 const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
 const hdkey = HDKey.fromMasterSeed(Buffer.from(seed, "hex"));
@@ -408,6 +409,7 @@ const childkey = hdkey.derive("m/0/2147483647'/1");
 
 console.log(childkey.privateExtendedKey);
 ```
+
 ## Browser usage
 
 This package works with all the major Javascript bundlers. It is

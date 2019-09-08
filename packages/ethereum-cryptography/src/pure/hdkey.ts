@@ -1,13 +1,13 @@
-interface Versions {
+export interface Versions {
   private: number;
   public: number;
 }
 
-declare class HDKey {
+export declare class HDKeyT {
   public static HARDENED_OFFSET: number;
-  public static fromMasterSeed(seed: Buffer, versions: Versions): HDKey;
-  public static fromExtendedKey(base58key: string, versions: Versions): HDKey;
-  public static fromJSON(json: { xpriv: string }): HDKey;
+  public static fromMasterSeed(seed: Buffer, versions: Versions): HDKeyT;
+  public static fromExtendedKey(base58key: string, versions: Versions): HDKeyT;
+  public static fromJSON(json: { xpriv: string }): HDKeyT;
 
   public versions: Versions;
   public depth: number;
@@ -23,14 +23,14 @@ declare class HDKey {
   public publicExtendedKey: string;
 
   private constructor(versios: Versions);
-  public derive(path: string): HDKey;
-  public deriveChild(index: number): HDKey;
+  public derive(path: string): HDKeyT;
+  public deriveChild(index: number): HDKeyT;
   public sign(hash: Buffer): Buffer;
   public verify(hash: Buffer, signature: Buffer): boolean;
   public wipePrivateData(): this;
   public toJSON(): { xpriv: string; xpub: string };
 }
 
-const hdkey: typeof HDKey = require("./vendor/hdkey-without-crypto");
+const hdkey: typeof HDKeyT = require("./vendor/hdkey-without-crypto");
 
-export = hdkey;
+export const HDKey = hdkey;
