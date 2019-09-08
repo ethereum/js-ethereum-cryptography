@@ -43,7 +43,6 @@
   },
   "optionalDependencies": {
     "blake2": "^2.0.1",
-    "hdkey": "^1.1.1",
     "scrypt": "^6.0.3",
     "secp256k1": "^3.7.1",
     "sha3": "^1.2.3"

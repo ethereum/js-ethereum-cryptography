@@ -12,7 +12,6 @@ primitives:
 * Scrypt
 * BLAKE2b
 * Secp256k1
-* Hierarchical Deterministic keys derivation
 
 ## Installation
 
