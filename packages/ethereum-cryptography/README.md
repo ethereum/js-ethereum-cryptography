@@ -201,13 +201,15 @@ The `aes` submodule contains encryption and decryption functions implementing
 the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
 algorithm.
 
-### Function types
+### Encrypting with passwords
 
-```ts
-function encrypt(msg: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer;
+AES is not supposed to be used directly with a password. Doing that will
+compromise your users' security.
 
-function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer
-```
+The `key` parameters in this submodule are meant to be strong cryptographic
+keys. If you want to obtain such a key from a password, please use a
+[key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function)
+like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
 
 ### Operation modes
 
@@ -221,16 +223,6 @@ In Node, any mode that its OpenSSL version supports can be used.
 In the browser we test it to work with the modes that are normally used in
 Ethereum libraries and applications. Those are `aes-128-ctr`, `aes-126-cbc`, and
 `aes-256-cbc`, but other modes may work.
-
-### Encrypting with passwords
-
-AES is not supposed to be used directly with a password. Doing that will
-compromise your users' security.
-
-The `key` parameters in this submodule are meant to be strong cryptographic
-keys. If you want to obtain such a key from a password, please use a
-[key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function)
-like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
 
 ### Padding plaintext messages
 
@@ -247,6 +239,14 @@ you can disable PKCS#7 padding by passing `false` as the last argument and
 handling padding yourself. Note that if you do this and your operation mode
 requires padding, `encrypt` will throw if your plaintext message isn't a
 multiple of `16.
+
+### Function types
+
+```ts
+function encrypt(msg: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer;
+
+function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer
+```
 
 ### Example usage
 
