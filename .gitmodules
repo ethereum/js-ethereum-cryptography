@@ -4,3 +4,6 @@
 [submodule "packages/ethereum-cryptography/scryptsy"]
 	path = packages/ethereum-cryptography/scryptsy
 	url = https://github.com/cryptocoinjs/scryptsy.git
+[submodule "packages/ethereum-cryptography/hdkey"]
+	path = packages/ethereum-cryptography/hdkey
+	url = https://github.com/cryptocoinjs/hdkey.git
