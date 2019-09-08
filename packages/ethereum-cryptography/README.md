@@ -26,7 +26,7 @@ The cryptographic primitives included are:
 * [RIPEMD-160](#ripemd-160-submodule)
 * [AES](#aes-submodule)
 * [Secp256k1](#secp256k1-submodule)
-* [Hierarchical Deterministic keys]()
+* [Hierarchical Deterministic keys derivation](#hierarchical-deterministic-keys-submodule)
 
 ## Installation
 
@@ -303,7 +303,7 @@ The `hdkey` submodule provides a library for keys derivation according to
 
 It has the exact same API than the version `1.x` of
 [`hdkey` from cryptocoinjs](https://github.com/cryptocoinjs/hdkey),
-but it's backed by this package's primitives, and with added TypeScript types.
+but it's backed by this package's primitives, and has built-in TypeScript types.
 
 ### Function types
 
