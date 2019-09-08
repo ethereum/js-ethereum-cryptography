@@ -24,6 +24,7 @@ The cryptographic primitives included are:
 * [PBKDF2](#pbkdf2-submodule)
 * [SHA-256](#sha-256-submodule)
 * [RIPEMD-160](#ripemd-160-submodule)
+* [BLAKE2b](#blake2b-submodule)
 * [AES](#aes-submodule)
 * [Secp256k1](#secp256k1-submodule)
 * [Hierarchical Deterministic keys derivation](#hierarchical-deterministic-keys-submodule)
@@ -194,6 +195,25 @@ function ripemd160(msg: Buffer): Buffer;
 const { ripemd160 } = require("ethereum-cryptography/ripemd160");
 
 console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
+```
+
+## BLAKE2b submodule
+
+The `blake2b` submodule contains a single function implementing the
+BLAKE2b non-keyed hashing algorithm.
+
+### Function types
+
+```ts
+function blake2b(input: Buffer, outputLength = 64): Buffer;
+```
+
+### Example usage
+
+```js
+const { blake2b } = require("ethereum-cryptography/blake2b");
+
+console.log(blake2b(Buffer.from("message", "ascii")).toString("hex"));
 ```
 
 ## AES submodule

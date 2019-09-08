@@ -31,7 +31,9 @@
     "./ripemd160.js": "./pure/ripemd160.js",
     "./secp256k1.js": "./pure/secp256k1.js",
     "./sha256.js": "./pure/sha256.js",
-    "./aes.js": "./pure/aes.js"
+    "./aes.js": "./pure/aes.js",
+    "./hdkey.js": "./pure/hdkey.js",
+    "./blake2b.js": "./pure/blake2b.js"
   },
   "sideEffects": false,
   "scripts": {
@@ -93,6 +95,7 @@
     "@types/pbkdf2": "^3.0.0",
     "@types/secp256k1": "^3.5.0",
     "bip66": "^1.1.5",
+    "blakejs": "^1.1.0",
     "bn.js": "^4.11.8",
     "browserify-aes": "^1.2.0",
     "bs58check": "^2.1.2",
