@@ -42,12 +42,12 @@
     "typescript": "~3.6.2"
   },
   "optionalDependencies": {
+    "hdkey": "^1.1.1",
     "scrypt": "^6.0.3",
     "sha3": "^1.2.3",
     "secp256k1": "^3.7.1"
   },
   "dependencies": {
-    "@types/secp256k1": "^3.5.0",
-    "hdkey": "^1.1.1"
+    "@types/secp256k1": "^3.5.0"
   }
 }
