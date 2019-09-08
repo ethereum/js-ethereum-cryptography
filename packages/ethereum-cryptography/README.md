@@ -7,7 +7,7 @@
 
 ⚠️ **WARNING: This projects is under active development. Don't use it until a stable version is released.** ⚠️
 
-This npm package contains all the cryptographic primitives normally used when 
+This npm package contains all the cryptographic primitives normally used when
 developing Javascript/TypeScript applications and tools for Ethereum.
 
 Pure Javascript implementations of all the primitives are included, so it can
@@ -24,6 +24,7 @@ The cryptographic primitives included are:
 * `pbkdf2`
 * `sha256`
 * `ripemd160`
+* `aes`
 * `secp256k1`
 
 ## Installation
@@ -42,15 +43,15 @@ $ yarn add ethereum-cryptography
 
 ## Usage
 
-There's a submodule available for each cryprographic primitive. 
+There's a submodule available for each cryprographic primitive.
 
-No `index.js`/`main` is provided, as that would lead to huge bundles when using 
+No `index.js`/`main` is provided, as that would lead to huge bundles when using
 this package for the web.
 
 ## keccak submodule
 
-The `keccack` submodule has four functions that receive a `Buffer` with the 
-message to hash, and return a `Buffer` with the hash. These are `keccak224`, 
+The `keccack` submodule has four functions that receive a `Buffer` with the
+message to hash, and return a `Buffer` with the hash. These are `keccak224`,
 `keccak256`, `keccak384`, and `keccak512`.
 
 ### Function types
@@ -82,8 +83,8 @@ as it will block its main thread and hang your ui.
 
 ### Password encoding
 
-Encoding passwords is a frequent source of errors. Please read 
-[these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes) 
+Encoding passwords is a frequent source of errors. Please read
+[these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes)
 before using this submodule.
 
 ### Function types
@@ -192,10 +193,97 @@ const { ripemd160 } = require("ethereum-cryptography/ripemd160");
 console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
 ```
 
+## ripemd160 submodule
+
+The `ripemd160` submodule contains a single functions implementing the
+`ripemd160` hash algorithm.
+
+### Function types
+
+```ts
+function ripemd160(msg: Buffer): Buffer;
+```
+
+### Example usage
+
+```js
+const { ripemd160 } = require("ethereum-cryptography/ripemd160");
+
+console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
+```
+
+## AES submodule
+
+The `aes` submodule contains encryption and decryption functions implementing
+the [AES algorithm](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
+
+### Function types
+
+```ts
+function encrypt(msg: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer;
+
+function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer
+```
+
+### Operation modes
+
+This submodules works with different AES
+[modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+To choose one of them, you should pass the `mode` parameter a string with the
+same format as OpenSSL and Node use. You can take a look at them by running
+`openssl list -cipher-algorithms`.
+
+In Node, any mode that its OpenSSL version supports can be used.
+
+In the browser we test it to work with the modes that are normally used in
+Ethereum libraries and applications. Those are `aes-128-ctr`, `aes-126-cbc`, and
+`aes-256-cbc`, but other modes may work.
+
+### Encrypting with passwords
+
+AES is not supposed to be used directly with a password. Doing that will
+compromise your users' security.
+
+The `key` parameters in this submodule are meant to be strong cryptographic
+keys. If you want to obtain such a key from a password, please use a
+[key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function)
+like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
+
+### Padding plaintext messages
+
+Some operation modes require the plaintext message to be a multiple of `16`. If
+that isn't the case, your message has to be padded.
+
+By default, this module automatically pads your messages according to [PKCS#7](https://tools.ietf.org/html/rfc2315).
+Note that this padding scheme always adds at least 1 byte of paddding. If you
+are unsure what anything of this means, we **strongly** recommend you to use
+the defaults.
+
+If you need to encrypt without padding, or want to use another padding scheme,
+you can disable PKCS#7 padding by passing `false` as the last argument and
+handling padding yourself. Note that if you do this and your operation mode
+requires padding, `encrypt` will throw if your plaintext message isn't a
+multiple of `16.
+
+### Example usage
+
+```js
+const { encrypt } = require("ethereum-cryptography/aes");
+
+console.log(
+  encrypt(
+    Buffer.from("message", "ascii"),
+    Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
+    Buffer.from("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex"),
+    "aes-128-cbc"
+  ).toString("hex")
+);
+```
+
 ## secp256k1 submodule
 
-The `secp256k1` submodule has the same API than the native module 
-[`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node) 
+The `secp256k1` submodule has the same API than the native module
+[`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node)
 version `3.x`, but it's backed by [`elliptic`](https://www.npmjs.com/package/elliptic).
 
 ### Function types
@@ -227,7 +315,7 @@ tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
 
 For using it with `Rollup` you need to use these plugins:
 [`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins),
-[`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals), 
+[`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals),
 and [`rollup-plugin-json`](https://www.npmjs.com/package/rollup-plugin-json).
 
 ## Opt-in native implementations (Node.js only)
@@ -237,11 +325,11 @@ If you are using this package in Node, you can install
 to opt-in to use native implementations of some of the cryptographic primitives
 provided by this package.
 
-No extra work is needed for this to work. This package will detect that 
+No extra work is needed for this to work. This package will detect that
 `ethereum-cryptography-native` is installed, and use it.
 
-While installing `ethereum-cryptography-native` will generally improve the 
-performance of your application, we recommend leaving the decision of installing 
+While installing `ethereum-cryptography-native` will generally improve the
+performance of your application, we recommend leaving the decision of installing
 it to your users. It has multiple native dependencies that need to be compiled,
 and this can be problematic in some environments.
 
