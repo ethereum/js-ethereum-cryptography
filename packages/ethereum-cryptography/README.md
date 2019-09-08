@@ -19,6 +19,7 @@ with native implementations that will be detected and used by this one.
 
 The cryptographic primitives included are:
 
+* [Pseudorandom number generation](#pseudorandom-number-generation-submodule)
 * [Keccak](#keccak-submodule)
 * [Scrypt](#scrypt-submodule)
 * [PBKDF2](#pbkdf2-submodule)
@@ -49,6 +50,32 @@ There's a submodule available for each cryptographic primitive.
 
 No `index.js`/`main` is provided, as that would lead to huge bundles when using
 this package for the web.
+
+## Pseudorandom number generation submodule
+
+The `random` submodule has functions to generate cryptographically strong
+pseudo-random data in synchronous and asynchronous ways.
+
+In Node, this functions are backed by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback).
+
+In the browser, [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues)
+is used. If not available, this module won't work, as that would be insecure.
+
+### Function types
+
+```ts
+function getRandomBytes(bytes: number): Promise<Buffer>;
+
+function getRandomBytesSync(bytes: number): Buffer;
+```
+
+### Example usage
+
+```js
+const { getRandomBytesSync } = require("ethereum-cryptography/random");
+
+console.log(getRandomBytesSync(32).toString("hex"));
+```
 
 ## Keccak submodule
 
