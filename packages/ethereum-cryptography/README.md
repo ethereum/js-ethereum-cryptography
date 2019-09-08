@@ -46,10 +46,15 @@ $ yarn add ethereum-cryptography
 
 ## Usage
 
-There's a submodule available for each cryptographic primitive.
+This package has no single entry-point, but submodule for each cryptographic
+primitive. Read each primitive's section of this document to learn how to use
+them.
 
-No `index.js`/`main` is provided, as that would lead to huge bundles when using
-this package for the web.
+The reason for this is that importing everything from a single file will lead to
+huge bundles when using this package for the web. This could be avoided through
+tree-shaking, but the possibilities of it not working properley on one of
+[the supported bundlers](https://github.com/alcuadrado/ethereum-cryptography#browser-usage)
+is too high.
 
 ## Pseudorandom number generation submodule
 
