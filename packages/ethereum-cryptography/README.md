@@ -346,7 +346,7 @@ const privateKey = Buffer.from(
   "hex"
 );
 
-console.log(sign(msgHash, privateKey).toString("hex"));
+console.log(sign(msgHash, privateKey).signature.toString("hex"));
 ```
 
 ## Hierarchical Deterministic keys submodule
