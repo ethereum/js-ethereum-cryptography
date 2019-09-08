@@ -19,13 +19,13 @@ with native implemantations that will be detected and used by this one.
 
 The cryptographic primitives included are:
 
-* [Keccak]()
-* [Scrypt]()
-* [PBKDF2]()
-* [SHA-256]()
-* [RIPEMD-160]()
-* [AES]()
-* [Secp256k1]()
+* [Keccak](#keccak-submodule)
+* [Scrypt](#scrypt-submodule)
+* [PBKDF2](#pbkdf2-submodule)
+* [SHA-256](#sha-256-submodule)
+* [RIPEMD-160](#ripemd-160-submodule)
+* [AES](#aes-submodule)
+* [Secp256k1](#secp256k1-submodule)
 
 ## Installation
 
@@ -230,7 +230,7 @@ compromise your users' security.
 The `key` parameters in this submodule are meant to be strong cryptographic
 keys. If you want to obtain such a key from a password, please use a
 [key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function)
-like [pbkdf2]() or [scrypt]().
+like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
 
 ### Padding plaintext messages
 
