@@ -19,13 +19,13 @@ with native implemantations that will be detected and used by this one.
 
 The cryptographic primitives included are:
 
-* `keccak`
-* `scrypt`
-* `pbkdf2`
-* `sha256`
-* `ripemd160`
-* `aes`
-* `secp256k1`
+* [Keccak]()
+* [Scrypt]()
+* [PBKDF2]()
+* [SHA-256]()
+* [RIPEMD-160]()
+* [AES]()
+* [Secp256k1]()
 
 ## Installation
 
@@ -48,11 +48,11 @@ There's a submodule available for each cryprographic primitive.
 No `index.js`/`main` is provided, as that would lead to huge bundles when using
 this package for the web.
 
-## keccak submodule
+## Keccak submodule
 
-The `keccack` submodule has four functions that receive a `Buffer` with the
-message to hash, and return a `Buffer` with the hash. These are `keccak224`,
-`keccak256`, `keccak384`, and `keccak512`.
+The `keccak` submodule has four functions that implement different variations of
+the Keccak hashing algorithm. These are `keccak224`, `keccak256`, `keccak384`,
+and `keccak512`.
 
 ### Function types
 
@@ -74,12 +74,12 @@ const { keccak256 } = require("ethereum-cryptography/keccak");
 console.log(keccak256(Buffer.from("Hello, world!", "ascii")).toString("hex"));
 ```
 
-## scrypt submodule
+## Scrypt submodule
 
-The `scrypt` submodule has two functions implementing the `scrypt` key
+The `scrypt` submodule has two functions implementing the Scrypt key
 derivation algorithm in synchronous and asynchronous ways. This algorithm is
 very slow, and using the synchronous version in the browser is not recommended,
-as it will block its main thread and hang your ui.
+as it will block its main thread and hang your UI.
 
 ### Password encoding
 
@@ -112,10 +112,12 @@ console.log(
 );
 ```
 
-## pbkdf2 submodule
+## PBKDF2 submodule
 
-The `pbkdf2` submodule has two functions implementing the `pbkdf2` key
-derivation algorithm in synchronous and asynchronous ways.
+The `pbkdf2` submodule has two functions implementing the PBKDF2 key
+derivation algorithm in synchronous and asynchronous ways. This algorithm is
+very slow, and using the synchronous version in the browser is not recommended,
+as it will block its main thread and hang your UI.
 
 ### Password encoding
 
@@ -155,10 +157,10 @@ console.log(
 );
 ```
 
-## sha256 submodule
+## SHA-256 submodule
 
-The `sha256` submodule contains a single functions implementing the `sha256`
-hash algorithm.
+The `sha256` submodule contains a single functions implementing the SHA-256
+hashing algorithm.
 
 ### Function types
 
@@ -174,29 +176,10 @@ const { sha256 } = require("ethereum-cryptography/sha256");
 console.log(sha256(Buffer.from("message", "ascii")).toString("hex"));
 ```
 
-## ripemd160 submodule
+## RIPEMD-160 submodule
 
 The `ripemd160` submodule contains a single functions implementing the
-`ripemd160` hash algorithm.
-
-### Function types
-
-```ts
-function ripemd160(msg: Buffer): Buffer;
-```
-
-### Example usage
-
-```js
-const { ripemd160 } = require("ethereum-cryptography/ripemd160");
-
-console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
-```
-
-## ripemd160 submodule
-
-The `ripemd160` submodule contains a single functions implementing the
-`ripemd160` hash algorithm.
+RIPEMD-160 hashing algorithm.
 
 ### Function types
 
@@ -215,7 +198,8 @@ console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
 ## AES submodule
 
 The `aes` submodule contains encryption and decryption functions implementing
-the [AES algorithm](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
+the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+algorithm.
 
 ### Function types
 
@@ -227,8 +211,7 @@ function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs
 
 ### Operation modes
 
-This submodules works with different AES
-[modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+This submodules works with different [block chipher modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
 To choose one of them, you should pass the `mode` parameter a string with the
 same format as OpenSSL and Node use. You can take a look at them by running
 `openssl list -cipher-algorithms`.
@@ -247,7 +230,7 @@ compromise your users' security.
 The `key` parameters in this submodule are meant to be strong cryptographic
 keys. If you want to obtain such a key from a password, please use a
 [key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function)
-like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
+like [pbkdf2]() or [scrypt]().
 
 ### Padding plaintext messages
 
@@ -280,15 +263,19 @@ console.log(
 );
 ```
 
-## secp256k1 submodule
+## Secp256k1 submodule
 
-The `secp256k1` submodule has the same API than the native module
-[`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node)
-version `3.x`, but it's backed by [`elliptic`](https://www.npmjs.com/package/elliptic).
+The `secp256k1` submodule library for elliptic curve operations on the curve
+Secp256k1.
+
+It has the exact same API than the version `3.x` of the native module
+[`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node),
+but it's backed by [`elliptic`](https://www.npmjs.com/package/elliptic).
 
 ### Function types
 
-Consult [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node).
+Go to [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node)
+to learn how to use it.
 
 ### Example usage
 
@@ -314,9 +301,9 @@ This package works with all the major Javascript bundlers. It is
 tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
 
 For using it with `Rollup` you need to use these plugins:
-[`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins),
-[`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals),
-and [`rollup-plugin-json`](https://www.npmjs.com/package/rollup-plugin-json).
+* [`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins) with the `browser` option set to `true`, and `preferBuiltins` to `false`.
+* [`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
+* [`rollup-plugin-json`](https://www.npmjs.com/package/rollup-plugin-json).
 
 ## Opt-in native implementations (Node.js only)
 
