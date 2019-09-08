@@ -33,7 +33,8 @@
     "./sha256.js": "./pure/sha256.js",
     "./aes.js": "./pure/aes.js",
     "./hdkey.js": "./pure/hdkey.js",
-    "./blake2b.js": "./pure/blake2b.js"
+    "./blake2b.js": "./pure/blake2b.js",
+    "./random.js": "./pure/random.js"
   },
   "sideEffects": false,
   "scripts": {
