@@ -53,7 +53,7 @@ them.
 
 The reason for this is that importing everything from a single file will lead to
 huge bundles when using this package for the web. This could be avoided through
-tree-shaking, but the possibilities of it not working properley on one of
+tree-shaking, but the possibilities of it not working properly on one of
 [the supported bundlers](https://github.com/alcuadrado/ethereum-cryptography#browser-usage)
 is too high.
 
