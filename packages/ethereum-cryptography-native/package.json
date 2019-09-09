@@ -18,7 +18,6 @@
     "*.d.ts",
     "*.d.ts.map"
   ],
-  "sideEffects": false,
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc --project tsconfig.prod.json",
