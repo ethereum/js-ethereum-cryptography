@@ -2,7 +2,12 @@
   "name": "ethereum-cryptography",
   "version": "0.0.6",
   "description": "All the cryptographic primitives used in Ethereum",
-  "author": "Patricio Palladino <patricio@nomiclabs.io>",
+  "contributors": [
+    {
+      "name": "Patricio Palladino",
+      "email": "patricio@nomiclabs.io"
+    }
+  ],
   "repository": "github:alcuadrado/ethereum-cryptography",
   "license": "MIT",
   "keywords": [
