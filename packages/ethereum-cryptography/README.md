@@ -162,7 +162,7 @@ before using this submodule.
 
 ### Supported digests
 
-In Node this submodule uses the native implementation and supports any digest
+In Node this submodule uses the built-in implementation and supports any digest
 returned by [`crypto.getHashes`](https://nodejs.org/api/crypto.html#crypto_crypto_gethashes).
 
 In the browser, it is tested to support at least `sha256`, the only digest
