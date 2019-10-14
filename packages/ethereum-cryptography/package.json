@@ -8,7 +8,7 @@
       "email": "patricio@nomiclabs.io"
     }
   ],
-  "repository": "github:alcuadrado/ethereum-cryptography",
+  "repository": "github:ethereum/js-ethereum-cryptography",
   "license": "MIT",
   "keywords": [
     "ethereum",

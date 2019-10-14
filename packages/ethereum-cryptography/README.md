@@ -54,8 +54,7 @@ them.
 The reason for this is that importing everything from a single file will lead to
 huge bundles when using this package for the web. This could be avoided through
 tree-shaking, but the possibility of it not working properly on one of
-[the supported bundlers](https://github.com/alcuadrado/ethereum-cryptography#browser-usage)
-is too high.
+[the supported bundlers](#browser-usage) is too high.
 
 ## Pseudorandom number generation submodule
 
@@ -454,9 +453,9 @@ you found another primitive that is missing.
 
 [1]: https://img.shields.io/npm/v/ethereum-cryptography.svg
 [2]: https://www.npmjs.com/package/ethereum-cryptography
-[3]: https://img.shields.io/travis/alcuadrado/ethereum-cryptography/master.svg?label=Travis%20CI
-[4]: https://travis-ci.org/alcuadrado/ethereum-cryptography
+[3]: https://img.shields.io/travis/ethereum/js-ethereum-cryptography/master.svg?label=Travis%20CI
+[4]: https://travis-ci.org/ethereum/js-ethereum-cryptography
 [5]: https://img.shields.io/npm/l/ethereum-cryptography
-[6]: https://github.com/alcuadrado/ethereum-cryptography/blob/master/packages/ethereum-cryptography/LICENSE
+[6]: https://github.com/ethereum/js-ethereum-cryptography/blob/master/packages/ethereum-cryptography/LICENSE
 [7]: https://img.shields.io/npm/types/ethereum-cryptography.svg
 [8]: https://www.npmjs.com/package/ethereum-cryptography
