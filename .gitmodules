@@ -7,3 +7,6 @@
 [submodule "packages/ethereum-cryptography/hdkey"]
 	path = packages/ethereum-cryptography/hdkey
 	url = https://github.com/cryptocoinjs/hdkey.git
+[submodule "packages/ethereum-cryptography/bip39"]
+	path = packages/ethereum-cryptography/bip39
+	url = https://github.com/bitcoinjs/bip39.git
