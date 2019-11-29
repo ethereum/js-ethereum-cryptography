@@ -30,6 +30,7 @@ The cryptographic primitives included are:
 * [AES](#aes-submodule)
 * [Secp256k1](#secp256k1-submodule)
 * [Hierarchical Deterministic keys derivation](#hierarchical-deterministic-keys-submodule)
+* [Seed recovery phrases](#seed-recovery-phrases)
 
 ## Installation
 
@@ -407,6 +408,64 @@ const hdkey = HDKey.fromMasterSeed(Buffer.from(seed, "hex"));
 const childkey = hdkey.derive("m/0/2147483647'/1");
 
 console.log(childkey.privateExtendedKey);
+```
+
+## Seed recovery phrases
+
+The `bip39` submodule provides functions to generate, validate and use seed
+recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
+
+### Function types
+
+```ts
+function generateMnemonic(wordlist: string[], strength: number = 128): string;
+
+function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Buffer;
+
+function entropyToMnemonic(entropy: Buffer, wordlist: string[]): string;
+
+function validateMnemonic(mnemonic: string, wordlist: string[]): boolean;
+
+async function mnemonicToSeed(mnemonic: string, passphrase: string = ""): Promise<Buffer>;
+
+function mnemonicToSeedSync(mnemonic: string, passphrase: string = ""): Buffer;
+```
+
+### Word lists
+
+This submodule also contains the word lists defined by BIP39 for Czech, English,
+French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and
+Spanish. These are not imported by default, as that would increase bundle sizes
+too much. Instead, you should import and use them explicitly.
+
+The word lists are exported as a `wordlist` variable in each of these submodules:
+
+* `ethereum-cryptography/bip39/wordlists/czech.js`
+
+* `ethereum-cryptography/bip39/wordlists/english.js`
+
+* `ethereum-cryptography/bip39/wordlists/french.js`
+
+* `ethereum-cryptography/bip39/wordlists/italian.js`
+
+* `ethereum-cryptography/bip39/wordlists/japanese.js`
+
+* `ethereum-cryptography/bip39/wordlists/korean.js`
+
+* `ethereum-cryptography/bip39/wordlists/simplified-chinese.js`
+
+* `ethereum-cryptography/bip39/wordlists/spanish.js`
+
+* `ethereum-cryptography/bip39/wordlists/traditional-chinese.js`
+
+### Example usage
+
+```js
+
+const { generateMnemonic } = require("ethereum-cryptography/bip39");
+const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
+
+console.log(generateMnemonic(wordlist));
 ```
 
 ## Browser usage

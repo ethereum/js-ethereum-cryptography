@@ -20,6 +20,11 @@ mkdir -p test-builds/tsc/src/vendor test-builds/tsc/src/pure/vendor
 cp src/vendor/hdkey-without-crypto.js test-builds/tsc/src/vendor
 cp src/pure/vendor/hdkey-without-crypto.js test-builds/tsc/src/pure/vendor
 
+echo "Building bip39-without-wordlists"
+npm run bip39-without-wordlists:build
+mkdir -p test-builds/tsc/src/pure/vendor
+cp src/pure/vendor/bip39-without-wordlists.js test-builds/tsc/src/pure/vendor
+
 echo "Building tests with Parcel"
 npx parcel build --no-cache --no-minify test-builds/tsc/src/pure/*.js test-builds/tsc/test/pure/*.js -d test-builds/parcel
 

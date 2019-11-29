@@ -38,6 +38,7 @@
     "src",
     "vendor",
     "shims",
+    "bip39",
     "*.js",
     "*.js.map",
     "*.d.ts",
@@ -57,16 +58,17 @@
     "./aes.js": "./pure/aes.js",
     "./hdkey.js": "./pure/hdkey.js",
     "./blake2b.js": "./pure/blake2b.js",
-    "./random.js": "./pure/random.js"
+    "./random.js": "./pure/random.js",
+    "./bip39/index.js": "./pure/bip39/index.js"
   },
   "sideEffects": false,
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm-run-all build:tsc elliptic-secp256k1:build elliptic-secp256k1:copy scryptsy-without-crypto:build scryptsy-without-crypto:copy hdkey-without-crypto:build hdkey-without-crypto:copy",
+    "build": "npm-run-all build:tsc elliptic-secp256k1:build elliptic-secp256k1:copy scryptsy-without-crypto:build scryptsy-without-crypto:copy hdkey-without-crypto:build hdkey-without-crypto:copy bip39-without-wordlists:build bip39-without-wordlists:copy",
     "build:tsc": "tsc --project tsconfig.prod.json",
-    "test": "npm-run-all elliptic-secp256k1:build scryptsy-without-crypto:build hdkey-without-crypto:build test:node",
+    "test": "npm-run-all elliptic-secp256k1:build scryptsy-without-crypto:build hdkey-without-crypto:build bip39-without-wordlists:build test:node",
     "test:node": "mocha",
-    "clean": "rimraf vendor test-builds pure shims scryptsy-without-crypto-build hdkey-without-crypto-build '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
+    "clean": "rimraf vendor test-builds pure shims scryptsy-without-crypto-build hdkey-without-crypto-build bip39-without-wordlists-build '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",
@@ -81,7 +83,9 @@
     "scryptsy-without-crypto:build": "bash -x scripts/build-scryptsy-without-crypto.sh",
     "scryptsy-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/scryptsy-without-crypto.js ./vendor && cp src/pure/vendor/scryptsy-without-crypto.js ./pure/vendor",
     "hdkey-without-crypto:build": "bash -x scripts/build-hdkey-without-crypto.sh",
-    "hdkey-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/hdkey-without-crypto.js ./vendor && cp src/pure/vendor/hdkey-without-crypto.js ./pure/vendor"
+    "hdkey-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/hdkey-without-crypto.js ./vendor && cp src/pure/vendor/hdkey-without-crypto.js ./pure/vendor",
+    "bip39-without-wordlists:build": "bash -x scripts/build-bip39-without-wordlists.sh",
+    "bip39-without-wordlists:copy": "mkdir -p pure/vendor && cp src/pure/vendor/bip39-without-wordlists.js ./pure/vendor"
   },
   "devDependencies": {
     "@types/chai": "^4.2.1",
