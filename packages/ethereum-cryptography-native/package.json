@@ -52,6 +52,6 @@
     "secp256k1": "^3.7.1"
   },
   "dependencies": {
-    "@types/secp256k1": "^3.5.0"
+    "@types/secp256k1": "3.5.0"
   }
 }

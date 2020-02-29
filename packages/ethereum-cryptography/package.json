@@ -121,7 +121,7 @@
   },
   "dependencies": {
     "@types/pbkdf2": "^3.0.0",
-    "@types/secp256k1": "^3.5.0",
+    "@types/secp256k1": "3.5.0",
     "bip66": "^1.1.5",
     "blakejs": "^1.1.0",
     "bn.js": "^4.11.8",
