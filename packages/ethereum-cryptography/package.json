@@ -57,7 +57,6 @@
     "./sha256.js": "./pure/sha256.js",
     "./hdkey.js": "./pure/hdkey.js",
     "./blake2b.js": "./pure/blake2b.js",
-    "./random.js": "./pure/random.js",
     "./bip39/index.js": "./pure/bip39/index.js"
   },
   "sideEffects": false,
