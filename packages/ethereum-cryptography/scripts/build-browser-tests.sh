@@ -10,9 +10,8 @@ cp src/vendor/elliptic-secp256k1.js test-builds/tsc/src/vendor
 
 echo "Building scryptsy-without-crypto"
 npm run scryptsy-without-crypto:build
-mkdir -p test-builds/tsc/src/vendor test-builds/tsc/src/pure/vendor
+mkdir -p test-builds/tsc/src/vendor
 cp src/vendor/scryptsy-without-crypto.js test-builds/tsc/src/vendor
-cp src/pure/vendor/scryptsy-without-crypto.js test-builds/tsc/src/pure/vendor
 
 echo "Building hdkey-without-crypto"
 npm run hdkey-without-crypto:build

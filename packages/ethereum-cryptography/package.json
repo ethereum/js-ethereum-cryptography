@@ -78,7 +78,7 @@
     "elliptic-secp256k1:build": "rollup -c elliptic-secp256k1-config/rollup.config.js",
     "elliptic-secp256k1:copy": "mkdir -p vendor && cp src/vendor/elliptic-secp256k1.js ./vendor",
     "scryptsy-without-crypto:build": "bash -x scripts/build-scryptsy-without-crypto.sh",
-    "scryptsy-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/scryptsy-without-crypto.js ./vendor && cp src/pure/vendor/scryptsy-without-crypto.js ./pure/vendor",
+    "scryptsy-without-crypto:copy": "mkdir -p vendor && cp src/vendor/scryptsy-without-crypto.js ./vendor",
     "hdkey-without-crypto:build": "bash -x scripts/build-hdkey-without-crypto.sh",
     "hdkey-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/hdkey-without-crypto.js ./vendor && cp src/pure/vendor/hdkey-without-crypto.js ./pure/vendor",
     "bip39-without-wordlists:build": "bash -x scripts/build-bip39-without-wordlists.sh",

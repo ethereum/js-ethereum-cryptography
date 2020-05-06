@@ -8,4 +8,3 @@ npx tsc --allowJs --esModuleInterop ./scryptsy-without-crypto-build/rollup/scryp
 
 echo "Copying output"
 cp scryptsy-without-crypto-build/scryptsy-without-crypto.js ./src/vendor
-cp scryptsy-without-crypto-build/scryptsy-without-crypto.js ./src/pure/vendor

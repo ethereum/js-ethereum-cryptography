@@ -1,5 +1,5 @@
 import "setimmediate";
-const scryptsy = require("./vendor/scryptsy-without-crypto");
+const scryptsy = require("../vendor/scryptsy-without-crypto");
 
 export function scrypt(
   password: Buffer,
