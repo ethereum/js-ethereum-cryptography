@@ -1,4 +1,4 @@
-import { createCipheriv, createDecipheriv } from "crypto";
+const browserifyAes = require("browserify-aes");
 
 function ensureAesMode(mode: string) {
   if (!mode.startsWith("aes-")) {
@@ -15,7 +15,7 @@ export function encrypt(
 ): Buffer {
   ensureAesMode(mode);
 
-  const cipher = createCipheriv(mode, key, iv);
+  const cipher = browserifyAes.createCipheriv(mode, key, iv);
   cipher.setAutoPadding(pkcs7PaddingEnabled);
 
   const encrypted = cipher.update(msg);
@@ -33,7 +33,7 @@ export function decrypt(
 ): Buffer {
   ensureAesMode(mode);
 
-  const decipher = createDecipheriv(mode, key, iv);
+  const decipher = browserifyAes.createDecipheriv(mode, key, iv);
   decipher.setAutoPadding(pkcs7PaddingEnabled);
 
   const encrypted = decipher.update(cypherText);
