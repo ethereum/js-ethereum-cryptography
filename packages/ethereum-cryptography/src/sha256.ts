@@ -1,7 +1,5 @@
 import crypto from "crypto";
 
-export function sha256(msg: Buffer): Buffer {
-  const hash = crypto.createHash("sha256");
-  hash.update(msg);
-  return Buffer.from(hash.digest());
-}
+import { createHashFunction } from "./hash-utils";
+
+export const sha256 = createHashFunction(() => crypto.createHash("sha256"));

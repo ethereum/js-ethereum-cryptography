@@ -1,8 +1,5 @@
 const Sha256Hash = require("hash.js/lib/hash/sha/256");
 
-export function sha256(msg: Buffer): Buffer {
-  const hash = new Sha256Hash();
-  hash.update(msg);
+import { createHashFunction } from "../hash-utils";
 
-  return Buffer.from(hash.digest());
-}
+export const sha256 = createHashFunction(() => new Sha256Hash());
