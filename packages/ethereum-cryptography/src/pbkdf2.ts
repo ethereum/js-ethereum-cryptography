@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import * as pbkdf2Js from "pbkdf2";
 
 export function pbkdf2(
   password: Buffer,
@@ -8,14 +8,21 @@ export function pbkdf2(
   digest: string
 ): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    crypto.pbkdf2(password, salt, iterations, keylen, digest, (err, result) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+    pbkdf2Js.pbkdf2(
+      password,
+      salt,
+      iterations,
+      keylen,
+      digest,
+      (err, result) => {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-      resolve(result);
-    });
+        resolve(result);
+      }
+    );
   });
 }
 
@@ -26,5 +33,5 @@ export function pbkdf2Sync(
   keylen: number,
   digest: string
 ): Buffer {
-  return crypto.pbkdf2Sync(password, salt, iterations, keylen, digest);
+  return pbkdf2Js.pbkdf2Sync(password, salt, iterations, keylen, digest);
 }
