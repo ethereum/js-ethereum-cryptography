@@ -1,15 +1,19 @@
-import * as keccakPure from "./pure/keccak";
+import { createHashFunction } from "./hash-utils";
 
-let keccakModule: typeof keccakPure;
+const createKeccakHash = require("keccak");
 
-try {
-  // tslint:disable-next-line no-implicit-dependencies
-  keccakModule = require("ethereum-cryptography-native/keccak");
-} catch {
-  keccakModule = require("./pure/keccak");
-}
+export const keccak224 = createHashFunction(() =>
+  createKeccakHash("keccak224")
+);
 
-export const keccak224 = keccakModule.keccak224;
-export const keccak256 = keccakModule.keccak256;
-export const keccak384 = keccakModule.keccak384;
-export const keccak512 = keccakModule.keccak512;
+export const keccak256 = createHashFunction(() =>
+  createKeccakHash("keccak256")
+);
+
+export const keccak384 = createHashFunction(() =>
+  createKeccakHash("keccak384")
+);
+
+export const keccak512 = createHashFunction(() =>
+  createKeccakHash("keccak512")
+);
