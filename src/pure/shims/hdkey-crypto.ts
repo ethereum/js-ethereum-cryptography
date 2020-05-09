@@ -28,6 +28,7 @@ class Hash {
   }
 }
 
+// We don't use create-hash here, as it doesn't work well with Rollup
 export const createHash = (name: string) => {
   if (name === "ripemd160") {
     return new Hash(ripemd160);
