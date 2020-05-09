@@ -10,7 +10,8 @@ install:
   - npm i
 
 script:
-  - npm test
+  - npm run test
+  - npm run browser-tests
   - npm run lint
   - npm run build && node scripts/check-browser-field.js
 
