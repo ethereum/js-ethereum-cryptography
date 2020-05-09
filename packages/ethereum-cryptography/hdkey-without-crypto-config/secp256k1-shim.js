@@ -1,1 +1,1 @@
-module.exports = require("../secp256k1");
+module.exports = require("../shims/hdkey-secp256k1v3");

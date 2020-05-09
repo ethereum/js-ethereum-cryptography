@@ -19,7 +19,7 @@ export default {
       ]
     }),
     commonjs({
-      ignore: ["../shims/hdkey-crypto", "../secp256k1"]
+      ignore: ["../shims/hdkey-crypto", "../shims/hdkey-secp256k1v3"]
     })
   ]
 };
