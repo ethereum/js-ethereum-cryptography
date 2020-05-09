@@ -294,7 +294,7 @@ multiple of `16`.
 This option is only present to enable the decryption of already encrypted data.
 To encrypt new data, we recommend using the default.
 
-### IV reusing
+### How to use the IV parameter
 
 The `iv` parameter of the `encrypt` function must be unique, or the security
 of the encryption algorithm can be compromissed.
