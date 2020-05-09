@@ -11,9 +11,20 @@ export function createTests(
     signature: Uint8Array,
     compressed?: boolean
   ) => Uint8Array,
-  publicKeyConvert: (publicKey: Uint8Array, compressed?: boolean) => Uint8Array
+  publicKeyConvert: (publicKey: Uint8Array, compressed?: boolean) => Uint8Array,
+  createPrivakeKey: () => Promise<Uint8Array>,
+  createPrivakeKeySync: () => Uint8Array,
+  privateKeyVerify: (pk: Uint8Array) => boolean
 ) {
   describe("secp256k1", function() {
+    it("should create valid private keys", async function() {
+      const asyncPk = await createPrivakeKey();
+      const syncPk = createPrivakeKeySync();
+
+      assert.isTrue(privateKeyVerify(asyncPk));
+      assert.isTrue(privateKeyVerify(syncPk));
+    });
+
     it("Should sign correctly", function() {
       // This test has been adapted from ethereumjs-util
       // https://github.com/ethereumjs/ethereumjs-util/blob/3b1085059194b02354177d334f89cd82a5187883/test/index.js#L531

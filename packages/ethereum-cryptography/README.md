@@ -345,27 +345,39 @@ The `secp256k1` submodule provides a library for elliptic curve operations on
 the curve Secp256k1.
 
 It has the exact same API than the version `4.x` of the [`secp256k1`](https://github.com/cryptocoinjs/secp256k1-node)
-module from cryptocoinjs.
+module from cryptocoinjs, with two added function to create private keys.
+
+### Creating private keys
+
+Secp256k1 private keys need to be cryptographycally secure random numbers with
+certain caracteristics. If this is not the case, the security of Secp256k1 is
+compromissed.
+
+We strongly recommend to use this module to create new private keys.
 
 ### Function types
 
-Go to [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node)
-to learn how to use it.
+Functions to create private keys:
+
+```ts
+function createPrivateKey(): Promise<Uint8Array>;
+
+function function createPrivateKeySync(): Uint8Array;
+```
+
+For the rest of the functions, pleasse read [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node).
 
 ### Example usage
 
 ```js
-const { sign } = require("ethereum-cryptography/secp256k1");
+const { sign, createPrivateKeySync } = require("ethereum-cryptography/secp256k1");
 
 const msgHash = Buffer.from(
   "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
   "hex"
 );
 
-const privateKey = Buffer.from(
-  "3c9229289a6125f7fdf1885a77bb12c37a8d3b4962d936f7e3084dece32a3ca1",
-  "hex"
-);
+const privateKey = createPrivateKeySync();
 
 console.log(Buffer.from(sign(msgHash, privateKey)).signature.toString("hex"));
 ```
