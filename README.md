@@ -368,7 +368,7 @@ For the rest of the functions, pleasse read [`secp256k1`'s documentation](https:
 ### Example usage
 
 ```js
-const { sign, createPrivateKeySync } = require("ethereum-cryptography/secp256k1");
+const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1");
 
 const msgHash = Buffer.from(
   "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
@@ -377,7 +377,7 @@ const msgHash = Buffer.from(
 
 const privateKey = createPrivateKeySync();
 
-console.log(Buffer.from(sign(msgHash, privateKey)).signature.toString("hex"));
+console.log(Buffer.from(ecdsaSign(msgHash, privateKey).signature).toString("hex"));
 ```
 
 ## Hierarchical Deterministic keys submodule
