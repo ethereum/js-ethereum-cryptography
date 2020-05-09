@@ -1,8 +1,16 @@
 const browserifyAes = require("browserify-aes");
 
+const SUPPORTED_MODES = ["aes-128-ctr", "aes-128-cbc", "aes-256-cbc"];
+
 function ensureAesMode(mode: string) {
   if (!mode.startsWith("aes-")) {
     throw new Error(`AES submodule doesn't support mode ${mode}`);
+  }
+}
+
+function warnIfUnsuportedMode(mode: string) {
+  if (!SUPPORTED_MODES.includes(mode)) {
+    console.warn("Using an unsupported AES mode. Consider using aes-128-ctr.");
   }
 }
 
@@ -10,7 +18,7 @@ export function encrypt(
   msg: Buffer,
   key: Buffer,
   iv: Buffer,
-  mode: string,
+  mode = "aes-128-ctr",
   pkcs7PaddingEnabled = true
 ): Buffer {
   ensureAesMode(mode);
@@ -28,7 +36,7 @@ export function decrypt(
   cypherText: Buffer,
   key: Buffer,
   iv: Buffer,
-  mode: string,
+  mode = "aes-128-ctr",
   pkcs7PaddingEnabled = true
 ): Buffer {
   ensureAesMode(mode);

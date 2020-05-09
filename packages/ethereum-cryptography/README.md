@@ -267,16 +267,15 @@ like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
 
 ### Operation modes
 
-This submodule works with different [block cipher modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
-To choose one of them, you should pass the `mode` parameter a string with the
-same format as OpenSSL and Node use. You can take a look at them by running
-`openssl list -cipher-algorithms`.
+This submodule works with different [block cipher modes of operation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation). If you are using this module in a new
+application, we recommend using the default.
 
-In Node, any mode that its OpenSSL version supports can be used.
+While this module may work with any mode supported by OpenSSL, we only test it
+with `aes-128-ctr`, `aes-128-cbc`, and `aes-256-cbc`. If you use another module
+a warning will be printed in the console.
 
-In the browser, we test it to work with the modes that are normally used in
-Ethereum libraries and applications. Those are `aes-128-ctr`, `aes-126-cbc`, and
-`aes-256-cbc`, but other modes may work.
+We only recommend using `aes-128-cbc` and `aes-256-cbc` to decrypt already
+encrypted data.
 
 ### Padding plaintext messages
 
@@ -292,14 +291,38 @@ If you need to encrypt without padding or want to use another padding scheme,
 you can disable PKCS#7 padding by passing `false` as the last argument and
 handling padding yourself. Note that if you do this and your operation mode
 requires padding, `encrypt` will throw if your plaintext message isn't a
-multiple of `16.
+multiple of `16`.
+
+This option is only present to enable the decryption of already encrypted data.
+To encrypt new data, we recommend using the default.
+
+### IV reusing
+
+The `iv` parameter of the `encrypt` function must be unique, or the security
+of the encryption algorithm can be compromissed.
+
+You can generate a new `iv` using the `random` module.
+
+Note that to decrypt a value, you have to provide the same `iv` used to encrypt
+it.
+
+### How to handle errors with this module
+
+Sensitive information can be leaked via error messages when using this module.
+To avoid this, you should make sure that the errors you return don't
+contain the exact reason for the error. Instead, errors must report general
+encryption/decryption failures.
+
+Note that implementing this can mean catching all errors that can be thrown
+when calling on of this module's functions, and just throwing a new generic
+exception.
 
 ### Function types
 
 ```ts
-function encrypt(msg: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer;
+function encrypt(msg: Buffer, key: Buffer, iv: Buffer, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Buffer;
 
-function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode: string, pkcs7PaddingEnabled = true): Buffer
+function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Buffer
 ```
 
 ### Example usage
@@ -311,8 +334,7 @@ console.log(
   encrypt(
     Buffer.from("message", "ascii"),
     Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-    Buffer.from("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex"),
-    "aes-128-cbc"
+    Buffer.from("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex")
   ).toString("hex")
 );
 ```

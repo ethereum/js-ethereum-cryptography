@@ -23,6 +23,17 @@ const TEST_VECTORS = [
       "874d6191b620e3261bef6864990db6ce9806f66b7970fdff8617187bb9fffdff5ae4df3edbd5d35e5b4f09020db03eab1e031dda2fbe03d1792170a0f3009cee",
     pkcs7PaddingEnabled: true
   },
+  // Same as the previous one, but with default params
+  {
+    mode: undefined,
+    key: "2b7e151628aed2a6abf7158809cf4f3c",
+    iv: "f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+    msg:
+      "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710",
+    cypherText:
+      "874d6191b620e3261bef6864990db6ce9806f66b7970fdff8617187bb9fffdff5ae4df3edbd5d35e5b4f09020db03eab1e031dda2fbe03d1792170a0f3009cee",
+    pkcs7PaddingEnabled: undefined
+  },
   // CBC uses padding, but the NIST test vectors don't
   {
     mode: "aes-128-cbc",
@@ -94,15 +105,15 @@ export function createTests(
     msg: Buffer,
     key: Buffer,
     iv: Buffer,
-    mode: string,
-    pkcs7PaddingEnabled: boolean
+    mode?: string,
+    pkcs7PaddingEnabled?: boolean
   ) => Buffer,
   decrypt: (
     cypherText: Buffer,
     key: Buffer,
     iv: Buffer,
-    mode: string,
-    pkcs7PaddingEnabled: boolean
+    mode?: string,
+    pkcs7PaddingEnabled?: boolean
   ) => Buffer
 ) {
   describe("aes", function() {
