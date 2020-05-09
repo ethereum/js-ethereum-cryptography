@@ -3,11 +3,6 @@ set -e
 echo "Building tests with TypeScript"
 npx tsc --project tsconfig.json
 
-echo "Building scryptsy-without-crypto"
-npm run scryptsy-without-crypto:build
-mkdir -p test-builds/tsc/src/vendor
-cp src/vendor/scryptsy-without-crypto.js test-builds/tsc/src/vendor
-
 echo "Building hdkey-without-crypto"
 npm run hdkey-without-crypto:build
 mkdir -p test-builds/tsc/src/vendor test-builds/tsc/src/pure/vendor

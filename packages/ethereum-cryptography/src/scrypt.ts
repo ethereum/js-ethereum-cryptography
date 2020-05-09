@@ -1,13 +1,24 @@
-import * as scryptPure from "./pure/scrypt";
+import "scrypt-js/thirdparty/setImmediate";
+const scryptJs = require("scrypt-js");
 
-let scryptModule: typeof scryptPure;
-
-try {
-  // tslint:disable-next-line no-implicit-dependencies
-  scryptModule = require("ethereum-cryptography-native/scrypt");
-} catch {
-  scryptModule = scryptPure;
+export async function scrypt(
+  password: Buffer,
+  salt: Buffer,
+  n: number,
+  p: number,
+  r: number,
+  dklen: number
+): Promise<Buffer> {
+  return Buffer.from(await scryptJs.scrypt(password, salt, n, r, p, dklen));
 }
 
-export const scrypt = scryptModule.scrypt;
-export const scryptSync = scryptModule.scryptSync;
+export function scryptSync(
+  password: Buffer,
+  salt: Buffer,
+  n: number,
+  p: number,
+  r: number,
+  dklen: number
+): Buffer {
+  return Buffer.from(scryptJs.syncScrypt(password, salt, n, r, p, dklen));
+}
