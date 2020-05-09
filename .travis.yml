@@ -1,21 +1,21 @@
 language: node_js
 
 node_js:
-  - 8
   - 10
   - 12
+  - 13
+  - 14
 
 install:
-  - bash -x scripts/install.sh
+  - npm i
 
 script:
-  - bash -x scripts/test.sh
-  - bash -x scripts/lint.sh
-  - node packages/ethereum-cryptography/scripts/check-browser-field.js
+  - npm test
+  - npm run lint
+  - npm run build && node scripts/check-browser-field.js
 
 cache:
   npm: true
   directories:
     - $HOME/.npm
-    - packages/ethereum-cryptography/node_modules
-    - packages/ethereum-cryptography-native/node_modules
+    - node_modules

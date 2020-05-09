@@ -62,7 +62,7 @@
     "build:tsc": "tsc --project tsconfig.prod.json",
     "test": "npm-run-all hdkey-without-crypto:build bip39-without-wordlists:build test:node",
     "test:node": "mocha",
-    "clean": "rimraf vendor test-builds pure shims hdkey-without-crypto-build bip39-without-wordlists-build '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
+    "clean": "rimraf vendor test-builds pure shims hdkey-without-crypto-build bip39-without-wordlists-build bip39 '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",
