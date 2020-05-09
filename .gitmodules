@@ -1,6 +1,3 @@
-[submodule "packages/ethereum-cryptography/secp256k1-node"]
-	path = packages/ethereum-cryptography/secp256k1-node
-	url = https://github.com/cryptocoinjs/secp256k1-node.git
 [submodule "packages/ethereum-cryptography/scryptsy"]
 	path = packages/ethereum-cryptography/scryptsy
 	url = https://github.com/cryptocoinjs/scryptsy.git

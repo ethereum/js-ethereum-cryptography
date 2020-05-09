@@ -3,11 +3,6 @@ set -e
 echo "Building tests with TypeScript"
 npx tsc --project tsconfig.json
 
-echo "Building elliptic shim"
-npm run elliptic-secp256k1:build
-mkdir -p test-builds/tsc/src/vendor
-cp src/vendor/elliptic-secp256k1.js test-builds/tsc/src/vendor
-
 echo "Building scryptsy-without-crypto"
 npm run scryptsy-without-crypto:build
 mkdir -p test-builds/tsc/src/vendor

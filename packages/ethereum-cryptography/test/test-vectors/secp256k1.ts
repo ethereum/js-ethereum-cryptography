@@ -2,16 +2,16 @@ import { assert } from "chai";
 
 export function createTests(
   sign: (
-    message: Buffer,
-    privateKey: Buffer
-  ) => { signature: Buffer; recovery: number },
+    message: Uint8Array,
+    privateKey: Uint8Array
+  ) => { signature: Uint8Array; recid: number },
   recover: (
-    message: Buffer,
-    signature: Buffer,
-    recovery: number,
+    message: Uint8Array,
+    recid: number,
+    signature: Uint8Array,
     compressed?: boolean
-  ) => Buffer,
-  publicKeyConvert: (publicKey: Buffer, compressed?: boolean) => Buffer
+  ) => Uint8Array,
+  publicKeyConvert: (publicKey: Uint8Array, compressed?: boolean) => Uint8Array
 ) {
   describe("secp256k1", function() {
     it("Should sign correctly", function() {
@@ -31,7 +31,7 @@ export function createTests(
       const sig = {
         r: signature.signature.slice(0, 32),
         s: signature.signature.slice(32, 64),
-        v: signature.recovery
+        v: signature.recid
       };
 
       assert.deepEqual(
@@ -58,7 +58,7 @@ export function createTests(
         "hex"
       );
 
-      const recovery = 0;
+      const recid = 0;
 
       const r = Buffer.from(
         "99e71a99cb2270b8cac5254f9e99b6210c6c10224a1579cf389ef88b20a1abe9",
@@ -77,7 +77,7 @@ export function createTests(
 
       const signature = Buffer.concat([r, s]);
 
-      const senderPubKey = recover(echash, signature, recovery);
+      const senderPubKey = recover(signature, recid, echash);
       const recovered = publicKeyConvert(senderPubKey, false).slice(1);
 
       assert.deepEqual(recovered, expected);
