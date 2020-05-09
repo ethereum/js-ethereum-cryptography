@@ -10,6 +10,7 @@ function ensureAesMode(mode: string) {
 
 function warnIfUnsuportedMode(mode: string) {
   if (!SUPPORTED_MODES.includes(mode)) {
+    // ts-disable-next-line no-console
     console.warn("Using an unsupported AES mode. Consider using aes-128-ctr.");
   }
 }
