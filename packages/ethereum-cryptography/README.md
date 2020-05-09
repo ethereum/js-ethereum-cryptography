@@ -322,9 +322,8 @@ console.log(
 The `secp256k1` submodule provides a library for elliptic curve operations on
 the curve Secp256k1.
 
-It has the exact same API than the version `3.x` of the native module
-[`secp256k1` from cryptocoinjs](https://github.com/cryptocoinjs/secp256k1-node),
-but it's backed by [`elliptic`](https://www.npmjs.com/package/elliptic).
+It has the exact same API than the version `4.x` of the [`secp256k1`](https://github.com/cryptocoinjs/secp256k1-node)
+module from cryptocoinjs.
 
 ### Function types
 
@@ -346,7 +345,7 @@ const privateKey = Buffer.from(
   "hex"
 );
 
-console.log(sign(msgHash, privateKey).signature.toString("hex"));
+console.log(Buffer.from(sign(msgHash, privateKey)).signature.toString("hex"));
 ```
 
 ## Hierarchical Deterministic keys submodule
