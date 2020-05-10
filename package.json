@@ -49,11 +49,9 @@
     "pure/**/*.d.ts.map"
   ],
   "browser": {
-    "./ripemd160.js": "./pure/ripemd160.js",
-    "./sha256.js": "./pure/sha256.js",
     "./hdkey.js": "./pure/hdkey.js",
-    "./blake2b.js": "./pure/blake2b.js",
-    "./bip39/index.js": "./pure/bip39/index.js"
+    "./ripemd160.js": "./pure/ripemd160.js",
+    "./sha256.js": "./pure/sha256.js"
   },
   "sideEffects": false,
   "scripts": {
@@ -75,7 +73,7 @@
     "hdkey-without-crypto:build": "bash -x scripts/build-hdkey-without-crypto.sh",
     "hdkey-without-crypto:copy": "mkdir -p vendor pure/vendor && cp src/vendor/hdkey-without-crypto.js ./vendor && cp src/pure/vendor/hdkey-without-crypto.js ./pure/vendor",
     "bip39-without-wordlists:build": "bash -x scripts/build-bip39-without-wordlists.sh",
-    "bip39-without-wordlists:copy": "mkdir -p pure/vendor && cp src/pure/vendor/bip39-without-wordlists.js ./pure/vendor"
+    "bip39-without-wordlists:copy": "mkdir -p vendor && cp src/vendor/bip39-without-wordlists.js ./vendor"
   },
   "devDependencies": {
     "@types/chai": "^4.2.1",

@@ -1,12 +1,9 @@
-import * as blake2bPure from "./pure/blake2b";
+const blake2bJs = require("blakejs");
 
-let blake2bModule: typeof blake2bPure;
+export function blake2b(input: Buffer, outputLength = 64): Buffer {
+  if (outputLength <= 0 || outputLength > 64) {
+    throw Error("Invalid outputLength");
+  }
 
-try {
-  // tslint:disable-next-line no-implicit-dependencies
-  blake2bModule = require("ethereum-cryptography-native/blake2b");
-} catch {
-  blake2bModule = require("./pure/blake2b");
+  return Buffer.from(blake2bJs.blake2b(input, undefined, outputLength));
 }
-
-export const blake2b = blake2bModule.blake2b;
