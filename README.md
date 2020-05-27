@@ -522,6 +522,12 @@ to implement the following EIPs:
 Feel free to open an issue if you want this decision to be reconsidered, or if
 you found another primitive that is missing.
 
+## Security audit
+
+This library has been audited by [Trail of Bits](https://www.trailofbits.com/).
+You can see the results of the audit and the changes implemented as a result of
+it in [`audit/`](./audit).
+
 ## License
 
 `ethereum-cryptography` is released under [the MIT License](./LICENSE).
