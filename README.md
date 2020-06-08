@@ -506,11 +506,11 @@ tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
 
 Using this library with Rollup requires the following plugins:
 
-[`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
-[`@rollup/plugin-json`](https://www.npmjs.com/package/@rollup/plugin-json)
-[`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
-[`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins)
-[`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
+* [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
+* [`@rollup/plugin-json`](https://www.npmjs.com/package/@rollup/plugin-json)
+* [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
+* [`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins)
+* [`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
 
 These can be used by setting your `plugins` array like this:
 
