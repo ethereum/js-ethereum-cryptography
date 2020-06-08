@@ -512,7 +512,7 @@ Using this library with Rollup requires the following plugins:
 [`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins)
 [`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
 
-These can be used by setting your plugins like this:
+These can be used by setting your `plugins` array like this:
 
 ```js
   plugins: [
