@@ -5,8 +5,6 @@
 [![license][5]][6]
 [![Types][7]][8]
 
-⚠️ **WARNING: This project is under active development. Don't use it until a stable version is released.** ⚠️
-
 This npm package contains all the cryptographic primitives normally used when
 developing Javascript/TypeScript applications and tools for Ethereum.
 
@@ -504,10 +502,30 @@ console.log(generateMnemonic(wordlist));
 This package works with all the major Javascript bundlers. It is
 tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
 
-For using it with `Rollup` you need to use these plugins:
-* [`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins) with the `browser` option set to `true`, and `preferBuiltins` to `false`.
-* [`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
-* [`rollup-plugin-json`](https://www.npmjs.com/package/rollup-plugin-json).
+### Rollup setup
+
+Using this library with Rollup requires the following plugins:
+
+[`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
+[`@rollup/plugin-json`](https://www.npmjs.com/package/@rollup/plugin-json)
+[`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
+[`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins)
+[`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
+
+These can be used by setting your plugins like this:
+
+```js
+  plugins: [
+    commonjs(),
+    json(),
+    nodeGlobals(),
+    nodeBuiltins(),
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
+  ]
+```
 
 ## Missing cryptographic primitives
 
