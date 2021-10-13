@@ -1,5 +1,6 @@
-import { assert } from "chai";
-
+import { decrypt, encrypt } from "../../src/aes";
+import { hexToBytes, toHex } from "../../src/utils";
+import { deepStrictEqual, rejects } from "./assert";
 // Test vectors taken from https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf
 const TEST_VECTORS = [
   {
@@ -100,71 +101,54 @@ const TEST_VECTORS = [
   }
 ];
 
-export function createTests(
-  encrypt: (
-    msg: Buffer,
-    key: Buffer,
-    iv: Buffer,
-    mode?: string,
-    pkcs7PaddingEnabled?: boolean
-  ) => Buffer,
-  decrypt: (
-    cypherText: Buffer,
-    key: Buffer,
-    iv: Buffer,
-    mode?: string,
-    pkcs7PaddingEnabled?: boolean
-  ) => Buffer
-) {
-  describe("aes", function() {
-    for (const [i, vector] of TEST_VECTORS.entries()) {
-      it(`Should encrypt the test ${i} correctly`, async function() {
-        const encrypted = encrypt(
-          Buffer.from(vector.msg, "hex"),
-          Buffer.from(vector.key, "hex"),
-          Buffer.from(vector.iv, "hex"),
-          vector.mode,
-          vector.pkcs7PaddingEnabled
-        );
-
-        assert.equal(encrypted.toString("hex"), vector.cypherText);
-      });
-
-      it(`Should decrypt the test ${i} correctly`, async function() {
-        const decrypted = decrypt(
-          Buffer.from(vector.cypherText, "hex"),
-          Buffer.from(vector.key, "hex"),
-          Buffer.from(vector.iv, "hex"),
-          vector.mode,
-          vector.pkcs7PaddingEnabled
-        );
-
-        assert.equal(decrypted.toString("hex"), vector.msg);
-      });
-    }
-
-    it("Should throw when not padding automatically and the message isn't the right size", function() {
-      assert.throws(() =>
-        encrypt(
-          Buffer.from("abcd", "hex"),
-          Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-          Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-          "aes-128-cbc",
-          false
-        )
+describe("aes", () => {
+  for (const [i, vector] of TEST_VECTORS.entries()) {
+    it(`Should encrypt the test ${i} correctly`, async () => {
+      const encrypted = await encrypt(
+        hexToBytes(vector.msg),
+        hexToBytes(vector.key),
+        hexToBytes(vector.iv),
+        vector.mode,
+        vector.pkcs7PaddingEnabled
       );
+
+      deepStrictEqual(toHex(encrypted), vector.cypherText);
     });
 
-    it("Should throw when trying to use non-aes modes", function() {
-      assert.throws(() =>
-        encrypt(
-          Buffer.from("abcd", "hex"),
-          Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-          Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-          "asd-128-cbc",
-          false
-        )
+    it(`Should decrypt the test ${i} correctly`, async () => {
+      const decrypted = await decrypt(
+        hexToBytes(vector.cypherText),
+        hexToBytes(vector.key),
+        hexToBytes(vector.iv),
+        vector.mode,
+        vector.pkcs7PaddingEnabled
       );
+
+      deepStrictEqual(toHex(decrypted), vector.msg);
     });
+  }
+
+  it("Should throw when not padding automatically and the message isn't the right size", async () => {
+    rejects(() =>
+      encrypt(
+        hexToBytes("abcd"),
+        hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
+        hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
+        "aes-128-cbc",
+        false
+      )
+    );
   });
-}
+
+  it("Should throw when trying to use non-aes modes", async () => {
+    rejects(() =>
+      encrypt(
+        hexToBytes("abcd"),
+        hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
+        hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
+        "asd-128-cbc",
+        false
+      )
+    );
+  });
+});

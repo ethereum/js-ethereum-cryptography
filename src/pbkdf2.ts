@@ -1,37 +1,42 @@
-import * as pbkdf2Js from "pbkdf2";
+import {
+  pbkdf2 as _pbkdf2,
+  pbkdf2Async as _pbkdf2Async
+} from "noble-hashes/lib/pbkdf2";
+import { sha256 } from "noble-hashes/lib/sha256";
+import { assertBytes } from "./utils";
 
-export function pbkdf2(
-  password: Buffer,
-  salt: Buffer,
+export async function pbkdf2(
+  password: Uint8Array,
+  salt: Uint8Array,
   iterations: number,
   keylen: number,
   digest: string
-): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    pbkdf2Js.pbkdf2(
-      password,
-      salt,
-      iterations,
-      keylen,
-      digest,
-      (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      }
-    );
+): Promise<Uint8Array> {
+  if (digest !== "sha256") {
+    throw new Error("Only sha256 is supported");
+  }
+  assertBytes(password);
+  assertBytes(salt);
+  return _pbkdf2Async(sha256, password, salt, {
+    c: iterations,
+    dkLen: keylen
   });
 }
 
 export function pbkdf2Sync(
-  password: Buffer,
-  salt: Buffer,
+  password: Uint8Array,
+  salt: Uint8Array,
   iterations: number,
   keylen: number,
   digest: string
-): Buffer {
-  return pbkdf2Js.pbkdf2Sync(password, salt, iterations, keylen, digest);
+): Uint8Array {
+  if (digest !== "sha256") {
+    throw new Error("Only sha256 is supported");
+  }
+  assertBytes(password);
+  assertBytes(salt);
+  return _pbkdf2(sha256, password, salt, {
+    c: iterations,
+    dkLen: keylen
+  });
 }

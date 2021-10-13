@@ -1,18 +1,15 @@
-const randombytes = require("randombytes");
+import { crypto } from "./utils";
 
-export function getRandomBytes(bytes: number): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    randombytes(bytes, function(err: any, resp: Buffer) {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      resolve(resp);
-    });
-  });
+export function getRandomBytesSync(bytes: number): Uint8Array {
+  if (crypto.web) {
+    return crypto.web.getRandomValues(new Uint8Array(bytes));
+  } else if (crypto.node) {
+    return new Uint8Array(crypto.node.randomBytes(bytes).buffer);
+  } else {
+    throw new Error("The environment doesn't have randomBytes function");
+  }
 }
 
-export function getRandomBytesSync(bytes: number): Buffer {
-  return randombytes(bytes);
+export async function getRandomBytes(bytes: number): Promise<Uint8Array> {
+  return getRandomBytesSync(bytes);
 }

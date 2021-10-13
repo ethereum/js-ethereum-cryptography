@@ -1,24 +1,31 @@
-import "scrypt-js/thirdparty/setImmediate";
-const scryptJs = require("scrypt-js");
+import {
+  scrypt as _scrypt,
+  scryptAsync as _scryptAsync
+} from "noble-hashes/lib/scrypt";
+import { assertBytes } from "./utils";
 
 export async function scrypt(
-  password: Buffer,
-  salt: Buffer,
+  password: Uint8Array,
+  salt: Uint8Array,
   n: number,
   p: number,
   r: number,
   dklen: number
-): Promise<Buffer> {
-  return Buffer.from(await scryptJs.scrypt(password, salt, n, r, p, dklen));
+): Promise<Uint8Array> {
+  assertBytes(password);
+  assertBytes(salt);
+  return _scryptAsync(password, salt, { N: n, r, p, dkLen: dklen });
 }
 
 export function scryptSync(
-  password: Buffer,
-  salt: Buffer,
+  password: Uint8Array,
+  salt: Uint8Array,
   n: number,
   p: number,
   r: number,
   dklen: number
-): Buffer {
-  return Buffer.from(scryptJs.syncScrypt(password, salt, n, r, p, dklen));
+): Uint8Array {
+  assertBytes(password);
+  assertBytes(salt);
+  return _scrypt(password, salt, { N: n, r, p, dkLen: dklen });
 }

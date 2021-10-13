@@ -1,9 +1,10 @@
-const blake2bJs = require("blakejs");
+import { blake2b as _blake2b } from "noble-hashes/lib/blake2b";
+import { assertBytes } from "./utils";
 
-export function blake2b(input: Buffer, outputLength = 64): Buffer {
+export const blake2b = (msg: Uint8Array, outputLength = 64): Uint8Array => {
+  assertBytes(msg);
   if (outputLength <= 0 || outputLength > 64) {
     throw Error("Invalid outputLength");
   }
-
-  return Buffer.from(blake2bJs.blake2b(input, undefined, outputLength));
-}
+  return _blake2b(msg, { dkLen: outputLength });
+};

@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "rootDirs": ["./src", "./test"],
+    "rootDirs": [
+      "./src",
+      "./test"
+    ],
     "outDir": "./test-builds/tsc",
     "sourceMap": true,
+    "noUnusedLocals": true,
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ]
 }

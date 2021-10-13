@@ -8,9 +8,15 @@
     "prettier": true,
     "no-submodule-imports": false,
     "only-arrow-functions": false,
-    "no-implicit-dependencies": [true, ["chai"]],
+    "no-implicit-dependencies": [
+      true,
+      [
+        "chai"
+      ]
+    ],
     "no-var-requires": false,
     "object-literal-sort-keys": false,
-    "interface-name": false
+    "interface-name": false,
+    "no-bitwise": false
   }
 }

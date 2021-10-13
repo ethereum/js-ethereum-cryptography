@@ -1,2 +1,2 @@
 --require ts-node/register
-test/node/*.ts
+test/test-vectors/*.ts
