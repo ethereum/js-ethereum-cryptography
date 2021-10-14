@@ -90,7 +90,7 @@
     "webpack-cli": "^3.3.8"
   },
   "dependencies": {
-    "noble-hashes": "^0.1.1",
+    "noble-hashes": "^0.2.0",
     "micro-base": "^0.1.1",
     "noble-secp256k1": "^1.2.10"
   },
