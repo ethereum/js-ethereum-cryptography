@@ -1,22 +1,14 @@
 import { hmac } from "noble-hashes/lib/hmac";
 import { sha256 } from "noble-hashes/lib/sha256";
 import * as secp from "noble-secp256k1";
-import {
-  assertBool,
-  assertBytes,
-  concatBytes,
-  hexToBytes,
-  toHex
-} from "./utils";
+import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 
 // Enable sync API for noble-secp256k1
-secp.utils.hmacSha256 = ((key: Uint8Array, ...messages: Uint8Array[]) => {
+secp.utils.hmacSha256Sync = (key: Uint8Array, ...messages: Uint8Array[]) => {
   const h = hmac.create(sha256, key);
-  for (const msg of messages) {
-    h.update(msg);
-  }
+  messages.forEach(msg => h.update(msg));
   return h.digest();
-}) as any;
+};
 
 // Copy-paste from secp256k1, maybe export it?
 const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));
@@ -65,7 +57,7 @@ function getSignature(signature: Uint8Array) {
   if (r >= secp.CURVE.n || s >= secp.CURVE.n) {
     throw new Error("Cannot parse signature");
   }
-  return new secp.Signature(r, s);
+  return secp.Signature.fromCompact(signature);
 }
 
 export function createPrivateKeySync(): Uint8Array {
@@ -131,16 +123,12 @@ export function ecdsaSign(
   ) {
     throw new Error("Secp256k1: noncefn && data is unsupported");
   }
-  const [signature, recid] = secp._syncSign(msgHash, privateKey, {
+  const [signature, recid] = secp.signSync(msgHash, privateKey, {
     recovered: true,
-    canonical: true
+    canonical: true,
+    der: false
   });
-  const { r, s } = secp.Signature.fromHex(signature);
-  const res = concatBytes(numberToBytes(r), numberToBytes(s));
-  return {
-    signature: output(out, 64, res),
-    recid
-  };
+  return { signature: output(out, 64, signature), recid };
 }
 
 export function ecdsaRecover(
@@ -162,10 +150,22 @@ export function ecdsaVerify(
   msgHash: Uint8Array,
   publicKey: Uint8Array
 ) {
+  assertBytes(signature, 64);
   assertBytes(msgHash, 32);
   assertBytes(publicKey, 33, 65);
-  const sign = getSignature(signature);
-  return secp.verify(sign, msgHash, publicKey);
+  assertBytes(signature, 64);
+  const r = bytesToNumber(signature.slice(0, 32));
+  const s = bytesToNumber(signature.slice(32, 64));
+  if (r >= secp.CURVE.n || s >= secp.CURVE.n) {
+    throw new Error("Cannot parse signature");
+  }
+  let sig;
+  try {
+    sig = getSignature(signature);
+  } catch (error) {
+    return false;
+  }
+  return secp.verify(sig, msgHash, publicKey);
 }
 
 export function privateKeyTweakAdd(
@@ -300,12 +300,8 @@ export function signatureImport(
   out?: Output
 ): Uint8Array {
   assertBytes(signature);
-  const sig = secp.Signature.fromHex(signature);
-  return output(
-    out,
-    64,
-    concatBytes(...[sig.r, sig.s].map(i => numberToBytes(i)))
-  );
+  const sig = secp.Signature.fromDER(signature);
+  return output(out, 64, hexToBytes(sig.toCompactHex()));
 }
 
 export function signatureNormalize(signature: Uint8Array): Uint8Array {

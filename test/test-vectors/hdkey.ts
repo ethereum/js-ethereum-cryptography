@@ -338,7 +338,7 @@ describe("hdkey", () => {
       const masterKey = HDKey.fromMasterSeed(hexToBytes(seed));
 
       deepStrictEqual(!!masterKey.privateExtendedKey, true, "xpriv is truthy");
-      (masterKey as any).privKey = undefined;
+      (masterKey as any).privateKey = undefined;
 
       throws(() => masterKey.privateExtendedKey);
     });
