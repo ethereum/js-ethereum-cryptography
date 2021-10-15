@@ -11,7 +11,7 @@ import {
 
 // Enable sync API for noble-secp256k1
 secp.utils.hmacSha256 = ((key: Uint8Array, ...messages: Uint8Array[]) => {
-  const h = hmac.init(sha256, key);
+  const h = hmac.create(sha256, key);
   for (const msg of messages) {
     h.update(msg);
   }
@@ -223,12 +223,10 @@ export function publicKeyCombine(
     assertBytes(publicKey, 33, 65);
   }
   assertBool(compressed);
-  let point = secp.Point.fromHex(publicKeys[0]);
-  for (let i = 1; i < publicKeys.length; i++) {
-    point = point.add(secp.Point.fromHex(publicKeys[i]));
-  }
-  point.assertValidity();
-  return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
+  const combined = publicKeys
+    .map(pub => secp.Point.fromHex(pub))
+    .reduce((res, curr) => res.add(curr), secp.Point.ZERO);
+  return output(out, compressed ? 33 : 65, combined.toRawBytes(compressed));
 }
 
 export function publicKeyTweakAdd(
@@ -243,7 +241,6 @@ export function publicKeyTweakAdd(
   const p1 = secp.Point.fromHex(publicKey);
   const p2 = secp.Point.fromPrivateKey(tweak);
   const point = p1.add(p2);
-  point.assertValidity();
   return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
 }
 
@@ -261,7 +258,6 @@ export function publicKeyTweakMul(
     throw new Error("Tweak is zero or bigger than curve order");
   }
   const point = secp.Point.fromHex(publicKey).multiply(bn);
-  point.assertValidity();
   return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
 }
 
