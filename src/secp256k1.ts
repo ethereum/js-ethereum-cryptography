@@ -52,11 +52,6 @@ function output(
 
 function getSignature(signature: Uint8Array) {
   assertBytes(signature, 64);
-  const r = bytesToNumber(signature.slice(0, 32));
-  const s = bytesToNumber(signature.slice(32, 64));
-  if (r >= secp.CURVE.n || s >= secp.CURVE.n) {
-    throw new Error("Cannot parse signature");
-  }
   return secp.Signature.fromCompact(signature);
 }
 
