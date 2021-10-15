@@ -215,7 +215,7 @@ describe("secp256k1", function() {
       vectors: Record<string, any>,
       library: Record<string, any>
     ) => {
-      for (let k of Object.keys(vectors)) {
+      for (const k of Object.keys(vectors)) {
         const path = k.split(".");
         let cur = library;
         for (const i of path) {

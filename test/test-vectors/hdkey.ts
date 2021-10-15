@@ -133,7 +133,7 @@ describe("hdkey", () => {
 
   // Ported from https://github.com/cryptocoinjs/hdkey/blob/42637e381bdef0c8f785b14f5b66a80dad969514/test/hdkey.test.js
   describe("+ fromMasterSeed", () => {
-    for (let f of fixtures) {
+    for (const f of fixtures) {
       it("should properly derive the chain path: " + f.path, () => {
         const hdkey = HDKey.fromMasterSeed(hexToBytes(f.seed));
         const childkey = hdkey.derive(f.path);

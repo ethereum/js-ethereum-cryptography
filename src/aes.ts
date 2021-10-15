@@ -1,14 +1,13 @@
-import { concatBytes, equalsBytes, crypto } from "./utils";
+import { concatBytes, crypto, equalsBytes } from "./utils";
 
 function validateOpt(key: Uint8Array, iv: Uint8Array, mode: string) {
   if (!mode.startsWith("aes-")) {
     throw new Error(`AES submodule doesn't support mode ${mode}`);
   }
-  if (iv.length !== 16) {
+  if (iv.length !== 16)
     throw new Error("AES: wrong IV length");
-  }
   if (
-    (mode.startsWith("aes-128") && key.length != 16) ||
+    (mode.startsWith("aes-128") && key.length !== 16) ||
     (mode.startsWith("aes-256") && key.length !== 32)
   ) {
     throw new Error("AES: wrong key length");

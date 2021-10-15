@@ -9,6 +9,11 @@ import { assertBytes } from "../utils";
 const isJapanese = (wordlist: string[]) =>
   wordlist[0] === "\u3042\u3044\u3053\u304f\u3057\u3093"; // Japanese wordlist
 
+// Normalization replaces equivalent sequences of characters
+// so that any two texts that are equivalent will be reduced
+// to the same sequence of code points, called the normal form of the original text.
+const nfkd = (str: string) => str.normalize("NFKD");
+
 function assertMnemonic(mnemonic: string) {
   if (typeof mnemonic !== "string") {
     throw new TypeError(`Invalid mnemonic type: ${typeof mnemonic}`);
@@ -54,7 +59,7 @@ export function mnemonicToEntropy(
   wordlist: string[]
 ): Uint8Array {
   assertMnemonic(mnemonic);
-  const words = mnemonic.normalize("NFKD").split(" ");
+  const words = nfkd(mnemonic).split(" ");
   if (![12, 15, 18, 21, 24].includes(words.length)) {
     throw new Error("Invalid mnemonic");
   }
@@ -84,11 +89,11 @@ export function validateMnemonic(
   return true;
 }
 
-const salt = (passphrase = "") => `mnemonic${passphrase}`.normalize("NFKD");
+const salt = (passphrase = "") => nfkd(`mnemonic${passphrase}`);
 
 export function mnemonicToSeed(mnemonic: string, passphrase = "") {
   assertMnemonic(mnemonic);
-  return pbkdf2Async(sha512, mnemonic.normalize("NFKD"), salt(passphrase), {
+  return pbkdf2Async(sha512, nfkd(mnemonic), salt(passphrase), {
     c: 2048,
     dkLen: 64
   });
@@ -96,7 +101,7 @@ export function mnemonicToSeed(mnemonic: string, passphrase = "") {
 
 export function mnemonicToSeedSync(mnemonic: string, passphrase = "") {
   assertMnemonic(mnemonic);
-  return pbkdf2(sha512, mnemonic.normalize("NFKD"), salt(passphrase), {
+  return pbkdf2(sha512, nfkd(mnemonic), salt(passphrase), {
     c: 2048,
     dkLen: 64
   });
