@@ -1,4 +1,4 @@
-import { base58check as _base58check } from "micro-base/lib/base58";
+import { base58check } from "micro-base";
 import { hmac } from "noble-hashes/lib/hmac";
 import { ripemd160 } from "noble-hashes/lib/ripemd160";
 import { sha256 } from "noble-hashes/lib/sha256";
@@ -6,7 +6,7 @@ import { sha512 } from "noble-hashes/lib/sha512";
 import * as random from "./random";
 import * as secp256k1 from "./secp256k1";
 import { assertBytes, concatBytes, createView, utf8ToBytes } from "./utils";
-const base58 = _base58check(sha256);
+const base58c = base58check(sha256);
 
 const MASTER_SECRET = utf8ToBytes("Bitcoin seed");
 // Bitcoin hardcoded by default
@@ -37,7 +37,7 @@ export class HDKey {
   public static fromExtendedKey(base58key: string, versions?: Versions): HDKey {
     // => version(4) || depth(1) || fingerprint(4) || index(4) || chain(32) || key(33)
     const hdkey = new HDKey(versions);
-    const keyBuffer: Uint8Array = base58.decode(base58key);
+    const keyBuffer: Uint8Array = base58c.decode(base58key);
     const keyView = createView(keyBuffer);
     const version = keyView.getUint32(0, false);
     hdkey.depth = keyBuffer[4];
@@ -112,7 +112,7 @@ export class HDKey {
     if (!this.privKey) {
       throw new Error("No private key");
     }
-    return base58.encode(
+    return base58c.encode(
       this.serialize(
         this.versions.private,
         concatBytes(new Uint8Array([0]), this.privKey)
@@ -123,7 +123,7 @@ export class HDKey {
     if (!this.pubKey) {
       throw new Error("No public key");
     }
-    return base58.encode(this.serialize(this.versions.public, this.pubKey));
+    return base58c.encode(this.serialize(this.versions.public, this.pubKey));
   }
 
   public derive(path: string): HDKey {
