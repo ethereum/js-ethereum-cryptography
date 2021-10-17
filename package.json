@@ -50,6 +50,9 @@
     "micro-base": "^0.9.0",
     "noble-secp256k1": "^1.2.14"
   },
+  "browser": {
+    "crypto": false
+  },
   "sideEffects": false,
   "scripts": {
     "prepare": "npm run build",
