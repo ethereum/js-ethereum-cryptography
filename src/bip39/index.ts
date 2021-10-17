@@ -39,7 +39,7 @@ const checksum = (entropy: Uint8Array) => {
   return new Uint8Array([(sha256(entropy)[0] >> bitsLeft) << bitsLeft]);
 };
 
-export function getCoder(wordlist: string[]) {
+function getCoder(wordlist: string[]) {
   if (
     !Array.isArray(wordlist) ||
     wordlist.length !== 2 ** 11 ||
