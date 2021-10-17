@@ -46,9 +46,9 @@
     "*.d.ts.map"
   ],
   "dependencies": {
-    "noble-hashes": "^0.2.0",
+    "noble-hashes": "^0.2.1",
     "micro-base": "^0.9.0",
-    "noble-secp256k1": "^1.2.13"
+    "noble-secp256k1": "^1.2.14"
   },
   "sideEffects": false,
   "scripts": {
