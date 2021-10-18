@@ -18,15 +18,14 @@ The cryptographic primitives included are:
 **October 2021 update:** We're releasing **experimental** version 0.2 of the package.
 The module has been completely rewritten:
 
-- ~6x smaller: 4,000 lines of code incl. all deps instead of 22,438; 185KB of unpacked code instead of 755KB
+- ~6x smaller: 4,000 lines of code instead of 22,438 (with all deps); 185KB of unpacked code instead of 755KB
 - 3 dependencies (pending an audit) instead of 38
-- Same functionality, all old APIs are the same to simplify the upgrade path
-- **Breaking:** we target runtimes with [bigint](https://caniuse.com/bigint) support,
-  which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support
-  older runtimes, use `ethereum-cryptography@0.1`
-- **Breaking:** we return `Uint8Array` from all methods that worked with `Buffer` before.
+- **Same functionality**, all old APIs remain the same except for two breaking changes:
+    1. We return `Uint8Array` from all methods that worked with `Buffer` before.
   `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
   browsers and node.js. See [Upgrading](#upgrading)
+    2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
+  which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
 - The new module [has not been audited yet](#security), but it's in the process of getting the audit. Use it at your own risk
 
 ## Usage
