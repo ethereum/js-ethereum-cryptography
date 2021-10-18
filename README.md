@@ -81,26 +81,27 @@ const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
 ## Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
 ```typescript
 function sha256(msg: Uint8Array): Uint8Array;
+function sha512(msg: Uint8Array): Uint8Array;
 function keccak256(msg: Uint8Array): Uint8Array;
 function ripemd160(msg: Uint8Array): Uint8Array;
 function blake2b(msg: Uint8Array, outputLength = 64): Uint8Array;
 ```
 
+Exposes following cryptographic hash functions:
+
 - SHA2 (SHA256, SHA512)
-- keccak-256 variant of SHA3
+- keccak-256 variant of SHA3 (also `keccak224`, `keccak384`,
+and `keccak512`)
 - RIPEMD160
 - BLAKE2b
 
 ```js
 const { sha256 } = require("ethereum-cryptography/sha256");
+const { sha512 } = require("ethereum-cryptography/sha512");
 const { keccak256, keccak224, keccak384, keccak512 } = require("ethereum-cryptography/keccak");
 const { ripemd160 } = require("ethereum-cryptography/ripemd160");
 const { blake2b } = require("ethereum-cryptography/blake2b");
 ```
-
-The `keccak` submodule has four functions that implement different variations of
-the Keccak hashing algorithm. These are `keccak224`, `keccak256`, `keccak384`,
-and `keccak512`.
 
 ## KDFs: PBKDF2, Scrypt
 
