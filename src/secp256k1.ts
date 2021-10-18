@@ -1,14 +1,9 @@
-import { hmac } from "noble-hashes/lib/hmac";
 import { sha256 } from "noble-hashes/lib/sha256";
-import * as secp from "noble-secp256k1";
+import * as secp from "./curve-secp256k1";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 
-// Enable sync API for noble-secp256k1
-secp.utils.hmacSha256Sync = (key: Uint8Array, ...messages: Uint8Array[]) => {
-  const h = hmac.create(sha256, key);
-  messages.forEach(msg => h.update(msg));
-  return h.digest();
-};
+// Legacy compatibility layer for elliptic via noble-secp256k1
+// Use `curve-secp256k1` module directly instead
 
 // Copy-paste from secp256k1, maybe export it?
 const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));

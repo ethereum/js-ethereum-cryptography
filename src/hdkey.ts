@@ -4,7 +4,7 @@ import { ripemd160 } from "noble-hashes/lib/ripemd160";
 import { sha256 } from "noble-hashes/lib/sha256";
 import { sha512 } from "noble-hashes/lib/sha512";
 import { bytesToHex } from "noble-hashes/lib/utils";
-import * as secp from "noble-secp256k1";
+import * as secp from "./curve-secp256k1";
 import {
   assertBytes,
   concatBytes,
@@ -13,15 +13,6 @@ import {
   utf8ToBytes
 } from "./utils";
 const base58c = base58check(sha256);
-
-// Enable sync API for noble-secp256k1
-secp.utils.hmacSha256Sync = (key: Uint8Array, ...msgs: Uint8Array[]) => {
-  const h = hmac.create(sha256, key);
-  for (const msg of msgs) {
-    h.update(msg);
-  }
-  return h.digest();
-};
 
 function bytesToNumber(bytes: Uint8Array): bigint {
   return BigInt(`0x${bytesToHex(bytes)}`);

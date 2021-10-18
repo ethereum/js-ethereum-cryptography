@@ -2,8 +2,7 @@
 /*.js.map
 /*.d.ts
 /*.d.ts.map
-/pure
-/shims
+/bip39
 /test-builds
 /node_modules
 /.parcel-cache

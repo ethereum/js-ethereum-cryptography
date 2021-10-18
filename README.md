@@ -86,6 +86,11 @@ function ripemd160(msg: Uint8Array): Uint8Array;
 function blake2b(msg: Uint8Array, outputLength = 64): Uint8Array;
 ```
 
+- SHA2 (SHA256, SHA512)
+- keccak-256 variant of SHA3
+- RIPEMD160
+- BLAKE2b
+
 ```js
 const { sha256 } = require("ethereum-cryptography/sha256");
 const { keccak256, keccak224, keccak384, keccak512 } = require("ethereum-cryptography/keccak");
@@ -153,6 +158,7 @@ console.log(getRandomBytesSync(32));
 function getPublicKey(privateKey: Uint8Array, isCompressed?: false): Uint8Array;
 function getSharedSecret(privateKeyA: Uint8Array, publicKeyB: Uint8Array): Uint8Array;
 function sign(msgHash: Uint8Array, privateKey: Uint8Array, opts?: Options): Promise<Uint8Array>;
+function signSync(msgHash: Uint8Array, privateKey: Uint8Array, opts?: Options): Uint8Array;
 function verify(signature: Uint8Array, msgHash: Uint8Array, publicKey: Uint8Array): boolean
 function recoverPublicKey(msgHash: Uint8Array, signature: Uint8Array, recovery: number): Uint8Array | undefined;
 function utils.randomPrivateKey(): Uint8Array;
@@ -228,9 +234,10 @@ Its only difference is that it has to be be used with a named import.
 
 ```js
 const { HDKey } = require("ethereum-cryptography/hdkey");
+const { hexToBytes } = require("ethereum-cryptography/utils");
 
 const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
-const hdkey = HDKey.fromMasterSeed(Uint8Array.from(seed, "hex"));
+const hdkey = HDKey.fromMasterSeed(hexToBytes(seed));
 const childkey = hdkey.derive("m/0/2147483647'/1");
 
 console.log(childkey.privateExtendedKey);
@@ -274,6 +281,11 @@ The word lists are exported as a `wordlist` variable in each of these submodules
 * `ethereum-cryptography/bip39/wordlists/traditional-chinese.js`
 
 ## AES Encryption
+
+```ts
+function encrypt(msg: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array;
+function decrypt(cypherText: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array
+```
 
 The `aes` submodule contains encryption and decryption functions implementing
 the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
@@ -341,23 +353,17 @@ Note that implementing this can mean catching all errors that can be thrown
 when calling on of this module's functions, and just throwing a new generic
 exception.
 
-### Function types
-
-```ts
-function encrypt(msg: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array;
-function decrypt(cypherText: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array
-```
-
 ### Example usage
 
 ```js
 const { encrypt } = require("ethereum-cryptography/aes");
+const { hexToBytes, utf8ToBytes } = require("ethereum-cryptography/utils");
 
 console.log(
   encrypt(
-    Uint8Array.from("message", "ascii"),
-    Uint8Array.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-    Uint8Array.from("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex")
+    utf8ToBytes("message"),
+    hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
+    hexToBytes("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff")
   )
 );
 ```
