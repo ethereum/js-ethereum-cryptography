@@ -18,7 +18,7 @@ The cryptographic primitives included are:
 **October 2021 update:** We're releasing **experimental** version 0.2 of the package.
 The module has been completely rewritten:
 
-- ~6x smaller: 4,000 lines of code instead of 22,438 (with all deps); 185KB of unpacked code instead of 755KB
+- ~6x smaller: 4,000 lines of code instead of 22,438 (with all deps); 185KB instead of 755KB
 - 3 dependencies (pending an audit) instead of 38
 - **Same functionality**, all old APIs remain the same except for two breaking changes:
     1. We return `Uint8Array` from all methods that worked with `Buffer` before.
