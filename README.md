@@ -11,38 +11,30 @@ developing Javascript/TypeScript applications and tools for Ethereum.
 Pure Javascript implementations of all the primitives are included, so it can
 be used out of the box for web applications and libraries.
 
-In Node, it takes advantage of the built-in and N-API based implementations
-whenever possible.
-
 The cryptographic primitives included are:
 
-* [Pseudorandom number generation](#pseudorandom-number-generation-submodule)
-* [Keccak](#keccak-submodule)
-* [Scrypt](#scrypt-submodule)
-* [PBKDF2](#pbkdf2-submodule)
-* [SHA-256](#sha-256-submodule)
-* [RIPEMD-160](#ripemd-160-submodule)
-* [BLAKE2b](#blake2b-submodule)
-* [AES](#aes-submodule)
-* [Secp256k1](#secp256k1-submodule)
-* [Hierarchical Deterministic keys derivation](#hierarchical-deterministic-keys-submodule)
-* [Seed recovery phrases](#seed-recovery-phrases)
-
-## Installation
-
-Via `npm`:
-
-```bash
-$ npm install ethereum-cryptography
-```
-
-Via `yarn`:
-
-```bash
-$ yarn add ethereum-cryptography
-```
+* Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
+* KDFs: PBKDF2, Scrypt
+* CSPRNG (Cryptographically strong pseudorandom number generator)
+* secp256k1 curve
+* BIP32 HD Keygen
+* BIP39 Mnemonic phrases
+* AES Encryption
 
 ## Usage
+
+Use NPM / Yarn in node.js / browser:
+
+```bash
+# NPM
+npm install ethereum-cryptography
+
+# Yarn
+yarn add ethereum-cryptography
+```
+
+See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
+tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
 
 This package has no single entry-point, but submodule for each cryptographic
 primitive. Read each primitive's section of this document to learn how to use
@@ -53,199 +45,228 @@ huge bundles when using this package for the web. This could be avoided through
 tree-shaking, but the possibility of it not working properly on one of
 [the supported bundlers](#browser-usage) is too high.
 
-## Pseudorandom number generation submodule
-
-The `random` submodule has functions to generate cryptographically strong
-pseudo-random data in synchronous and asynchronous ways.
-
-In Node, this functions are backed by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback).
-
-In the browser, [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues)
-is used. If not available, this module won't work, as that would be insecure.
-
-### Function types
-
-```ts
-function getRandomBytes(bytes: number): Promise<Buffer>;
-
-function getRandomBytesSync(bytes: number): Buffer;
-```
-
-### Example usage
-
 ```js
+// Hashes
+const { sha256 } = require("ethereum-cryptography/sha256");
+const { keccak256 } = require("ethereum-cryptography/keccak");
+const { ripemd160 } = require("ethereum-cryptography/ripemd160");
+const { blake2b } = require("ethereum-cryptography/blake2b");
+
+// KDFs
+const { pbkdf2Sync } = require("ethereum-cryptography/pbkdf2");
+const { scryptSync } = require("ethereum-cryptography/scrypt");
+
+// Random
 const { getRandomBytesSync } = require("ethereum-cryptography/random");
 
-console.log(getRandomBytesSync(32).toString("hex"));
+// AES encryption
+const { encrypt } = require("ethereum-cryptography/aes");
+
+// secp256k1 elliptic curve operations
+const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1");
+
+// BIP32 HD Keygen, BIP39 Mnemonic Phrases
+const { HDKey } = require("ethereum-cryptography/hdkey");
+const { generateMnemonic } = require("ethereum-cryptography/bip39");
+const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
 ```
 
-## Keccak submodule
+## Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
+```typescript
+function sha256(msg: Uint8Array): Uint8Array;
+function keccak256(msg: Uint8Array): Uint8Array;
+function ripemd160(msg: Uint8Array): Uint8Array;
+function blake2b(msg: Uint8Array, outputLength = 64): Uint8Array;
+```
+
+```js
+const { sha256 } = require("ethereum-cryptography/sha256");
+const { keccak256, keccak224, keccak384, keccak512 } = require("ethereum-cryptography/keccak");
+const { ripemd160 } = require("ethereum-cryptography/ripemd160");
+const { blake2b } = require("ethereum-cryptography/blake2b");
+```
 
 The `keccak` submodule has four functions that implement different variations of
 the Keccak hashing algorithm. These are `keccak224`, `keccak256`, `keccak384`,
 and `keccak512`.
 
-### Function types
+## KDFs: PBKDF2, Scrypt
 
 ```ts
-function keccak224(msg: Buffer): Buffer;
-
-function keccak256(msg: Buffer): Buffer;
-
-function keccak384(msg: Buffer): Buffer;
-
-function keccak512(msg: Buffer): Buffer;
+function pbkdf2(password: Uint8Array, salt: Uint8Array, iterations: number, keylen: number, digest: string): Promise<Uint8Array>;
+function pbkdf2Sync(password: Uint8Array, salt: Uint8Array, iterations: number, keylen: number, digest: string): Uint8Array;
+function scrypt(password: Uint8Array, salt: Uint8Array, N: number, p: number, r: number, dkLen: number): Promise<Uint8Array>;
+function scryptSync(password: Uint8Array, salt: Uint8Array, N: number, p: number, r: number, dkLen: number): Uint8Array;
 ```
 
-### Example usage
-
-```js
-const { keccak256 } = require("ethereum-cryptography/keccak");
-
-console.log(keccak256(Buffer.from("Hello, world!", "ascii")).toString("hex"));
-```
-
-## Scrypt submodule
+The `pbkdf2` submodule has two functions implementing the PBKDF2 key
+derivation algorithm in synchronous and asynchronous ways. This algorithm is
+very slow, and using the synchronous version in the browser is not recommended,
+as it will block its main thread and hang your UI. The KDF supports `sha256` and `sha512` digests.
 
 The `scrypt` submodule has two functions implementing the Scrypt key
 derivation algorithm in synchronous and asynchronous ways. This algorithm is
 very slow, and using the synchronous version in the browser is not recommended,
 as it will block its main thread and hang your UI.
 
-### Password encoding
-
 Encoding passwords is a frequent source of errors. Please read
 [these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes)
-before using this submodule.
-
-### Function types
-
-```ts
-function scrypt(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Promise<Buffer>;
-
-function scryptSync(password: Buffer, salt: Buffer, n: number, p: number, r: number, dklen: number): Buffer;
-```
-
-### Example usage
-
-```js
-const { scryptSync } = require("ethereum-cryptography/scrypt");
-
-console.log(
-  scryptSync(
-    Buffer.from("ascii password", "ascii"),
-    Buffer.from("salt", "hex"),
-    16,
-    1,
-    1,
-    64
-  ).toString("hex")
-);
-```
-
-## PBKDF2 submodule
-
-The `pbkdf2` submodule has two functions implementing the PBKDF2 key
-derivation algorithm in synchronous and asynchronous ways. This algorithm is
-very slow, and using the synchronous version in the browser is not recommended,
-as it will block its main thread and hang your UI.
-
-### Password encoding
-
-Encoding passwords is a frequent source of errors. Please read
-[these notes](https://github.com/ricmoo/scrypt-js/tree/0eb70873ddf3d24e34b53e0d9a99a0cef06a79c0#encoding-notes)
-before using this submodule.
-
-### Supported digests
-
-In Node this submodule uses the built-in implementation and supports any digest
-returned by [`crypto.getHashes`](https://nodejs.org/api/crypto.html#crypto_crypto_gethashes).
-
-In the browser, it is tested to support at least `sha256`, the only digest
-normally used with `pbkdf2` in Ethereum. It may support more.
-
-### Function types
-
-```ts
-function pbkdf2(password: Buffer, salt: Buffer, iterations: number, keylen: number, digest: string): Promise<Buffer>;
-
-function pbkdf2Sync(password: Buffer, salt: Buffer, iterations: number, keylen: number, digest: string): Buffer;
-```
-
-### Example usage
+before using these submodules.
 
 ```js
 const { pbkdf2Sync } = require("ethereum-cryptography/pbkdf2");
-
-console.log(
-  pbkdf2Sync(
-    Buffer.from("ascii password", "ascii"),
-    Buffer.from("salt", "hex"),
-    4096,
-    32,
-    'sha256'
-  ).toString("hex")
-);
+console.log(pbkdf2Sync("password", "salt", 131072, 32, "sha256"));
 ```
-
-## SHA-256 submodule
-
-The `sha256` submodule contains a single function implementing the SHA-256
-hashing algorithm.
-
-### Function types
-
-```ts
-function sha256(msg: Buffer): Buffer;
-```
-
-### Example usage
 
 ```js
-const { sha256 } = require("ethereum-cryptography/sha256");
-
-console.log(sha256(Buffer.from("message", "ascii")).toString("hex"));
+const { scryptSync } = require("ethereum-cryptography/scrypt");
+console.log(scryptSync("password", "salt", 262144, 8, 1, 32));
 ```
 
-## RIPEMD-160 submodule
-
-The `ripemd160` submodule contains a single function implementing the
-RIPEMD-160 hashing algorithm.
-
-### Function types
+## CSPRNG (Cryptographically strong pseudorandom number generator)
 
 ```ts
-function ripemd160(msg: Buffer): Buffer;
+function getRandomBytes(bytes: number): Promise<Uint8Array>;
+function getRandomBytesSync(bytes: number): Uint8Array;
 ```
 
-### Example usage
+The `random` submodule has functions to generate cryptographically strong
+pseudo-random data in synchronous and asynchronous ways.
+
+Backed by [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) in browser and by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) in node.js. If backends are somehow not available, the module would throw an error and won't work, as keeping them working would be insecure.
 
 ```js
-const { ripemd160 } = require("ethereum-cryptography/ripemd160");
-
-console.log(ripemd160(Buffer.from("message", "ascii")).toString("hex"));
+const { getRandomBytesSync } = require("ethereum-cryptography/random");
+console.log(getRandomBytesSync(32));
 ```
 
-## BLAKE2b submodule
-
-The `blake2b` submodule contains a single function implementing the
-BLAKE2b non-keyed hashing algorithm.
-
-### Function types
+## secp256k1 curve
 
 ```ts
-function blake2b(input: Buffer, outputLength = 64): Buffer;
+function getPublicKey(privateKey: Uint8Array, isCompressed?: false): Uint8Array;
+function getSharedSecret(privateKeyA: Uint8Array, publicKeyB: Uint8Array): Uint8Array;
+function sign(msgHash: Uint8Array, privateKey: Uint8Array, opts?: Options): Promise<Uint8Array>;
+function verify(signature: Uint8Array, msgHash: Uint8Array, publicKey: Uint8Array): boolean
+function recoverPublicKey(msgHash: Uint8Array, signature: Uint8Array, recovery: number): Uint8Array | undefined;
+function utils.randomPrivateKey(): Uint8Array;
 ```
 
-### Example usage
+The `curve-secp256k1` submodule provides a library for elliptic curve operations on
+the curve secp256k1. For detailed documentation, follow [README of `noble-secp256k1`](https://github.com/paulmillr/noble-secp256k1), which the module uses as a backend.
+
+secp256k1 private keys need to be cryptographically secure random numbers with
+certain caracteristics. If this is not the case, the security of secp256k1 is
+compromised. We strongly recommend using `utils.randomPrivateKey()` to generate them.
 
 ```js
-const { blake2b } = require("ethereum-cryptography/blake2b");
-
-console.log(blake2b(Buffer.from("message", "ascii")).toString("hex"));
+const secp = require("ethereum-cryptography/curve-secp256k1");
+(async () => {
+  // You pass either a hex string, or Uint8Array
+  const privateKey = "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
+  const messageHash = "a33321f98e4ff1c283c76998f14f57447545d339b3db534c6d886decb4209f28";
+  const publicKey = secp.getPublicKey(privateKey);
+  const signature = await secp.sign(messageHash, privateKey);
+  const isSigned = secp.verify(signature, messageHash, publicKey);
+})();
 ```
 
-## AES submodule
+Note: if you've been using ethereum-cryptography v0.1, it had different API. We're providing a compatibility layer for users who want to upgrade without hassle. Check out [the legacy documentation](#legacy-secp256k1-compatibility-layer).
+
+## BIP32 HD Keygen
+
+This module exports a single class whose type is
+
+```ts
+class HDKey {
+  public static HARDENED_OFFSET: number;
+  public static fromMasterSeed(seed: Uint8Array, versions: Versions): HDKey;
+  public static fromExtendedKey(base58key: string, versions: Versions): HDKey;
+  public static fromJSON(json: { xpriv: string }): HDKey;
+
+  public versions: Versions;
+  public depth: number;
+  public index: number;
+  public chainCode: Uint8Array | null;
+  public privateKey: Uint8Array | null;
+  public publicKey: Uint8Array | null;
+  public fingerprint: number;
+  public parentFingerprint: number;
+  public pubKeyHash: Uint8Array | undefined;
+  public identifier: Uint8Array | undefined;
+  public privateExtendedKey: string;
+  public publicExtendedKey: string;
+
+  private constructor(versios: Versions);
+  public derive(path: string): HDKey;
+  public deriveChild(index: number): HDKey;
+  public sign(hash: Uint8Array): Uint8Array;
+  public verify(hash: Uint8Array, signature: Uint8Array): boolean;
+  public wipePrivateData(): this;
+  public toJSON(): { xpriv: string; xpub: string };
+}
+
+interface Versions {
+  private: number;
+  public: number;
+}
+```
+
+The `hdkey` submodule provides a library for keys derivation according to
+[BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
+
+It has almost the exact same API than the version `1.x` of
+[`hdkey` from cryptocoinjs](https://github.com/cryptocoinjs/hdkey),
+but it's backed by this package's primitives, and has built-in TypeScript types.
+Its only difference is that it has to be be used with a named import.
+
+```js
+const { HDKey } = require("ethereum-cryptography/hdkey");
+
+const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
+const hdkey = HDKey.fromMasterSeed(Uint8Array.from(seed, "hex"));
+const childkey = hdkey.derive("m/0/2147483647'/1");
+
+console.log(childkey.privateExtendedKey);
+```
+
+## BIP39 Mnemonic Seed Phrase
+
+```ts
+function generateMnemonic(wordlist: string[], strength: number = 128): string;
+function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Uint8Array;
+function entropyToMnemonic(entropy: Uint8Array, wordlist: string[]): string;
+function validateMnemonic(mnemonic: string, wordlist: string[]): boolean;
+async function mnemonicToSeed(mnemonic: string, passphrase: string = ""): Promise<Uint8Array>;
+function mnemonicToSeedSync(mnemonic: string, passphrase: string = ""): Uint8Array;
+```
+
+The `bip39` submodule provides functions to generate, validate and use seed
+recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
+
+```js
+const { generateMnemonic } = require("ethereum-cryptography/bip39");
+const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
+console.log(generateMnemonic(wordlist));
+```
+
+This submodule also contains the word lists defined by BIP39 for Czech, English,
+French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and
+Spanish. These are not imported by default, as that would increase bundle sizes
+too much. Instead, you should import and use them explicitly.
+
+The word lists are exported as a `wordlist` variable in each of these submodules:
+
+* `ethereum-cryptography/bip39/wordlists/czech.js`
+* `ethereum-cryptography/bip39/wordlists/english.js`
+* `ethereum-cryptography/bip39/wordlists/french.js`
+* `ethereum-cryptography/bip39/wordlists/italian.js`
+* `ethereum-cryptography/bip39/wordlists/japanese.js`
+* `ethereum-cryptography/bip39/wordlists/korean.js`
+* `ethereum-cryptography/bip39/wordlists/simplified-chinese.js`
+* `ethereum-cryptography/bip39/wordlists/spanish.js`
+* `ethereum-cryptography/bip39/wordlists/traditional-chinese.js`
+
+## AES Encryption
 
 The `aes` submodule contains encryption and decryption functions implementing
 the [Advanced Encryption Standard](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
@@ -316,9 +337,8 @@ exception.
 ### Function types
 
 ```ts
-function encrypt(msg: Buffer, key: Buffer, iv: Buffer, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Buffer;
-
-function decrypt(cypherText: Buffer, key: Buffer, iv: Buffer, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Buffer
+function encrypt(msg: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array;
+function decrypt(cypherText: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array
 ```
 
 ### Example usage
@@ -328,179 +348,14 @@ const { encrypt } = require("ethereum-cryptography/aes");
 
 console.log(
   encrypt(
-    Buffer.from("message", "ascii"),
-    Buffer.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
-    Buffer.from("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex")
-  ).toString("hex")
+    Uint8Array.from("message", "ascii"),
+    Uint8Array.from("2b7e151628aed2a6abf7158809cf4f3c", "hex"),
+    Uint8Array.from("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff", "hex")
+  )
 );
-```
-
-## Secp256k1 submodule
-
-The `secp256k1` submodule provides a library for elliptic curve operations on
-the curve Secp256k1.
-
-It has the exact same API than the version `4.x` of the [`secp256k1`](https://github.com/cryptocoinjs/secp256k1-node)
-module from cryptocoinjs, with two added function to create private keys.
-
-### Creating private keys
-
-Secp256k1 private keys need to be cryptographycally secure random numbers with
-certain caracteristics. If this is not the case, the security of Secp256k1 is
-compromissed.
-
-We strongly recommend to use this module to create new private keys.
-
-### Function types
-
-Functions to create private keys:
-
-```ts
-function createPrivateKey(): Promise<Uint8Array>;
-
-function function createPrivateKeySync(): Uint8Array;
-```
-
-For the rest of the functions, pleasse read [`secp256k1`'s documentation](https://github.com/cryptocoinjs/secp256k1-node).
-
-### Example usage
-
-```js
-const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1");
-
-const msgHash = Buffer.from(
-  "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
-  "hex"
-);
-
-const privateKey = createPrivateKeySync();
-
-console.log(Buffer.from(ecdsaSign(msgHash, privateKey).signature).toString("hex"));
-```
-
-## Hierarchical Deterministic keys submodule
-
-The `hdkey` submodule provides a library for keys derivation according to
-[BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
-
-It has almost the exact same API than the version `1.x` of
-[`hdkey` from cryptocoinjs](https://github.com/cryptocoinjs/hdkey),
-but it's backed by this package's primitives, and has built-in TypeScript types.
-Its only difference is that it has to be be used with a named import.
-
-### Function types
-
-This module exports a single class whose type is
-
-```ts
-class HDKey {
-  public static HARDENED_OFFSET: number;
-  public static fromMasterSeed(seed: Buffer, versions: Versions): HDKey;
-  public static fromExtendedKey(base58key: string, versions: Versions): HDKey;
-  public static fromJSON(json: { xpriv: string }): HDKey;
-
-  public versions: Versions;
-  public depth: number;
-  public index: number;
-  public chainCode: Buffer | null;
-  public privateKey: Buffer | null;
-  public publicKey: Buffer | null;
-  public fingerprint: number;
-  public parentFingerprint: number;
-  public pubKeyHash: Buffer | undefined;
-  public identifier: Buffer | undefined;
-  public privateExtendedKey: string;
-  public publicExtendedKey: string;
-
-  private constructor(versios: Versions);
-  public derive(path: string): HDKey;
-  public deriveChild(index: number): HDKey;
-  public sign(hash: Buffer): Buffer;
-  public verify(hash: Buffer, signature: Buffer): boolean;
-  public wipePrivateData(): this;
-  public toJSON(): { xpriv: string; xpub: string };
-}
-
-interface Versions {
-  private: number;
-  public: number;
-}
-```
-
-### Example usage
-
-```js
-const { HDKey } = require("ethereum-cryptography/hdkey");
-
-const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
-const hdkey = HDKey.fromMasterSeed(Buffer.from(seed, "hex"));
-const childkey = hdkey.derive("m/0/2147483647'/1");
-
-console.log(childkey.privateExtendedKey);
-```
-
-## Seed recovery phrases
-
-The `bip39` submodule provides functions to generate, validate and use seed
-recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
-
-### Function types
-
-```ts
-function generateMnemonic(wordlist: string[], strength: number = 128): string;
-
-function mnemonicToEntropy(mnemonic: string, wordlist: string[]): Buffer;
-
-function entropyToMnemonic(entropy: Buffer, wordlist: string[]): string;
-
-function validateMnemonic(mnemonic: string, wordlist: string[]): boolean;
-
-async function mnemonicToSeed(mnemonic: string, passphrase: string = ""): Promise<Buffer>;
-
-function mnemonicToSeedSync(mnemonic: string, passphrase: string = ""): Buffer;
-```
-
-### Word lists
-
-This submodule also contains the word lists defined by BIP39 for Czech, English,
-French, Italian, Japanese, Korean, Simplified and Traditional Chinese, and
-Spanish. These are not imported by default, as that would increase bundle sizes
-too much. Instead, you should import and use them explicitly.
-
-The word lists are exported as a `wordlist` variable in each of these submodules:
-
-* `ethereum-cryptography/bip39/wordlists/czech.js`
-
-* `ethereum-cryptography/bip39/wordlists/english.js`
-
-* `ethereum-cryptography/bip39/wordlists/french.js`
-
-* `ethereum-cryptography/bip39/wordlists/italian.js`
-
-* `ethereum-cryptography/bip39/wordlists/japanese.js`
-
-* `ethereum-cryptography/bip39/wordlists/korean.js`
-
-* `ethereum-cryptography/bip39/wordlists/simplified-chinese.js`
-
-* `ethereum-cryptography/bip39/wordlists/spanish.js`
-
-* `ethereum-cryptography/bip39/wordlists/traditional-chinese.js`
-
-### Example usage
-
-```js
-
-const { generateMnemonic } = require("ethereum-cryptography/bip39");
-const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
-
-console.log(generateMnemonic(wordlist));
 ```
 
 ## Browser usage
-
-This package works with all the major Javascript bundlers. It is
-tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
 
 ### Rollup setup
 
@@ -527,6 +382,24 @@ These can be used by setting your `plugins` array like this:
   ]
 ```
 
+## Legacy secp256k1 compatibility layer
+
+**Note:** do not use this module; it is only for users who upgrade
+from ethereum-cryptography v0.1. It could be removed in the future,
+but we're keeping it around for now, for backwards-compatibility.
+
+The API of `secp256k1` is the same as [secp256k1-node](https://github.com/cryptocoinjs/secp256k1-node):
+
+```js
+const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1");
+const msgHash = Uint8Array.from(
+  "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
+  "hex"
+);
+const privateKey = createPrivateKeySync();
+console.log(Uint8Array.from(ecdsaSign(msgHash, privateKey).signature));
+```
+
 ## Missing cryptographic primitives
 
 This package intentionally excludes the the cryptographic primitives necessary
@@ -542,13 +415,15 @@ you found another primitive that is missing.
 
 ## Security audit
 
-This library has been audited by [Trail of Bits](https://www.trailofbits.com/).
-You can see the results of the audit and the changes implemented as a result of
-it in [`audit/`](./audit).
+This library is in the process of getting a security audit.
 
 ## License
 
-`ethereum-cryptography` is released under [the MIT License](./LICENSE).
+`ethereum-cryptography` is released under The MIT License (MIT)
+
+Copyright (c) 2021 Patricio Palladino, Paul Miller, ethereum-cryptography contributors
+
+See [LICENSE](./LICENSE) file.
 
 [1]: https://img.shields.io/npm/v/ethereum-cryptography.svg
 [2]: https://www.npmjs.com/package/ethereum-cryptography
