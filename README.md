@@ -1,25 +1,33 @@
 # ethereum-cryptography
 
-[![npm version][1]][2]
-[![Travis CI][3]][4]
-[![license][5]][6]
-[![Types][7]][8]
+[![npm version][1]][2] [![Travis CI][3]][4] [![license][5]][6] [![Types][7]][8]
 
-This npm package contains all the cryptographic primitives normally used when
-developing Javascript/TypeScript applications and tools for Ethereum.
-
-Pure Javascript implementations of all the primitives are included, so it can
-be used out of the box for web applications and libraries.
+This package contains all pure-js cryptographic primitives normally used when
+developing Javascript / TypeScript applications and tools for Ethereum.
 
 The cryptographic primitives included are:
 
-* Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
-* KDFs: PBKDF2, Scrypt
-* CSPRNG (Cryptographically strong pseudorandom number generator)
-* secp256k1 curve
-* BIP32 HD Keygen
-* BIP39 Mnemonic phrases
-* AES Encryption
+* [Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b](#hashes-sha256-keccak-256-ripemd160-blake2b)
+* [KDFs: PBKDF2, Scrypt](#kdfs-pbkdf2-scrypt)
+* [CSPRNG (Cryptographically strong pseudorandom number generator)](#csprng-cryptographically-strong-pseudorandom-number-generator)
+* [secp256k1 curve](#secp256k1-curve)
+* [BIP32 HD Keygen](#bip32-hd-keygen)
+* [BIP39 Mnemonic phrases](#bip39-mnemonic-phrases)
+* [AES Encryption](#aes-encryption)
+
+**October 2021 update:** We're releasing **experimental** version 0.2 of the package.
+The module has been completely rewritten:
+
+- ~6x smaller: 4,000 lines of code incl. all deps instead of 22,438; 185KB of unpacked code instead of 755KB
+- 3 dependencies (pending an audit) instead of 38
+- Same functionality, all old APIs are the same to simplify the upgrade path
+- **Breaking:** we target runtimes with [bigint](https://caniuse.com/bigint) support,
+  which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support
+  older runtimes, use `ethereum-cryptography@0.1`
+- **Breaking:** we return `Uint8Array` from all methods that worked with `Buffer` before.
+  `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
+  browsers and node.js. See [Upgrading](#upgrading)
+- The new module [has not been audited yet](#security), but it's in the process of getting the audit. Use it at your own risk
 
 ## Usage
 
@@ -34,7 +42,7 @@ yarn add ethereum-cryptography
 ```
 
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
-tested with `webpack`, `Rollup`, `Parcel`, and `Browserify`.
+tested with **Webpack, Rollup, Parcel and Browserify**.
 
 This package has no single entry-point, but submodule for each cryptographic
 primitive. Read each primitive's section of this document to learn how to use
@@ -413,7 +421,33 @@ to implement the following EIPs:
 Feel free to open an issue if you want this decision to be reconsidered, or if
 you found another primitive that is missing.
 
-## Security audit
+## Upgrading
+
+Version 0.2 changes from 0.1:
+
+- **Breaking:** we target runtimes with [bigint](https://caniuse.com/bigint) support,
+  which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support
+  older runtimes, use `ethereum-cryptography@0.1`
+- **Breaking:** we return `Uint8Array` from all methods that worked with `Buffer` before.
+  `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
+  browsers and node.js:
+
+```
+const { sha256 } = require("ethereum-cryptography/sha256");
+
+// Old usage
+const hasho = sha256(Buffer.from("string", "utf8")).toString("hex");
+
+// New usage
+const { toHex } = require("ethereum-cryptography/utils");
+const hashn = toHex(sha256("string"));
+
+// If you have `Buffer` module and want to preserve it:
+const hashb = Buffer.from(sha256("string"));
+const hashbo = hashb.toString("hex");
+```
+
+## Security
 
 This library is in the process of getting a security audit.
 
