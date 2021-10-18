@@ -23,6 +23,7 @@ function mod(a: bigint, b: bigint = secp.CURVE.P): bigint {
   const result = a % b;
   return result >= 0 ? result : b + result;
 }
+const ORDER = secp.CURVE.n;
 
 type Output = Uint8Array | ((len: number) => Uint8Array);
 interface Signature {
@@ -146,7 +147,7 @@ export function ecdsaVerify(
   assertBytes(signature, 64);
   const r = bytesToNumber(signature.slice(0, 32));
   const s = bytesToNumber(signature.slice(32, 64));
-  if (r >= secp.CURVE.n || s >= secp.CURVE.n) {
+  if (r >= ORDER || s >= ORDER) {
     throw new Error("Cannot parse signature");
   }
   let sig;
@@ -165,12 +166,12 @@ export function privateKeyTweakAdd(
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
   let bn = bytesToNumber(tweak);
-  if (bn >= secp.CURVE.n) {
+  if (bn >= ORDER) {
     throw new Error("Tweak bigger than curve order");
   }
   bn += bytesToNumber(privateKey);
-  if (bn >= secp.CURVE.n) {
-    bn -= secp.CURVE.n;
+  if (bn >= ORDER) {
+    bn -= ORDER;
   }
   if (bn === 0n) {
     throw new Error(
@@ -183,7 +184,7 @@ export function privateKeyTweakAdd(
 
 export function privateKeyNegate(privateKey: Uint8Array): Uint8Array {
   assertBytes(privateKey, 32);
-  const bn = mod(-bytesToNumber(privateKey), secp.CURVE.n);
+  const bn = mod(-bytesToNumber(privateKey), ORDER);
   privateKey.set(hexToBytes(numberToHex(bn)));
   return privateKey;
 }
@@ -244,7 +245,7 @@ export function publicKeyTweakMul(
   assertBytes(tweak, 32);
   assertBool(compressed);
   const bn = bytesToNumber(tweak);
-  if (bn <= 0 || bn >= secp.CURVE.n) {
+  if (bn <= 0 || bn >= ORDER) {
     throw new Error("Tweak is zero or bigger than curve order");
   }
   const point = secp.Point.fromHex(publicKey).multiply(bn);
@@ -258,12 +259,12 @@ export function privateKeyTweakMul(
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
   let bn = bytesToNumber(tweak);
-  if (bn >= secp.CURVE.n) {
+  if (bn >= ORDER) {
     throw new Error("Tweak bigger than curve order");
   }
-  bn = mod(bn * bytesToNumber(privateKey), secp.CURVE.n);
-  if (bn >= secp.CURVE.n) {
-    bn -= secp.CURVE.n;
+  bn = mod(bn * bytesToNumber(privateKey), ORDER);
+  if (bn >= ORDER) {
+    bn -= ORDER;
   }
   if (bn === 0n) {
     throw new Error(
@@ -296,8 +297,8 @@ export function signatureImport(
 
 export function signatureNormalize(signature: Uint8Array): Uint8Array {
   const res = getSignature(signature);
-  if (res.s > secp.CURVE.n / 2n) {
-    signature.set(numberToBytes(secp.CURVE.n - res.s), 32);
+  if (res.s > ORDER / 2n) {
+    signature.set(numberToBytes(ORDER - res.s), 32);
   }
   return signature;
 }

@@ -22,6 +22,11 @@ function numberToBytes(num: bigint): Uint8Array {
   return hexToBytes(num.toString(16).padStart(64, "0"));
 }
 
+function modN(a: bigint, b: bigint = secp.CURVE.n): bigint {
+  const result = a % b;
+  return result >= 0 ? result : b + result;
+}
+
 const MASTER_SECRET = utf8ToBytes("Bitcoin seed");
 // Bitcoin hardcoded by default
 const BITCOIN_VERSIONS: Versions = { private: 0x0488ade4, public: 0x0488b21e };
@@ -203,18 +208,15 @@ export class HDKey {
     const I = hmac(sha512, this.chainCode, data);
     const childTweak = bytesToNumber(I.slice(0, 32));
     const chainCode = I.slice(32);
-    if (childTweak > secp.CURVE.n) {
+    if (!secp.utils.isValidPrivateKey(childTweak)) {
       throw new Error("Tweak bigger than curve order");
     }
     const child = new HDKey(this.versions);
     try {
       // Private parent key -> private child key
       if (this.privateKey) {
-        let added = this.privKey! + childTweak;
-        if (added >= secp.CURVE.n) {
-          added -= secp.CURVE.n;
-        }
-        if (added === 0n) {
+        const added = modN(this.privKey! + childTweak);
+        if (!secp.utils.isValidPrivateKey(added)) {
           throw new Error(
             "The tweak was out of range or the resulted private key is invalid"
           );
