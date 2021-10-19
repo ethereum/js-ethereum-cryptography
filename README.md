@@ -26,6 +26,7 @@ The module has been completely rewritten:
   browsers and node.js. See [Upgrading](#upgrading)
     2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
   which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
+    3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
 - The new module [has not been audited yet](#security), but it's in the process of getting the audit. Use it at your own risk
 
 ## Usage
@@ -34,10 +35,10 @@ Use NPM / Yarn in node.js / browser:
 
 ```bash
 # NPM
-npm install ethereum-cryptography
+npm install ethereum-cryptography@next
 
 # Yarn
-yarn add ethereum-cryptography
+yarn add ethereum-cryptography@next
 ```
 
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
@@ -76,6 +77,9 @@ const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp2
 const { HDKey } = require("ethereum-cryptography/hdkey");
 const { generateMnemonic } = require("ethereum-cryptography/bip39");
 const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
+
+// utilities
+const { hexToBytes, toHex, utf8ToBytes } = require("ethereum-cryptography/utils");
 ```
 
 ## Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
@@ -101,6 +105,16 @@ const { sha512 } = require("ethereum-cryptography/sha512");
 const { keccak256, keccak224, keccak384, keccak512 } = require("ethereum-cryptography/keccak");
 const { ripemd160 } = require("ethereum-cryptography/ripemd160");
 const { blake2b } = require("ethereum-cryptography/blake2b");
+
+sha256(Uint8Array.from([1, 2, 3]))
+
+// Can be used with strings
+const { utf8ToBytes } = require("ethereum-cryptography/utils");
+sha256(utf8ToBytes("abc"))
+
+// If you need hex
+const { toHex } = require("ethereum-cryptography/utils");
+toHex(sha256(utf8ToBytes("abc")))
 ```
 
 ## KDFs: PBKDF2, Scrypt
@@ -127,13 +141,16 @@ Encoding passwords is a frequent source of errors. Please read
 before using these submodules.
 
 ```js
-const { pbkdf2Sync } = require("ethereum-cryptography/pbkdf2");
-console.log(pbkdf2Sync("password", "salt", 131072, 32, "sha256"));
+const { pbkdf2 } = require("ethereum-cryptography/pbkdf2");
+const { utf8ToBytes } = require("ethereum-cryptography/utils");
+// Pass Uint8Array, or convert strings to Uint8Array
+console.log(await pbkdf2(utf8ToBytes("password"), utf8ToBytes("salt"), 131072, 32, "sha256"));
 ```
 
 ```js
 const { scryptSync } = require("ethereum-cryptography/scrypt");
-console.log(scryptSync("password", "salt", 262144, 8, 1, 32));
+const { utf8ToBytes } = require("ethereum-cryptography/utils");
+console.log(await scrypt(utf8ToBytes("password"), utf8ToBytes("salt"), 262144, 8, 1, 32));
 ```
 
 ## CSPRNG (Cryptographically strong pseudorandom number generator)
@@ -165,7 +182,7 @@ function recoverPublicKey(msgHash: Uint8Array, signature: Uint8Array, recovery: 
 function utils.randomPrivateKey(): Uint8Array;
 ```
 
-The `curve-secp256k1` submodule provides a library for elliptic curve operations on
+The `secp256k1` submodule provides a library for elliptic curve operations on
 the curve secp256k1. For detailed documentation, follow [README of `noble-secp256k1`](https://github.com/paulmillr/noble-secp256k1), which the module uses as a backend.
 
 secp256k1 private keys need to be cryptographically secure random numbers with
@@ -173,7 +190,7 @@ certain caracteristics. If this is not the case, the security of secp256k1 is
 compromised. We strongly recommend using `utils.randomPrivateKey()` to generate them.
 
 ```js
-const secp = require("ethereum-cryptography/curve-secp256k1");
+const secp = require("ethereum-cryptography/secp256k1");
 (async () => {
   // You pass either a hex string, or Uint8Array
   const privateKey = "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
@@ -376,19 +393,13 @@ console.log(
 Using this library with Rollup requires the following plugins:
 
 * [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
-* [`@rollup/plugin-json`](https://www.npmjs.com/package/@rollup/plugin-json)
 * [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
-* [`rollup-plugin-node-builtins`](https://www.npmjs.com/package/rollup-plugin-node-builtins)
-* [`rollup-plugin-node-globals`](https://www.npmjs.com/package/rollup-plugin-node-globals)
 
 These can be used by setting your `plugins` array like this:
 
 ```js
   plugins: [
     commonjs(),
-    json(),
-    nodeGlobals(),
-    nodeBuiltins(),
     resolve({
       browser: true,
       preferBuiltins: false,
@@ -398,14 +409,15 @@ These can be used by setting your `plugins` array like this:
 
 ## Legacy secp256k1 compatibility layer
 
-**Note:** do not use this module; it is only for users who upgrade
+**Note:** consider using `secp256k1` instead;
+This module is only for users who upgraded
 from ethereum-cryptography v0.1. It could be removed in the future,
 but we're keeping it around for now, for backwards-compatibility.
 
-The API of `secp256k1` is the same as [secp256k1-node](https://github.com/cryptocoinjs/secp256k1-node):
+The API of `secp256k1-compat` is the same as [secp256k1-node](https://github.com/cryptocoinjs/secp256k1-node):
 
 ```js
-const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1");
+const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1-compat");
 const msgHash = Uint8Array.from(
   "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
   "hex"
