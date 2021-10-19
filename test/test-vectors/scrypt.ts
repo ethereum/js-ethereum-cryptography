@@ -1,4 +1,6 @@
-import { assert } from "chai";
+import { scrypt as scryptAsync, scryptSync } from "../../src/scrypt";
+import { hexToBytes, toHex } from "../../src/utils";
+import { deepStrictEqual } from "./assert";
 
 const TEST_VECTORS = [
   {
@@ -33,65 +35,46 @@ const TEST_VECTORS = [
   }
 ];
 
-export function createTests(
-  scryptSync: (
-    password: Buffer,
-    salt: Buffer,
-    n: number,
-    p: number,
-    r: number,
-    dklen: number
-  ) => Buffer,
-  scryptAsync: (
-    password: Buffer,
-    salt: Buffer,
-    n: number,
-    p: number,
-    r: number,
-    dklen: number
-  ) => Promise<Buffer>
-) {
-  describe("scrypt", function() {
-    describe("scrypt sync", function() {
-      for (let i = 0; i < TEST_VECTORS.length; i++) {
-        it(`Should process the test ${i} correctly`, function() {
-          this.enableTimeouts(false);
+describe("scrypt", function() {
+  describe("scrypt sync", function() {
+    for (let i = 0; i < TEST_VECTORS.length; i++) {
+      it(`Should process the test ${i} correctly`, function() {
+        this.enableTimeouts(false);
 
-          const vector = TEST_VECTORS[i];
+        const vector = TEST_VECTORS[i];
 
-          const derived = scryptSync(
-            Buffer.from(vector.password, "hex"),
-            Buffer.from(vector.salt, "hex"),
-            +vector.N,
-            +vector.p,
-            +vector.r,
-            +vector.dkLen
-          );
+        const derived = scryptSync(
+          hexToBytes(vector.password),
+          hexToBytes(vector.salt),
+          +vector.N,
+          +vector.p,
+          +vector.r,
+          +vector.dkLen
+        );
 
-          assert.equal(derived.toString("hex"), vector.derivedKey);
-        });
-      }
-    });
-
-    describe("scrypt async", function() {
-      for (let i = 0; i < TEST_VECTORS.length; i++) {
-        it(`Should process the test ${i} correctly`, async function() {
-          this.enableTimeouts(false);
-
-          const vector = TEST_VECTORS[i];
-
-          const derived = await scryptAsync(
-            Buffer.from(vector.password, "hex"),
-            Buffer.from(vector.salt, "hex"),
-            +vector.N,
-            +vector.p,
-            +vector.r,
-            +vector.dkLen
-          );
-
-          assert.equal(derived.toString("hex"), vector.derivedKey);
-        });
-      }
-    });
+        deepStrictEqual(toHex(derived), vector.derivedKey);
+      });
+    }
   });
-}
+
+  describe("scrypt async", function() {
+    for (let i = 0; i < TEST_VECTORS.length; i++) {
+      it(`Should process the test ${i} correctly`, async function() {
+        this.enableTimeouts(false);
+
+        const vector = TEST_VECTORS[i];
+
+        const derived = await scryptAsync(
+          hexToBytes(vector.password),
+          hexToBytes(vector.salt),
+          +vector.N,
+          +vector.p,
+          +vector.r,
+          +vector.dkLen
+        );
+
+        deepStrictEqual(toHex(derived), vector.derivedKey);
+      });
+    }
+  });
+});

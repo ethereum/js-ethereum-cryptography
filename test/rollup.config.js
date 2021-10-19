@@ -1,12 +1,9 @@
 import fs from "fs";
 import path from "path";
-import commonjs from "rollup-plugin-commonjs";
-import resolve from "rollup-plugin-node-resolve";
-import nodeBuiltin from "rollup-plugin-node-builtins";
-import nodeGlobals from "rollup-plugin-node-globals";
-import json from "rollup-plugin-json";
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
 
-const TESTS_DIR = "./test-builds/tsc/test/pure";
+const TESTS_DIR = "./test-builds/tsc/test/test-vectors";
 const testFiles = fs
   .readdirSync(TESTS_DIR)
   .filter(name => name.endsWith(".js"))
@@ -23,9 +20,6 @@ export default testFiles.map(test => ({
   },
   plugins: [
     commonjs(),
-    json(),
-    nodeGlobals(),
-    nodeBuiltin(),
     resolve({
       browser: true,
       preferBuiltins: false

@@ -1,5 +1,6 @@
-import { assert } from "chai";
-
+import { blake2b } from "../../src/blake2b";
+import { hexToBytes, toHex } from "../../src/utils";
+import { deepStrictEqual, throws } from "./assert";
 // Vectors extracted from https://github.com/emilbayes/blake2b/blob/f0a7c7b550133eca5f5fc3b751ccfd2335ce736f/test-vectors.json
 const TEST_VECTORS = [
   {
@@ -40,25 +41,20 @@ const TEST_VECTORS = [
   }
 ];
 
-export function createTests(
-  hash: (input: Buffer, outputLength: number) => Buffer
-) {
-  describe("blake2b", function() {
-    for (const [i, vector] of TEST_VECTORS.entries()) {
-      it(`Should return the right hash for the test ${i}`, function() {
-        const actual = hash(Buffer.from(vector.input, "hex"), vector.outlen);
-
-        assert.equal(actual.toString("hex"), vector.out);
-      });
-    }
-
-    it("throws if the outputLength is <= 0", function() {
-      assert.throws(() => hash(Buffer.from("", "hex"), 0));
-      assert.throws(() => hash(Buffer.from("", "hex"), -1));
+describe("blake2b", function() {
+  for (const [i, vector] of TEST_VECTORS.entries()) {
+    it(`Should return the right hash for the test ${i}`, function() {
+      const actual = blake2b(hexToBytes(vector.input), vector.outlen);
+      deepStrictEqual(toHex(actual), vector.out);
     });
+  }
 
-    it("throws if the outputLength is > 64", function() {
-      assert.throws(() => hash(Buffer.from("", "hex"), 65));
-    });
+  it("throws if the outputLength is <= 0", function() {
+    throws(() => blake2b(hexToBytes(""), 0));
+    throws(() => blake2b(hexToBytes(""), -1));
   });
-}
+
+  it("throws if the outputLength is > 64", function() {
+    throws(() => blake2b(hexToBytes(""), 65));
+  });
+});

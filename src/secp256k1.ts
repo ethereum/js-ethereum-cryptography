@@ -1,24 +1,21 @@
-import { privateKeyVerify } from "secp256k1";
-import { getRandomBytes, getRandomBytesSync } from "./random";
+import { hmac } from "noble-hashes/lib/hmac";
+import { sha256 } from "noble-hashes/lib/sha256";
+import { utils as _utils } from "noble-secp256k1";
+export {
+  getPublicKey,
+  sign,
+  signSync,
+  verify,
+  getSharedSecret,
+  utils,
+  Point,
+  Signature,
+  CURVE
+} from "noble-secp256k1";
 
-const SECP256K1_PRIVATE_KEY_SIZE = 32;
-
-export async function createPrivateKey(): Promise<Uint8Array> {
-  while (true) {
-    const pk = await getRandomBytes(SECP256K1_PRIVATE_KEY_SIZE);
-    if (privateKeyVerify(pk)) {
-      return pk;
-    }
-  }
-}
-
-export function createPrivateKeySync(): Uint8Array {
-  while (true) {
-    const pk = getRandomBytesSync(SECP256K1_PRIVATE_KEY_SIZE);
-    if (privateKeyVerify(pk)) {
-      return pk;
-    }
-  }
-}
-
-export * from "secp256k1";
+// Enable sync API for noble-secp256k1
+_utils.hmacSha256Sync = (key: Uint8Array, ...messages: Uint8Array[]) => {
+  const h = hmac.create(sha256, key);
+  messages.forEach(msg => h.update(msg));
+  return h.digest();
+};

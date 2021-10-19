@@ -1,5 +1,4 @@
-import crypto from "crypto";
+import { sha256 as _sha256 } from "noble-hashes/lib/sha256";
+import { wrapHash } from "./utils";
 
-import { createHashFunction } from "./hash-utils";
-
-export const sha256 = createHashFunction(() => crypto.createHash("sha256"));
+export const sha256 = wrapHash(_sha256);

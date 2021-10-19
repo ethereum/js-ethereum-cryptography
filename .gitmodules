@@ -1,6 +1,0 @@
-[submodule "bip39-lib"]
-	path = bip39-lib
-	url = https://github.com/bitcoinjs/bip39.git
-[submodule "hdkey"]
-	path = hdkey
-	url = https://github.com/cryptocoinjs/hdkey.git
