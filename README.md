@@ -302,8 +302,8 @@ The word lists are exported as a `wordlist` variable in each of these submodules
 ## AES Encryption
 
 ```ts
-function encrypt(msg: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array;
-function decrypt(cypherText: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Uint8Array
+function encrypt(msg: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Promise<Uint8Array>;
+function decrypt(cypherText: Uint8Array, key: Uint8Array, iv: Uint8Array, mode = "aes-128-ctr", pkcs7PaddingEnabled = true): Promise<Uint8Array>;
 ```
 
 The `aes` submodule contains encryption and decryption functions implementing
