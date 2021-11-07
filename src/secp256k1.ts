@@ -1,6 +1,6 @@
-import { hmac } from "noble-hashes/lib/hmac";
-import { sha256 } from "noble-hashes/lib/sha256";
-import { utils as _utils } from "noble-secp256k1";
+import { hmac } from "@noble/hashes/lib/hmac";
+import { sha256 } from "@noble/hashes/lib/sha256";
+import { utils as _utils } from "@noble/secp256k1";
 export {
   getPublicKey,
   sign,
@@ -11,7 +11,7 @@ export {
   Point,
   Signature,
   CURVE
-} from "noble-secp256k1";
+} from "@noble/secp256k1";
 
 // Enable sync API for noble-secp256k1
 _utils.hmacSha256Sync = (key: Uint8Array, ...messages: Uint8Array[]) => {

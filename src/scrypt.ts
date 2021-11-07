@@ -1,7 +1,7 @@
 import {
   scrypt as _scrypt,
   scryptAsync as _scryptAsync
-} from "noble-hashes/lib/scrypt";
+} from "@noble/hashes/lib/scrypt";
 import { assertBytes } from "./utils";
 
 export async function scrypt(

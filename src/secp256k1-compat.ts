@@ -1,4 +1,4 @@
-import { sha256 } from "noble-hashes/lib/sha256";
+import { sha256 } from "@noble/hashes/lib/sha256";
 import * as secp from "./secp256k1";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 

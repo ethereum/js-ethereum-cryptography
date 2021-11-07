@@ -1,5 +1,5 @@
 // buf.toString('hex') -> toHex(buf)
-export { bytesToHex as toHex, createView } from "noble-hashes/lib/utils";
+export { bytesToHex as toHex, createView } from "@noble/hashes/lib/utils";
 // Buffer.from(hex, 'hex') -> hexToBytes(hex)
 export function hexToBytes(hex: string): Uint8Array {
   if (typeof hex !== "string") {
