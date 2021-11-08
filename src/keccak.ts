@@ -1,4 +1,4 @@
-import * as sha3 from "noble-hashes/lib/sha3";
+import * as sha3 from "@noble/hashes/lib/sha3";
 import { wrapHash } from "./utils";
 
 export const keccak224 = wrapHash(sha3.keccak_224);

@@ -1,8 +1,8 @@
 import { utils as baseUtils } from "micro-base";
-import { pbkdf2, pbkdf2Async } from "noble-hashes/lib/pbkdf2";
-import { sha256 } from "noble-hashes/lib/sha256";
-import { sha512 } from "noble-hashes/lib/sha512";
-import { assertNumber } from "noble-hashes/lib/utils";
+import { pbkdf2, pbkdf2Async } from "@noble/hashes/lib/pbkdf2";
+import { sha256 } from "@noble/hashes/lib/sha256";
+import { sha512 } from "@noble/hashes/lib/sha512";
+import { assertNumber } from "@noble/hashes/lib/utils";
 import { getRandomBytesSync } from "../random";
 import { assertBytes } from "../utils";
 
