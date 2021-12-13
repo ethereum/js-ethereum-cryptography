@@ -48,7 +48,7 @@
   "dependencies": {
     "micro-base": "^0.10.0",
     "@noble/hashes": "^0.4.4",
-    "@noble/secp256k1": "^1.3.2"
+    "@noble/secp256k1": "^1.3.3"
   },
   "browser": {
     "crypto": false
