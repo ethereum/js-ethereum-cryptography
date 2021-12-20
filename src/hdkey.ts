@@ -1,8 +1,8 @@
-import { hmac } from "@noble/hashes/lib/hmac";
-import { ripemd160 } from "@noble/hashes/lib/ripemd160";
-import { sha256 } from "@noble/hashes/lib/sha256";
-import { sha512 } from "@noble/hashes/lib/sha512";
-import { bytesToHex } from "@noble/hashes/lib/utils";
+import { hmac } from "@noble/hashes/hmac";
+import { ripemd160 } from "@noble/hashes/ripemd160";
+import { sha256 } from "@noble/hashes/sha256";
+import { sha512 } from "@noble/hashes/sha512";
+import { bytesToHex } from "@noble/hashes/utils";
 import { base58check } from "micro-base";
 import * as secp from "./secp256k1";
 import {

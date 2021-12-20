@@ -1,5 +1,5 @@
-import { hmac } from "@noble/hashes/lib/hmac";
-import { sha256 } from "@noble/hashes/lib/sha256";
+import { hmac } from "@noble/hashes/hmac";
+import { sha256 } from "@noble/hashes/sha256";
 import { utils as _utils } from "@noble/secp256k1";
 export {
   getPublicKey,
