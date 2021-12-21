@@ -133,7 +133,7 @@ export class HDKey {
     }
     this.pubKey = hex.toRawBytes(true); // force compressed point
     this.pubHash = hash160(this.pubKey);
-    this.privKey = undefined;
+    this.wipePrivateData();
   }
 
   get privateExtendedKey(): string {
@@ -258,12 +258,11 @@ export class HDKey {
     return secp.verify(sig, hash, this.publicKey);
   }
   public wipePrivateData(): this {
-    if (this.privKey) {
-      this.privKey = undefined;
+    this.privKey = undefined;
+    if (this.privKeyBytes != null) {
       this.privKeyBytes!.fill(0);
       this.privKeyBytes = undefined;
     }
-    this.privKey = undefined;
     return this;
   }
   public toJSON(): { xpriv: string; xpub: string } {
