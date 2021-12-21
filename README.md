@@ -221,8 +221,7 @@ const sig = hdkey3.sign(hash);
 hdkey3.verify(hash, sig);
 ```
 
-Note: do not set `privateKey` and `publicKey` directly. Use `wipePrivateData()` to
-clean-up the instance.
+Note: do not set `privateKey` and `publicKey` directly, you will get wrong keys.
 
 The full API is:
 
