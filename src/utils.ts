@@ -1,6 +1,10 @@
 // buf.toString('hex') -> toHex(buf)
 import { assertBytes } from "@noble/hashes/utils";
-export { bytesToHex as toHex, assertBytes, createView } from "@noble/hashes/utils";
+export {
+  assertBytes,
+  bytesToHex as toHex,
+  createView
+} from "@noble/hashes/utils";
 // Buffer.from(hex, 'hex') -> hexToBytes(hex)
 export function hexToBytes(hex: string): Uint8Array {
   if (typeof hex !== "string") {
