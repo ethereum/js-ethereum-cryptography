@@ -1,5 +1,5 @@
 import * as secp from "@noble/secp256k1";
-import { HDKey } from "../../src/hdkey";
+import { HDKey, HARDENED_OFFSET } from "../../src/hdkey";
 import { hexToBytes, toHex } from "../../src/utils";
 import { deepStrictEqual, throws } from "./assert";
 // https://github.com/cryptocoinjs/hdkey/blob/42637e381bdef0c8f785b14f5b66a80dad969514/test/fixtures/hdkey.json
@@ -160,8 +160,11 @@ describe("hdkey", () => {
 
   describe("- privateKey", () => {
     it("should throw an error if incorrect key size", () => {
-      const hdkey = new HDKey();
+      const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
+      const hdkey = HDKey.fromMasterSeed(hexToBytes(seed));
+      // const hdkey = new HDKey.HDKey();
       throws(() => {
+        // @ts-ignore
         hdkey.privateKey = new Uint8Array([1, 2, 3, 4]);
       });
     });
@@ -170,7 +173,9 @@ describe("hdkey", () => {
   describe("- publicKey", () => {
     it("should throw an error if incorrect key size", () => {
       throws(() => {
-        const hdkey = new HDKey();
+        const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
+        const hdkey = HDKey.fromMasterSeed(hexToBytes(seed));
+        // @ts-ignore
         hdkey.publicKey = new Uint8Array([1, 2, 3, 4]);
       });
     });
@@ -178,15 +183,19 @@ describe("hdkey", () => {
     it("should not throw if key is 33 bytes (compressed)", () => {
       const pub = secp.getPublicKey(secp.utils.randomPrivateKey(), true);
       deepStrictEqual(pub.length, 33);
-      const hdkey = new HDKey();
-      hdkey.publicKey = pub;
+      const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
+      const hdkey = HDKey.fromMasterSeed(hexToBytes(seed));
+      // @ts-ignore
+      throws(() => { hdkey.publicKey = pub; });
     });
 
     it("should not throw if key is 65 bytes (not compressed)", () => {
       const pub = secp.getPublicKey(secp.utils.randomPrivateKey(), false);
       deepStrictEqual(pub.length, 65);
-      const hdkey = new HDKey();
-      hdkey.publicKey = pub;
+      const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
+      const hdkey = HDKey.fromMasterSeed(hexToBytes(seed));
+      // @ts-ignore
+      throws(() => { hdkey.publicKey = pub; });
     });
   });
 
@@ -311,7 +320,7 @@ describe("hdkey", () => {
 
   describe("HARDENED_OFFSET", () => {
     it("should be set", () => {
-      deepStrictEqual(!!HDKey.HARDENED_OFFSET, true);
+      deepStrictEqual(!!HARDENED_OFFSET, true);
     });
   });
 
@@ -338,9 +347,9 @@ describe("hdkey", () => {
       const masterKey = HDKey.fromMasterSeed(hexToBytes(seed));
 
       deepStrictEqual(!!masterKey.privateExtendedKey, true, "xpriv is truthy");
-      (masterKey as any).privateKey = undefined;
+      throws(() => { (masterKey as any).privateKey = undefined; });
 
-      throws(() => masterKey.privateExtendedKey);
+      // throws(() => masterKey.privateExtendedKey);
     });
   });
 
