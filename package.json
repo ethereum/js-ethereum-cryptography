@@ -1,6 +1,6 @@
 {
   "name": "ethereum-cryptography",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "All the cryptographic primitives used in Ethereum",
   "contributors": [
     {
