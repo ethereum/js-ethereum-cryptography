@@ -205,7 +205,26 @@ Note: if you've been using ethereum-cryptography v0.1, it had different API. We'
 
 ## BIP32 HD Keygen
 
-This module exports a single class whose type is
+This module exports a single class `HDKey`, which should be used like this:
+
+```ts
+const { HDKey } = require("ethereum-cryptography/secp256k1");
+const hdkey1 = HDKey.fromMasterSeed(seed);
+const hdkey2 = HDKey.fromExtendedKey(base58key);
+const hdkey3 = HDKey.fromJSON({ xpriv: string });
+
+// props
+[hdkey1.depth, hdkey1.index, hdkey1.chainCode];
+console.log(hdkey2.privateKey, hdkey2.publicKey);
+console.log(hdkey3.derive("m/0/2147483647'/1"));
+const sig = hdkey3.sign(hash);
+hdkey3.verify(hash, sig);
+```
+
+Note: `chainCode` property is essentially a private part
+of a secret "master" key, it should be guarded from unauthorized access.
+
+The full API is:
 
 ```ts
 class HDKey {
@@ -214,26 +233,25 @@ class HDKey {
   public static fromExtendedKey(base58key: string, versions: Versions): HDKey;
   public static fromJSON(json: { xpriv: string }): HDKey;
 
-  public versions: Versions;
-  public depth: number;
-  public index: number;
-  public chainCode: Uint8Array | null;
-  public privateKey: Uint8Array | null;
-  public publicKey: Uint8Array | null;
-  public fingerprint: number;
-  public parentFingerprint: number;
-  public pubKeyHash: Uint8Array | undefined;
-  public identifier: Uint8Array | undefined;
-  public privateExtendedKey: string;
-  public publicExtendedKey: string;
+  readonly versions: Versions;
+  readonly depth: number = 0;
+  readonly index: number = 0;
+  readonly chainCode: Uint8Array | null = null;
+  readonly parentFingerprint: number = 0;
 
-  private constructor(versios: Versions);
-  public derive(path: string): HDKey;
-  public deriveChild(index: number): HDKey;
-  public sign(hash: Uint8Array): Uint8Array;
-  public verify(hash: Uint8Array, signature: Uint8Array): boolean;
-  public wipePrivateData(): this;
-  public toJSON(): { xpriv: string; xpub: string };
+  get fingerprint(): number;
+  get identifier(): Uint8Array | undefined;
+  get pubKeyHash(): Uint8Array | undefined;
+  get privateKey(): Uint8Array | null;
+  get publicKey(): Uint8Array | null;
+  get privateExtendedKey(): string;
+  get publicExtendedKey(): string;
+
+  derive(path: string): HDKey;
+  deriveChild(index: number): HDKey;
+  sign(hash: Uint8Array): Uint8Array;
+  verify(hash: Uint8Array, signature: Uint8Array): boolean;
+  wipePrivateData(): this;
 }
 
 interface Versions {

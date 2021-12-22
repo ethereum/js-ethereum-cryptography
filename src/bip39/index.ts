@@ -1,10 +1,9 @@
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
 import { sha256 } from "@noble/hashes/sha256";
 import { sha512 } from "@noble/hashes/sha512";
-import { assertNumber } from "@noble/hashes/utils";
+import { assertBytes, assertNumber } from "@noble/hashes/utils";
 import { utils as baseUtils } from "micro-base";
 import { getRandomBytesSync } from "../random";
-import { assertBytes } from "../utils";
 
 const isJapanese = (wordlist: string[]) =>
   wordlist[0] === "\u3042\u3044\u3053\u304f\u3057\u3093"; // Japanese wordlist

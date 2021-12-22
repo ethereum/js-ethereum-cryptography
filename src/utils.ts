@@ -1,5 +1,10 @@
 // buf.toString('hex') -> toHex(buf)
-export { bytesToHex as toHex, createView } from "@noble/hashes/utils";
+import { assertBytes } from "@noble/hashes/utils";
+export {
+  assertBytes,
+  bytesToHex as toHex,
+  createView
+} from "@noble/hashes/utils";
 // Buffer.from(hex, 'hex') -> hexToBytes(hex)
 export function hexToBytes(hex: string): Uint8Array {
   if (typeof hex !== "string") {
@@ -56,18 +61,6 @@ export function concatBytes(...arrays: Uint8Array[]): Uint8Array {
   return result;
 }
 // Internal utils
-export function assertBytes(bytes: Uint8Array, ...len: number[]) {
-  if (
-    bytes instanceof Uint8Array &&
-    (!len.length || len.includes(bytes.length))
-  ) {
-    return;
-  }
-  throw new TypeError(
-    `Expected ${len} bytes, not ${typeof bytes} with length=${bytes.length}`
-  );
-}
-
 export function assertBool(b: boolean) {
   if (typeof b !== "boolean") {
     throw new Error(`Expected boolean, not ${b}`);
