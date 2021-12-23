@@ -97,6 +97,11 @@ export class HDKey {
     seed: Uint8Array,
     versions: Versions = BITCOIN_VERSIONS
   ): HDKey {
+    if (8 * seed.length < 128 || 8 * seed.length > 512) {
+      throw new Error(
+        "HDKey: wrong seed length=${seed.length}. Should be between 128 and 512 bits; 256 bits is advised)"
+      );
+    }
     const I = hmac(sha512, MASTER_SECRET, seed);
     return new HDKey({
       versions,
@@ -154,6 +159,12 @@ export class HDKey {
     this.chainCode = opt.chainCode;
     this.index = opt.index || 0;
     this.parentFingerprint = opt.parentFingerprint || 0;
+    if (!this.depth) {
+      if (this.parentFingerprint || this.index)
+        throw new Error(
+          "HDKey: zero depth with non-zero index/parent fingerprint"
+        );
+    }
     if (opt.publicKey && opt.privateKey) {
       throw new Error("HDKey: publicKey and privateKey at same time.");
     }
@@ -204,7 +215,7 @@ export class HDKey {
   }
 
   public deriveChild(index: number): HDKey {
-    if (!Number.isSafeInteger(index) || index < 0 || index >= 2 ** 33) {
+    if (!Number.isSafeInteger(index) || index < 0 || index >= 2 ** 32) {
       throw new Error(
         `Child index should be positive 32-bit integer, not ${index}`
       );

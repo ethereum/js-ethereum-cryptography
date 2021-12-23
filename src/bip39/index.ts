@@ -46,6 +46,11 @@ function getCoder(wordlist: string[]) {
   ) {
     throw new Error("Worlist: expected array of 2048 strings");
   }
+  for (const i of wordlist) {
+    if (typeof i !== "string") {
+      throw new Error(`Wordlist: non-string element: ${i}`);
+    }
+  }
   return baseUtils.chain(
     baseUtils.checksum(1, checksum),
     baseUtils.radix2(11, true),
@@ -94,7 +99,7 @@ export function mnemonicToSeed(mnemonic: string, passphrase = "") {
   assertMnemonic(mnemonic);
   return pbkdf2Async(sha512, nfkd(mnemonic), salt(passphrase), {
     c: 2048,
-    dkLen: 64
+    dkLen: 64,
   });
 }
 
@@ -102,6 +107,6 @@ export function mnemonicToSeedSync(mnemonic: string, passphrase = "") {
   assertMnemonic(mnemonic);
   return pbkdf2(sha512, nfkd(mnemonic), salt(passphrase), {
     c: 2048,
-    dkLen: 64
+    dkLen: 64,
   });
 }
