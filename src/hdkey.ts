@@ -40,8 +40,8 @@ export interface Versions {
 const hash160 = (data: Uint8Array) => ripemd160(sha256(data));
 const fromU32 = (data: Uint8Array) => createView(data).getUint32(0, false);
 const toU32 = (n: number) => {
-  if (!Number.isSafeInteger(n) || n < 0 || n >= 2 ** 32) {
-    throw new Error(`Invalid number=${n}. Should be [0, 2**32)`);
+  if (!Number.isSafeInteger(n) || n < 0 || n > 2 ** 32 - 1) {
+    throw new Error(`Invalid number=${n}. Should be from 1 to 2 ** 32 - 1`);
   }
   const buf = new Uint8Array(4);
   createView(buf).setUint32(0, n, false);
@@ -219,11 +219,6 @@ export class HDKey {
   }
 
   public deriveChild(index: number): HDKey {
-    if (!Number.isSafeInteger(index) || index < 0 || index >= 2 ** 32) {
-      throw new Error(
-        `Child index should be positive 32-bit integer, not ${index}`
-      );
-    }
     if (!this.pubKey || !this.chainCode) {
       throw new Error("No publicKey or chainCode set");
     }
