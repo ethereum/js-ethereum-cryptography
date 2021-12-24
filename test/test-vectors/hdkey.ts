@@ -599,7 +599,9 @@ describe("hdkey", () => {
         "xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6Q5JXayek4PRsn35jii4veMimro1xefsM58PgBMrvdYre8QyULY", // (invalid pubkey 020000000000000000000000000000000000000000000000000000000000000007)
         "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHL" // (invalid checksum)
       ];
-      for (let c of keys) throws(() => HDKey.fromExtendedKey(c));
+      for (const c of keys) {
+        throws(() => HDKey.fromExtendedKey(c));
+      }
     });
   });
 });

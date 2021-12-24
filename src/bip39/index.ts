@@ -99,7 +99,7 @@ export function mnemonicToSeed(mnemonic: string, passphrase = "") {
   assertMnemonic(mnemonic);
   return pbkdf2Async(sha512, nfkd(mnemonic), salt(passphrase), {
     c: 2048,
-    dkLen: 64,
+    dkLen: 64
   });
 }
 
@@ -107,6 +107,6 @@ export function mnemonicToSeedSync(mnemonic: string, passphrase = "") {
   assertMnemonic(mnemonic);
   return pbkdf2(sha512, nfkd(mnemonic), salt(passphrase), {
     c: 2048,
-    dkLen: 64,
+    dkLen: 64
   });
 }
