@@ -40,6 +40,9 @@ export interface Versions {
 const hash160 = (data: Uint8Array) => ripemd160(sha256(data));
 const fromU32 = (data: Uint8Array) => createView(data).getUint32(0, false);
 const toU32 = (n: number) => {
+  if (!Number.isSafeInteger(n) || n < 0 || n >= 2 ** 32) {
+    throw new Error(`Invalid number=${n}. Should be [0, 2**32)`);
+  }
   const buf = new Uint8Array(4);
   createView(buf).setUint32(0, n, false);
   return buf;
@@ -97,6 +100,11 @@ export class HDKey {
     seed: Uint8Array,
     versions: Versions = BITCOIN_VERSIONS
   ): HDKey {
+    if (8 * seed.length < 128 || 8 * seed.length > 512) {
+      throw new Error(
+        `HDKey: wrong seed length=${seed.length}. Should be between 128 and 512 bits; 256 bits is advised)`
+      );
+    }
     const I = hmac(sha512, MASTER_SECRET, seed);
     return new HDKey({
       versions,
@@ -154,6 +162,13 @@ export class HDKey {
     this.chainCode = opt.chainCode;
     this.index = opt.index || 0;
     this.parentFingerprint = opt.parentFingerprint || 0;
+    if (!this.depth) {
+      if (this.parentFingerprint || this.index) {
+        throw new Error(
+          "HDKey: zero depth with non-zero index/parent fingerprint"
+        );
+      }
+    }
     if (opt.publicKey && opt.privateKey) {
       throw new Error("HDKey: publicKey and privateKey at same time.");
     }
@@ -204,7 +219,7 @@ export class HDKey {
   }
 
   public deriveChild(index: number): HDKey {
-    if (!Number.isSafeInteger(index) || index < 0 || index >= 2 ** 33) {
+    if (!Number.isSafeInteger(index) || index < 0 || index >= 2 ** 32) {
       throw new Error(
         `Child index should be positive 32-bit integer, not ${index}`
       );
@@ -212,8 +227,7 @@ export class HDKey {
     if (!this.pubKey || !this.chainCode) {
       throw new Error("No publicKey or chainCode set");
     }
-    let data = new Uint8Array(4);
-    createView(data).setUint32(0, index, false);
+    let data = toU32(index);
     if (index >= HARDENED_OFFSET) {
       // Hardened
       const priv = this.privateKey;
