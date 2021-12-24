@@ -46,6 +46,11 @@ function getCoder(wordlist: string[]) {
   ) {
     throw new Error("Worlist: expected array of 2048 strings");
   }
+  for (const i of wordlist) {
+    if (typeof i !== "string") {
+      throw new Error(`Wordlist: non-string element: ${i}`);
+    }
+  }
   return baseUtils.chain(
     baseUtils.checksum(1, checksum),
     baseUtils.radix2(11, true),
