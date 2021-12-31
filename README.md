@@ -113,7 +113,7 @@ const { utf8ToBytes } = require("ethereum-cryptography/utils");
 sha256(utf8ToBytes("abc"))
 
 // If you need hex
-const { toHex } = require("ethereum-cryptography/utils");
+const { bytesToHex as toHex } = require("ethereum-cryptography/utils");
 toHex(sha256(utf8ToBytes("abc")))
 ```
 
@@ -208,7 +208,7 @@ Note: if you've been using ethereum-cryptography v0.1, it had different API. We'
 This module exports a single class `HDKey`, which should be used like this:
 
 ```ts
-const { HDKey } = require("ethereum-cryptography/secp256k1");
+const { HDKey } = require("ethereum-cryptography/hdkey");
 const hdkey1 = HDKey.fromMasterSeed(seed);
 const hdkey2 = HDKey.fromExtendedKey(base58key);
 const hdkey3 = HDKey.fromJSON({ xpriv: string });
@@ -268,17 +268,6 @@ It has almost the exact same API than the version `1.x` of
 but it's backed by this package's primitives, and has built-in TypeScript types.
 Its only difference is that it has to be be used with a named import.
 The implementation is [loosely based on hdkey, which has MIT License](#LICENSE).
-
-```js
-const { HDKey } = require("ethereum-cryptography/hdkey");
-const { hexToBytes } = require("ethereum-cryptography/utils");
-
-const seed = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
-const hdkey = HDKey.fromMasterSeed(hexToBytes(seed));
-const childkey = hdkey.derive("m/0/2147483647'/1");
-
-console.log(childkey.privateExtendedKey);
-```
 
 ## BIP39 Mnemonic Seed Phrase
 
