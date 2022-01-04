@@ -150,13 +150,14 @@ export function ecdsaVerify(
   if (r >= ORDER || s >= ORDER) {
     throw new Error("Cannot parse signature");
   }
+  const pub = secp.Point.fromHex(publicKey); // should not throw error
   let sig;
   try {
     sig = getSignature(signature);
   } catch (error) {
     return false;
   }
-  return secp.verify(sig, msgHash, publicKey);
+  return secp.verify(sig, msgHash, pub);
 }
 
 export function privateKeyTweakAdd(
