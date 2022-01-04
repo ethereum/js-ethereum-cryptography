@@ -2,16 +2,16 @@ import { hmac } from "@noble/hashes/hmac";
 import { ripemd160 } from "@noble/hashes/ripemd160";
 import { sha256 } from "@noble/hashes/sha256";
 import { sha512 } from "@noble/hashes/sha512";
-import { bytesToHex } from "@noble/hashes/utils";
-import { base58check } from "micro-base";
-import * as secp from "./secp256k1";
 import {
   assertBytes,
+  bytesToHex,
   concatBytes,
   createView,
   hexToBytes,
   utf8ToBytes
-} from "./utils";
+} from "@noble/hashes/utils";
+import { base58check } from "micro-base";
+import * as secp from "./secp256k1";
 const base58c = base58check(sha256);
 
 function bytesToNumber(bytes: Uint8Array): bigint {
@@ -40,8 +40,8 @@ export interface Versions {
 const hash160 = (data: Uint8Array) => ripemd160(sha256(data));
 const fromU32 = (data: Uint8Array) => createView(data).getUint32(0, false);
 const toU32 = (n: number) => {
-  if (!Number.isSafeInteger(n) || n < 0 || n >= 2 ** 32) {
-    throw new Error(`Invalid number=${n}. Should be [0, 2**32)`);
+  if (!Number.isSafeInteger(n) || n < 0 || n > 2 ** 32 - 1) {
+    throw new Error(`Invalid number=${n}. Should be from 0 to 2 ** 32 - 1`);
   }
   const buf = new Uint8Array(4);
   createView(buf).setUint32(0, n, false);
@@ -219,11 +219,6 @@ export class HDKey {
   }
 
   public deriveChild(index: number): HDKey {
-    if (!Number.isSafeInteger(index) || index < 0 || index >= 2 ** 32) {
-      throw new Error(
-        `Child index should be positive 32-bit integer, not ${index}`
-      );
-    }
     if (!this.pubKey || !this.chainCode) {
       throw new Error("No publicKey or chainCode set");
     }

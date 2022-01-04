@@ -10,7 +10,8 @@ export {
   utils,
   Point,
   Signature,
-  CURVE
+  CURVE,
+  schnorr
 } from "@noble/secp256k1";
 
 // Enable sync API for noble-secp256k1

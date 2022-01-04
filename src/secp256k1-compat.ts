@@ -3,7 +3,7 @@ import * as secp from "./secp256k1";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 
 // Legacy compatibility layer for elliptic via noble-secp256k1
-// Use `curve-secp256k1` module directly instead
+// Use `secp256k1` module directly instead
 
 // Copy-paste from secp256k1, maybe export it?
 const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));
@@ -166,6 +166,9 @@ export function privateKeyTweakAdd(
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
   let bn = bytesToNumber(tweak);
+  if (bn === 0n) {
+    throw new Error("Tweak must not be zero");
+  }
   if (bn >= ORDER) {
     throw new Error("Tweak bigger than curve order");
   }
@@ -231,6 +234,9 @@ export function publicKeyTweakAdd(
   assertBool(compressed);
   const p1 = secp.Point.fromHex(publicKey);
   const p2 = secp.Point.fromPrivateKey(tweak);
+  if (p2.equals(secp.Point.ZERO)) {
+    throw new Error("Tweak must not be zero");
+  }
   const point = p1.add(p2);
   return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
 }
@@ -245,6 +251,9 @@ export function publicKeyTweakMul(
   assertBytes(tweak, 32);
   assertBool(compressed);
   const bn = bytesToNumber(tweak);
+  if (bn === 0n) {
+    throw new Error("Tweak must not be zero");
+  }
   if (bn <= 0 || bn >= ORDER) {
     throw new Error("Tweak is zero or bigger than curve order");
   }
@@ -259,6 +268,9 @@ export function privateKeyTweakMul(
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
   let bn = bytesToNumber(tweak);
+  if (bn === 0n) {
+    throw new Error("Tweak must not be zero");
+  }
   if (bn >= ORDER) {
     throw new Error("Tweak bigger than curve order");
   }

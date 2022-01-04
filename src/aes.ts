@@ -1,4 +1,5 @@
-import { concatBytes, crypto, equalsBytes } from "./utils";
+import { crypto } from "@noble/hashes/crypto";
+import { concatBytes, equalsBytes } from "./utils";
 
 function validateOpt(key: Uint8Array, iv: Uint8Array, mode: string) {
   if (!mode.startsWith("aes-")) {
