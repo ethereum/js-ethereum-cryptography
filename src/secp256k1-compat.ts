@@ -267,7 +267,7 @@ export function privateKeyTweakMul(
 ): Uint8Array {
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
-  let bn = bytesToNumber(tweak);
+  const bn = bytesToNumber(tweak);
   if (bn <= 1 || bn >= ORDER) {
     throw new Error("Tweak is zero or bigger than curve order");
   }
