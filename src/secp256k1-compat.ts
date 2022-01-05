@@ -3,7 +3,7 @@ import * as secp from "./secp256k1";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 
 // Use `secp256k1` module directly.
-// This is a legacy compatibility layer for `tiny-secp256k1` via noble-secp256k1
+// This is a legacy compatibility layer for the npm package `secp256k1` via noble-secp256k1
 
 // Copy-paste from secp256k1, maybe export it?
 const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));
