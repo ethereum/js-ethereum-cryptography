@@ -2,8 +2,8 @@ import { sha256 } from "@noble/hashes/sha256";
 import * as secp from "./secp256k1";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 
-// Legacy compatibility layer for elliptic via noble-secp256k1
-// Use `secp256k1` module directly instead
+// Use `secp256k1` module directly.
+// This is a legacy compatibility layer for the npm package `secp256k1` via noble-secp256k1
 
 // Copy-paste from secp256k1, maybe export it?
 const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));
@@ -116,7 +116,6 @@ export function ecdsaSign(
   }
   const [signature, recid] = secp.signSync(msgHash, privateKey, {
     recovered: true,
-    canonical: true,
     der: false
   });
   return { signature: output(out, 64, signature), recid };
@@ -150,13 +149,14 @@ export function ecdsaVerify(
   if (r >= ORDER || s >= ORDER) {
     throw new Error("Cannot parse signature");
   }
+  const pub = secp.Point.fromHex(publicKey); // should not throw error
   let sig;
   try {
     sig = getSignature(signature);
   } catch (error) {
     return false;
   }
-  return secp.verify(sig, msgHash, publicKey);
+  return secp.verify(sig, msgHash, pub);
 }
 
 export function privateKeyTweakAdd(
@@ -234,10 +234,10 @@ export function publicKeyTweakAdd(
   assertBool(compressed);
   const p1 = secp.Point.fromHex(publicKey);
   const p2 = secp.Point.fromPrivateKey(tweak);
-  if (p2.equals(secp.Point.ZERO)) {
+  const point = p1.add(p2);
+  if (p2.equals(secp.Point.ZERO) || point.equals(secp.Point.ZERO)) {
     throw new Error("Tweak must not be zero");
   }
-  const point = p1.add(p2);
   return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
 }
 
@@ -254,7 +254,7 @@ export function publicKeyTweakMul(
   if (bn === 0n) {
     throw new Error("Tweak must not be zero");
   }
-  if (bn <= 0 || bn >= ORDER) {
+  if (bn <= 1 || bn >= ORDER) {
     throw new Error("Tweak is zero or bigger than curve order");
   }
   const point = secp.Point.fromHex(publicKey).multiply(bn);
@@ -267,23 +267,17 @@ export function privateKeyTweakMul(
 ): Uint8Array {
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
-  let bn = bytesToNumber(tweak);
-  if (bn === 0n) {
-    throw new Error("Tweak must not be zero");
+  const bn = bytesToNumber(tweak);
+  if (bn <= 1 || bn >= ORDER) {
+    throw new Error("Tweak is zero or bigger than curve order");
   }
-  if (bn >= ORDER) {
-    throw new Error("Tweak bigger than curve order");
-  }
-  bn = mod(bn * bytesToNumber(privateKey), ORDER);
-  if (bn >= ORDER) {
-    bn -= ORDER;
-  }
-  if (bn === 0n) {
+  const res = mod(bn * bytesToNumber(privateKey), ORDER);
+  if (res === 0n) {
     throw new Error(
       "The tweak was out of range or the resulted private key is invalid"
     );
   }
-  privateKey.set(hexToBytes(numberToHex(bn)));
+  privateKey.set(hexToBytes(numberToHex(res)));
   return privateKey;
 }
 // internal -> DER
