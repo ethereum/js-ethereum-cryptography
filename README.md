@@ -10,6 +10,7 @@ developing Javascript / TypeScript applications and tools for Ethereum.
 - **6x smaller:** 4,000 lines of code instead of 22,438 (with all deps); 185KB instead of 755KB
 - 3 dependencies by one author instead of 38 by 5 authors
 - [Audited](#security) by an independent security firm
+- Check out the [Upgrading](#upgrading) section for breaking changes (there are almost none)
 
 The cryptographic primitives included are:
 
