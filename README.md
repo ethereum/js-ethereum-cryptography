@@ -2,8 +2,14 @@
 
 [![npm version][1]][2] [![Travis CI][3]][4] [![license][5]][6] [![Types][7]][8]
 
-This package contains all pure-js cryptographic primitives normally used when
+All pure-js cryptographic primitives normally used when
 developing Javascript / TypeScript applications and tools for Ethereum.
+
+**January 2022 update:** Version 1.0 of the package is out. The module has been completely rewritten:
+
+- **6x smaller:** 4,000 lines of code instead of 22,438 (with all deps); 185KB instead of 755KB
+- 3 dependencies by one author instead of 38 by 5 authors
+- [Audited](#security) by an independent security firm
 
 The cryptographic primitives included are:
 
@@ -15,30 +21,16 @@ The cryptographic primitives included are:
 * [BIP39 Mnemonic phrases](#bip39-mnemonic-phrases)
 * [AES Encryption](#aes-encryption)
 
-**October 2021 update:** We're releasing **experimental** version 0.2 of the package.
-The module has been completely rewritten:
-
-- ~6x smaller: 4,000 lines of code instead of 22,438 (with all deps); 185KB instead of 755KB
-- 3 dependencies (pending an audit) instead of 38
-- **Same functionality**, all old APIs remain the same except for two breaking changes:
-    1. We return `Uint8Array` from all methods that worked with `Buffer` before.
-  `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
-  browsers and node.js. See [Upgrading](#upgrading)
-    2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
-  which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
-    3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
-- The new module [has not been audited yet](#security), but it's in the process of getting the audit. Use it at your own risk
-
 ## Usage
 
 Use NPM / Yarn in node.js / browser:
 
 ```bash
 # NPM
-npm install ethereum-cryptography@next
+npm install ethereum-cryptography
 
 # Yarn
-yarn add ethereum-cryptography@next
+yarn add ethereum-cryptography
 ```
 
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
@@ -205,6 +197,9 @@ Note: if you've been using ethereum-cryptography v0.1, it had different API. We'
 
 ## BIP32 HD Keygen
 
+Hierarchical deterministic (HD) wallets that conform to BIP32 standard.
+Also available as standalone package [micro-bip32](https://github.com/paulmillr/micro-bip32).
+
 This module exports a single class `HDKey`, which should be used like this:
 
 ```ts
@@ -282,6 +277,8 @@ function mnemonicToSeedSync(mnemonic: string, passphrase: string = ""): Uint8Arr
 
 The `bip39` submodule provides functions to generate, validate and use seed
 recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
+
+Also available as standalone package [micro-bip39](https://github.com/paulmillr/micro-bip39).
 
 ```js
 const { generateMnemonic } = require("ethereum-cryptography/bip39");
@@ -449,14 +446,16 @@ you found another primitive that is missing.
 
 ## Upgrading
 
-Version 0.2 changes from 0.1:
+Version 1.0 changes from 0.1:
 
-- **Breaking:** we target runtimes with [bigint](https://caniuse.com/bigint) support,
-  which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support
-  older runtimes, use `ethereum-cryptography@0.1`
-- **Breaking:** we return `Uint8Array` from all methods that worked with `Buffer` before.
-  `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
-  browsers and node.js:
+**Same functionality**, all old APIs remain the same except for the breaking changes:
+
+1. We return `Uint8Array` from all methods that worked with `Buffer` before.
+`Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
+browsers and node.js. See [Upgrading](#upgrading)
+2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
+which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
+3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
 
 ```
 const { sha256 } = require("ethereum-cryptography/sha256");
@@ -475,7 +474,7 @@ const hashbo = hashb.toString("hex");
 
 ## Security
 
-This library is in the process of getting a security audit.
+Audited by Cure53 on Jan 5, 2022. Check out the audit [PDF](./audit/2022-01-05-cure53-audit-nbl2.pdf) & [URL](https://cure53.de/pentest-report_hashing-libs.pdf).
 
 ## License
 
