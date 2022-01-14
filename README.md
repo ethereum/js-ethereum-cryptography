@@ -5,7 +5,7 @@
 All pure-js cryptographic primitives normally used when
 developing Javascript / TypeScript applications and tools for Ethereum.
 
-**January 2022 update:** Version 1.0 of the package is out. The module has been completely rewritten:
+**January 2022 update:** Version 1.0 of the package will be out soon. The module has been completely rewritten:
 
 - **6x smaller:** 4,000 lines of code instead of 22,438 (with all deps); 185KB instead of 755KB
 - 3 dependencies by one author instead of 38 by 5 authors
