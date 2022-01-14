@@ -28,10 +28,10 @@ Use NPM / Yarn in node.js / browser:
 
 ```bash
 # NPM
-npm install ethereum-cryptography
+npm install ethereum-cryptography@next
 
 # Yarn
-yarn add ethereum-cryptography
+yarn add ethereum-cryptography@next
 ```
 
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
