@@ -5,5 +5,5 @@ export function getRandomBytesSync(bytes: number): Uint8Array {
 }
 
 export async function getRandomBytes(bytes: number): Promise<Uint8Array> {
-  return getRandomBytesSync(bytes);
+  return randomBytes(bytes);
 }
