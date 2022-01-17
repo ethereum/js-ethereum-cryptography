@@ -1,1 +1,1 @@
-export { wordlist } from "micro-bip39/wordlists/spanish";
+export { wordlist } from "@scure/bip39/wordlists/spanish";
