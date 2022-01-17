@@ -10,10 +10,8 @@
       "./test"
     ],
     "outDir": "./test-builds/tsc",
-    "sourceMap": true,
     "noUnusedLocals": true,
-    "declaration": true,
-    "declarationMap": true
+    "declaration": true
   },
   "include": [
     "src/**/*.ts",

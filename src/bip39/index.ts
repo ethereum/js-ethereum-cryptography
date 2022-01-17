@@ -5,4 +5,4 @@ export {
   validateMnemonic,
   mnemonicToSeed,
   mnemonicToSeedSync
-} from "micro-bip39";
+} from "@scure/bip39";
