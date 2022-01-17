@@ -1,1 +1,1 @@
-export { wordlist } from 'micro-bip39/wordlists/korean';
+export { wordlist } from "micro-bip39/wordlists/korean";

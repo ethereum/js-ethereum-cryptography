@@ -1,1 +1,1 @@
-export { HARDENED_OFFSET, HDKey } from 'micro-bip32';
+export { HARDENED_OFFSET, HDKey } from "micro-bip32";
