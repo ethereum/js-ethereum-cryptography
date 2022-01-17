@@ -1,1 +1,1 @@
-export { wordlist } from 'micro-bip39/wordlists/french';
+export { wordlist } from "micro-bip39/wordlists/french";

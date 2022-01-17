@@ -1,1 +1,1 @@
-export { wordlist } from 'micro-bip39/wordlists/traditional-chinese';
+export { wordlist } from "micro-bip39/wordlists/traditional-chinese";
