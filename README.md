@@ -7,7 +7,7 @@ developing Javascript / TypeScript applications and tools for Ethereum.
 
 **January 2022 update:** Version 1.0 of the package will be out soon. The module has been completely rewritten:
 
-- **6x smaller:** 5,118 lines of code instead of 27,039 (with all deps); 660KB instead of 10.2MB
+- **6x smaller:** ~5,000 lines of code instead of ~27,000 (with all deps); 660KB instead of 10.2MB
 - 5 dependencies by 1 author instead of 38 by 5 authors
 - [Audited](#security) by an independent security firm
 - Check out the [Upgrading](#upgrading) section for breaking changes (there are almost none)
