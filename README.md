@@ -454,7 +454,7 @@ Version 1.0 changes from 0.1:
 
 1. We return `Uint8Array` from all methods that worked with `Buffer` before.
 `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
-browsers and node.js. See [Upgrading](#upgrading)
+browsers and node.js.
 2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
 which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
 3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
