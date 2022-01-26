@@ -200,7 +200,7 @@ Note: if you've been using ethereum-cryptography v0.1, it had different API. We'
 ## BIP32 HD Keygen
 
 Hierarchical deterministic (HD) wallets that conform to BIP32 standard.
-Also available as standalone package [micro-bip32](https://github.com/paulmillr/micro-bip32).
+Also available as standalone package [scure-bip32](https://github.com/paulmillr/scure-bip32).
 
 This module exports a single class `HDKey`, which should be used like this:
 
@@ -280,7 +280,7 @@ function mnemonicToSeedSync(mnemonic: string, passphrase: string = ""): Uint8Arr
 The `bip39` submodule provides functions to generate, validate and use seed
 recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
 
-Also available as standalone package [micro-bip39](https://github.com/paulmillr/micro-bip39).
+Also available as standalone package [scure-bip39](https://github.com/paulmillr/scure-bip39).
 
 ```js
 const { generateMnemonic } = require("ethereum-cryptography/bip39");
