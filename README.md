@@ -5,12 +5,13 @@
 All pure-js cryptographic primitives normally used when
 developing Javascript / TypeScript applications and tools for Ethereum.
 
-**January 2022 update:** Version 1.0 of the package will be out soon. The module has been completely rewritten:
+**January 2022 update:** We've released v1.0 of the package, a complete rewrite:
 
-- **6x smaller:** ~5,000 lines of code instead of ~27,000 (with all deps); 660KB instead of 10.2MB
+- **6x smaller:** ~5,000 lines of code instead of ~24,000 (with all deps); 650KB instead of 10.2MB
 - 5 dependencies by 1 author instead of 38 by 5 authors
 - [Audited](#security) by an independent security firm
-- Check out the [Upgrading](#upgrading) section for breaking changes (there are almost none)
+- Check out the article about it: [A safer, smaller, and faster Ethereum cryptography stack](https://medium.com/nomic-labs-blog/a-safer-smaller-and-faster-ethereum-cryptography-stack-5eeb47f62d79)
+- Take a glance at the [Upgrading](#upgrading) section for breaking changes: there are almost none
 
 The cryptographic primitives included are:
 
@@ -28,10 +29,10 @@ Use NPM / Yarn in node.js / browser:
 
 ```bash
 # NPM
-npm install ethereum-cryptography@next
+npm install ethereum-cryptography
 
 # Yarn
-yarn add ethereum-cryptography@next
+yarn add ethereum-cryptography
 ```
 
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
@@ -199,7 +200,7 @@ Note: if you've been using ethereum-cryptography v0.1, it had different API. We'
 ## BIP32 HD Keygen
 
 Hierarchical deterministic (HD) wallets that conform to BIP32 standard.
-Also available as standalone package [micro-bip32](https://github.com/paulmillr/micro-bip32).
+Also available as standalone package [scure-bip32](https://github.com/paulmillr/scure-bip32).
 
 This module exports a single class `HDKey`, which should be used like this:
 
@@ -279,7 +280,7 @@ function mnemonicToSeedSync(mnemonic: string, passphrase: string = ""): Uint8Arr
 The `bip39` submodule provides functions to generate, validate and use seed
 recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
 
-Also available as standalone package [micro-bip39](https://github.com/paulmillr/micro-bip39).
+Also available as standalone package [scure-bip39](https://github.com/paulmillr/scure-bip39).
 
 ```js
 const { generateMnemonic } = require("ethereum-cryptography/bip39");
@@ -453,7 +454,7 @@ Version 1.0 changes from 0.1:
 
 1. We return `Uint8Array` from all methods that worked with `Buffer` before.
 `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
-browsers and node.js. See [Upgrading](#upgrading)
+browsers and node.js.
 2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
 which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
 3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
