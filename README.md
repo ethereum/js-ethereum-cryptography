@@ -5,12 +5,13 @@
 All pure-js cryptographic primitives normally used when
 developing Javascript / TypeScript applications and tools for Ethereum.
 
-**January 2022 update:** Version 1.0 of the package will be out soon. The module has been completely rewritten:
+**January 2022 update:** We've released v1.0 of the package, a complete rewrite:
 
-- **6x smaller:** ~5,000 lines of code instead of ~27,000 (with all deps); 660KB instead of 10.2MB
+- **6x smaller:** ~5,000 lines of code instead of ~24,000 (with all deps); 650KB instead of 10.2MB
 - 5 dependencies by 1 author instead of 38 by 5 authors
 - [Audited](#security) by an independent security firm
-- Check out the [Upgrading](#upgrading) section for breaking changes (there are almost none)
+- Check out the article about it: [A safer, smaller, and faster Ethereum cryptography stack](https://medium.com/nomic-labs-blog/a-safer-smaller-and-faster-ethereum-cryptography-stack-5eeb47f62d79)
+- Take a glance at the [Upgrading](#upgrading) section for breaking changes: there are almost none
 
 The cryptographic primitives included are:
 
@@ -28,10 +29,10 @@ Use NPM / Yarn in node.js / browser:
 
 ```bash
 # NPM
-npm install ethereum-cryptography@next
+npm install ethereum-cryptography
 
 # Yarn
-yarn add ethereum-cryptography@next
+yarn add ethereum-cryptography
 ```
 
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
