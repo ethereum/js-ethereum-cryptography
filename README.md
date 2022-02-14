@@ -20,7 +20,7 @@ The cryptographic primitives included are:
 * [CSPRNG (Cryptographically strong pseudorandom number generator)](#csprng-cryptographically-strong-pseudorandom-number-generator)
 * [secp256k1 curve](#secp256k1-curve)
 * [BIP32 HD Keygen](#bip32-hd-keygen)
-* [BIP39 Mnemonic phrases](#bip39-mnemonic-phrases)
+* [BIP39 Mnemonic phrases](#bip39-mnemonic-seed-phrase)
 * [AES Encryption](#aes-encryption)
 
 ## Usage
