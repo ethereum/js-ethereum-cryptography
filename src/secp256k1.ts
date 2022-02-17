@@ -6,11 +6,12 @@ export {
   sign,
   signSync,
   verify,
+  recoverPublicKey,
   getSharedSecret,
   utils,
+  CURVE,
   Point,
   Signature,
-  CURVE,
   schnorr
 } from "@noble/secp256k1";
 
