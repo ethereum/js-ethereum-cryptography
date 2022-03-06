@@ -1,15 +1,22 @@
 // buf.toString('hex') -> toHex(buf)
-import { assertBytes } from "@noble/hashes/utils";
+import { assertBytes, hexToBytes as _hexToBytes } from "@noble/hashes/utils";
 export {
   assertBool,
   assertBytes,
   bytesToHex,
   bytesToHex as toHex,
   concatBytes,
-  hexToBytes,
   createView,
   utf8ToBytes
 } from "@noble/hashes/utils";
+
+export function hexToBytes(data: string): Uint8Array {
+  if (data.startsWith("0x")) {
+    return _hexToBytes(data.substring(2));
+  } else {
+    return _hexToBytes(data);
+  }
+}
 
 // buf.toString('utf8') -> bytesToUtf8(buf)
 export function bytesToUtf8(data: Uint8Array): string {
