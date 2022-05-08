@@ -3,7 +3,8 @@
     "target": "es2020",
     "module": "commonjs",
     "strict": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": false,
     "rootDir": "src",
     "outDir": ".",
     "declaration": true

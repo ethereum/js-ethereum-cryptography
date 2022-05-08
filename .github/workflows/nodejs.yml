@@ -7,27 +7,43 @@ on:
   pull_request:
     branches:
       - "*"
+env:
+  CI: true
+  COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+  PULL_NUMBER: ${{ github.event.pull_request.number }}
+  RUN_ID: ${{ github.run_id }}
+#  NODE_ENV: test
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  pipeline:
+    name: Node ${{ matrix.node-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: ['12.x', '14.x', '16.x']
+        os: ['ubuntu-latest']
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run test
-        npm run browser-tests
-        npm run lint
-      env:
-        CI: true
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install project dependencies
+        run: npm install
+        id: install
+
+      - name: Run project test
+        run: npm run test
+        id: test
+  
+      - name: Run Browser tests
+        run: npm run browser-tests
+        id: browser
+ 
+      - name: Check for lint issues
+        run: npm run lint
+        id: lint

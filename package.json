@@ -1,6 +1,6 @@
 {
   "name": "ethereum-cryptography",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "All the cryptographic primitives used in Ethereum",
   "contributors": [
     {
@@ -72,7 +72,8 @@
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "4.5.4",
+    "tslib": "2.4.0",
+    "typescript": "4.6.3",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"
   },
