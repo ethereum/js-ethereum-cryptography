@@ -3,7 +3,6 @@
     "target": "es2020",
     "module": "commonjs",
     "strict": true,
-    "esModuleInterop": true,
     "downlevelIteration": true,
     "rootDirs": [
       "./src",
