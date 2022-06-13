@@ -27,7 +27,7 @@
     "@noble/hashes": "1.0.0",
     "@noble/secp256k1": "1.5.5",
     "@scure/bip32": "1.0.1",
-    "@scure/bip39": "1.0.0"
+    "@scure/bip39": "1.1.0"
   },
   "browser": {
     "crypto": false
