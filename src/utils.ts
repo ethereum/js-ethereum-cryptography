@@ -1,8 +1,9 @@
 // buf.toString('hex') -> toHex(buf)
-import { assertBytes } from "@noble/hashes/utils";
+import assert from "@noble/hashes/_assert";
+const assertBool = assert.bool;
+const assertBytes = assert.bytes;
+export { assertBool, assertBytes };
 export {
-  assertBool,
-  assertBytes,
   bytesToHex,
   bytesToHex as toHex,
   concatBytes,
@@ -35,7 +36,7 @@ export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
 // Internal utils
 export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
   return (msg: Uint8Array) => {
-    assertBytes(msg);
+    assert.bytes(msg);
     return hash(msg);
   };
 }
