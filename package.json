@@ -24,7 +24,7 @@
     "*.d.ts"
   ],
   "dependencies": {
-    "@noble/hashes": "1.0.0",
+    "@noble/hashes": "1.1.1",
     "@noble/secp256k1": "1.5.5",
     "@scure/bip32": "1.0.1",
     "@scure/bip39": "1.0.0"
