@@ -10,11 +10,11 @@ export async function scrypt(
   n: number,
   p: number,
   r: number,
-  dklen: number
+  dkLen: number
 ): Promise<Uint8Array> {
   assertBytes(password);
   assertBytes(salt);
-  return _scryptAsync(password, salt, { N: n, r, p, dkLen: dklen });
+  return _scryptAsync(password, salt, { N: n, r, p, dkLen });
 }
 
 export function scryptSync(
@@ -23,9 +23,9 @@ export function scryptSync(
   n: number,
   p: number,
   r: number,
-  dklen: number
+  dkLen: number
 ): Uint8Array {
   assertBytes(password);
   assertBytes(salt);
-  return _scrypt(password, salt, { N: n, r, p, dkLen: dklen });
+  return _scrypt(password, salt, { N: n, r, p, dkLen });
 }
