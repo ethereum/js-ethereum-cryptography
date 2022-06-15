@@ -1,5 +1,6 @@
 // buf.toString('hex') -> toHex(buf)
 import assert from "@noble/hashes/_assert";
+import { hexToBytes as _hexToBytes } from "@noble/hashes/utils";
 const assertBool = assert.bool;
 const assertBytes = assert.bytes;
 export { assertBool, assertBytes };
@@ -7,7 +8,6 @@ export {
   bytesToHex,
   bytesToHex as toHex,
   concatBytes,
-  hexToBytes,
   createView,
   utf8ToBytes
 } from "@noble/hashes/utils";
@@ -18,6 +18,11 @@ export function bytesToUtf8(data: Uint8Array): string {
     throw new TypeError(`bytesToUtf8 expected Uint8Array, got ${typeof data}`);
   }
   return new TextDecoder().decode(data);
+}
+
+export function hexToBytes(data: string): Uint8Array {
+  const sliced = data.startsWith("0x") ? data.substring(2) : data;
+  return _hexToBytes(sliced);
 }
 
 // buf.equals(buf2) -> equalsBytes(buf, buf2)
