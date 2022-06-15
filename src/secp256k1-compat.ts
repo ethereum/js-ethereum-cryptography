@@ -5,12 +5,6 @@ import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
 // Use `secp256k1` module directly.
 // This is a legacy compatibility layer for the npm package `secp256k1` via noble-secp256k1
 
-// Copy-paste from secp256k1, maybe export it?
-const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));
-const numberToHex = (num: number | bigint) =>
-  num.toString(16).padStart(64, "0");
-const numberToBytes = (num: number | bigint) => hexToBytes(numberToHex(num));
-
 function hexToNumber(hex: string): bigint {
   if (typeof hex !== "string") {
     throw new TypeError("hexToNumber: expected string, got " + typeof hex);
@@ -18,11 +12,13 @@ function hexToNumber(hex: string): bigint {
   return BigInt(`0x${hex}`);
 }
 
-// Calculates a modulo b
-function mod(a: bigint, b: bigint = secp.CURVE.P): bigint {
-  const result = a % b;
-  return result >= 0 ? result : b + result;
-}
+// Copy-paste from secp256k1, maybe export it?
+const bytesToNumber = (bytes: Uint8Array) => hexToNumber(toHex(bytes));
+const numberToHex = (num: number | bigint) =>
+  num.toString(16).padStart(64, "0");
+const numberToBytes = (num: number | bigint) => hexToBytes(numberToHex(num));
+const { mod } = secp.utils;
+
 const ORDER = secp.CURVE.n;
 
 type Output = Uint8Array | ((len: number) => Uint8Array);
@@ -165,23 +161,23 @@ export function privateKeyTweakAdd(
 ): Uint8Array {
   assertBytes(privateKey, 32);
   assertBytes(tweak, 32);
-  let bn = bytesToNumber(tweak);
-  if (bn === 0n) {
+  let t = bytesToNumber(tweak);
+  if (t === 0n) {
     throw new Error("Tweak must not be zero");
   }
-  if (bn >= ORDER) {
+  if (t >= ORDER) {
     throw new Error("Tweak bigger than curve order");
   }
-  bn += bytesToNumber(privateKey);
-  if (bn >= ORDER) {
-    bn -= ORDER;
+  t += bytesToNumber(privateKey);
+  if (t >= ORDER) {
+    t -= ORDER;
   }
-  if (bn === 0n) {
+  if (t === 0n) {
     throw new Error(
       "The tweak was out of range or the resulted private key is invalid"
     );
   }
-  privateKey.set(hexToBytes(numberToHex(bn)));
+  privateKey.set(hexToBytes(numberToHex(t)));
   return privateKey;
 }
 
