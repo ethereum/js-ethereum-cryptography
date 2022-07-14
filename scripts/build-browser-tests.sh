@@ -10,7 +10,7 @@ echo "Building tests with Browserify"
 npx browserify test-builds/tsc/test/test-vectors/*.js > test-builds/browserify-build.js
 
 echo "Building tests with webpack"
-npx webpack --mode development test-builds/tsc/test/test-vectors/*.js --output test-builds/webpack-build.js
+npx webpack --mode development ./test-builds/tsc/test/test-vectors/*.js --output-path ./test-builds
 
 echo "Building tests with Rollup"
 rollup -c test/rollup.config.js
