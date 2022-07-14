@@ -39,7 +39,7 @@ describe("scrypt", function() {
   describe("scrypt sync", function() {
     for (let i = 0; i < TEST_VECTORS.length; i++) {
       it(`Should process the test ${i} correctly`, function() {
-        this.enableTimeouts(false);
+        this.timeout(10000)
 
         const vector = TEST_VECTORS[i];
 
@@ -60,7 +60,7 @@ describe("scrypt", function() {
   describe("scrypt async", function() {
     for (let i = 0; i < TEST_VECTORS.length; i++) {
       it(`Should process the test ${i} correctly`, async function() {
-        this.enableTimeouts(false);
+        this.timeout(10000);
 
         const vector = TEST_VECTORS[i];
 
