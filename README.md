@@ -142,7 +142,7 @@ console.log(await pbkdf2(utf8ToBytes("password"), utf8ToBytes("salt"), 131072, 3
 ```
 
 ```js
-const { scryptSync } = require("ethereum-cryptography/scrypt");
+const { scrypt } = require("ethereum-cryptography/scrypt");
 const { utf8ToBytes } = require("ethereum-cryptography/utils");
 console.log(await scrypt(utf8ToBytes("password"), utf8ToBytes("salt"), 262144, 8, 1, 32));
 ```
