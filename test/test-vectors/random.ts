@@ -1,6 +1,7 @@
 import { getRandomBytes, getRandomBytesSync } from "../../src/random";
 import { equalsBytes } from "../../src/utils";
 import { deepStrictEqual } from "./assert";
+import { describe, it } from "micro-should";
 
 describe("Random number generation", () => {
   describe("Sync version", () => {

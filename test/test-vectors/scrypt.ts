@@ -1,6 +1,7 @@
 import { scrypt as scryptAsync, scryptSync } from "../../src/scrypt";
 import { hexToBytes, toHex } from "../../src/utils";
 import { deepStrictEqual } from "./assert";
+import { describe, it } from "micro-should";
 
 const TEST_VECTORS = [
   {
@@ -39,7 +40,7 @@ describe("scrypt", function() {
   describe("scrypt sync", function() {
     for (let i = 0; i < TEST_VECTORS.length; i++) {
       it(`Should process the test ${i} correctly`, function() {
-        this.timeout(10000)
+        // this.timeout(10000)
 
         const vector = TEST_VECTORS[i];
 
@@ -60,7 +61,7 @@ describe("scrypt", function() {
   describe("scrypt async", function() {
     for (let i = 0; i < TEST_VECTORS.length; i++) {
       it(`Should process the test ${i} correctly`, async function() {
-        this.timeout(10000);
+        // this.timeout(10000);
 
         const vector = TEST_VECTORS[i];
 

@@ -1,6 +1,7 @@
 import { sha256 } from "../../src/sha256";
 import { toHex, utf8ToBytes } from "../../src/utils";
 import { deepStrictEqual } from "./assert";
+import { describe, it } from "micro-should";
 
 const TEST_VECTORS = [
   {

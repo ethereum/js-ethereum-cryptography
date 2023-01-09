@@ -3,6 +3,7 @@ import { sha256 } from "../../src/sha256";
 import { concatBytes, hexToBytes, toHex } from "../../src/utils";
 import { deepStrictEqual, throws } from "./assert";
 import { VECTORS } from "./secp256k1_lib_vectors";
+import { describe, it } from "micro-should";
 
 describe("secp256k1", function() {
   it("should create valid private keys", async function() {

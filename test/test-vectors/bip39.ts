@@ -11,6 +11,7 @@ import { wordlist as japaneseWordlist } from "../../src/bip39/wordlists/japanese
 import { wordlist as spanishWordlist } from "../../src/bip39/wordlists/spanish";
 import { equalsBytes, hexToBytes, toHex } from "../../src/utils";
 import { deepStrictEqual, throws } from "./assert";
+import { describe, it } from "micro-should";
 
 describe("BIP39", () => {
   describe("Mnemonic generation", () => {

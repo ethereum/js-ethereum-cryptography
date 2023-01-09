@@ -1,6 +1,7 @@
 import { pbkdf2 as pbkdf2Async, pbkdf2Sync } from "../../src/pbkdf2";
 import { toHex, utf8ToBytes } from "../../src/utils";
 import { deepStrictEqual } from "./assert";
+import { describe, it } from "micro-should";
 
 const TEST_VECTORS = [
   {

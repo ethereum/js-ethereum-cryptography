@@ -1,6 +1,7 @@
 import { keccak224, keccak256, keccak384, keccak512 } from "../../src/keccak";
 import { hexToBytes, toHex, utf8ToBytes } from "../../src/utils";
 import { deepStrictEqual } from "./assert";
+import { describe, it } from "micro-should";
 
 export const keccak224Vectors = [
   {
