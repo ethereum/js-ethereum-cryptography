@@ -116,8 +116,8 @@ toHex(sha256(utf8ToBytes("abc")))
 ```ts
 function pbkdf2(password: Uint8Array, salt: Uint8Array, iterations: number, keylen: number, digest: string): Promise<Uint8Array>;
 function pbkdf2Sync(password: Uint8Array, salt: Uint8Array, iterations: number, keylen: number, digest: string): Uint8Array;
-function scrypt(password: Uint8Array, salt: Uint8Array, N: number, p: number, r: number, dkLen: number): Promise<Uint8Array>;
-function scryptSync(password: Uint8Array, salt: Uint8Array, N: number, p: number, r: number, dkLen: number): Uint8Array;
+function scrypt(password: Uint8Array, salt: Uint8Array, N: number, p: number, r: number, dkLen: number, onProgress?: (progress: number) => void): Promise<Uint8Array>;
+function scryptSync(password: Uint8Array, salt: Uint8Array, N: number, p: number, r: number, dkLen: number, onProgress?: (progress: number) => void)): Uint8Array;
 ```
 
 The `pbkdf2` submodule has two functions implementing the PBKDF2 key
