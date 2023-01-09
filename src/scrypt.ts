@@ -1,8 +1,7 @@
-import {
-  scrypt as _scrypt,
-  scryptAsync as _scryptAsync
-} from "@noble/hashes/scrypt";
+import { scrypt as _sync, scryptAsync as _async } from "@noble/hashes/scrypt";
 import { assertBytes } from "./utils";
+
+type OnProgressCallback = (progress: number) => void;
 
 export async function scrypt(
   password: Uint8Array,
@@ -10,11 +9,12 @@ export async function scrypt(
   n: number,
   p: number,
   r: number,
-  dkLen: number
+  dkLen: number,
+  onProgress?: OnProgressCallback
 ): Promise<Uint8Array> {
   assertBytes(password);
   assertBytes(salt);
-  return _scryptAsync(password, salt, { N: n, r, p, dkLen });
+  return _async(password, salt, { N: n, r, p, dkLen, onProgress });
 }
 
 export function scryptSync(
@@ -23,9 +23,10 @@ export function scryptSync(
   n: number,
   p: number,
   r: number,
-  dkLen: number
+  dkLen: number,
+  onProgress?: OnProgressCallback
 ): Uint8Array {
   assertBytes(password);
   assertBytes(salt);
-  return _scrypt(password, salt, { N: n, r, p, dkLen });
+  return _sync(password, salt, { N: n, r, p, dkLen, onProgress });
 }
