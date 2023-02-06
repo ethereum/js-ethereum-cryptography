@@ -41,7 +41,9 @@ async function getBrowserKey(
     true,
     ["encrypt", "decrypt"]
   );
-  return [wKey, { name: `aes-${keyMode}`, iv, counter: iv, length: 64 }];
+  // node.js uses whole 128 bit as a counter, without nonce, instead of 64 bit
+  // recommended by NIST SP800-38A
+  return [wKey, { name: `aes-${keyMode}`, iv, counter: iv, length: 128 }];
 }
 
 export async function encrypt(

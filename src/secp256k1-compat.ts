@@ -112,7 +112,7 @@ export function ecdsaSign(
   }
   const [signature, recid] = secp.signSync(msgHash, privateKey, {
     recovered: true,
-    der: false
+    der: false,
   });
   return { signature: output(out, 64, signature), recid };
 }
@@ -214,8 +214,12 @@ export function publicKeyCombine(
   }
   assertBool(compressed);
   const combined = publicKeys
-    .map(pub => secp.Point.fromHex(pub))
+    .map((pub) => secp.Point.fromHex(pub))
     .reduce((res, curr) => res.add(curr), secp.Point.ZERO);
+  // Prohibit returning ZERO point
+  if (combined.equals(secp.Point.ZERO)) {
+    throw new Error("Combined result must not be zero");
+  }
   return output(out, compressed ? 33 : 65, combined.toRawBytes(compressed));
 }
 

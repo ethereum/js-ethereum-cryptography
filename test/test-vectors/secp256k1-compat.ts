@@ -4,8 +4,8 @@ import { concatBytes, hexToBytes, toHex } from "../../src/utils";
 import { deepStrictEqual, throws } from "./assert";
 import { VECTORS } from "./secp256k1_lib_vectors";
 
-describe("secp256k1", function() {
-  it("should create valid private keys", async function() {
+describe("secp256k1", function () {
+  it("should create valid private keys", async function () {
     const asyncPk = await secp.createPrivateKey();
     const syncPk = secp.createPrivateKeySync();
 
@@ -13,7 +13,7 @@ describe("secp256k1", function() {
     deepStrictEqual(secp.privateKeyVerify(syncPk), true);
   });
 
-  it("Should sign correctly", function() {
+  it("Should sign correctly", function () {
     // This test has been adapted from ethereumjs-util
     // https://github.com/ethereumjs/ethereumjs-util/blob/3b1085059194b02354177d334f89cd82a5187883/test/index.js#L531
     const msgHash = hexToBytes(
@@ -26,7 +26,7 @@ describe("secp256k1", function() {
     const sig = {
       r: signature.signature.slice(0, 32),
       s: signature.signature.slice(32, 64),
-      v: signature.recid
+      v: signature.recid,
     };
     deepStrictEqual(
       secp.signatureImport(secp.signatureExport(signature.signature)),
@@ -47,7 +47,7 @@ describe("secp256k1", function() {
     deepStrictEqual(sig.v, 0);
   });
 
-  it("Should recover signatures correctly", function() {
+  it("Should recover signatures correctly", function () {
     const echash = hexToBytes(
       "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28"
     );
@@ -180,7 +180,7 @@ describe("secp256k1", function() {
   describe("Test vectors against library", () => {
     const unserialize = (obj: any): any => {
       if (Array.isArray(obj)) {
-        return obj.map(i => unserialize(i));
+        return obj.map((i) => unserialize(i));
       }
       if (typeof obj === "object" && obj !== null) {
         if (obj.__BigInt__) {
