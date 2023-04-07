@@ -180,7 +180,7 @@ The `secp256k1` submodule provides a library for elliptic curve operations on
 the curve secp256k1. For detailed documentation, follow [README of `noble-secp256k1`](https://github.com/paulmillr/noble-secp256k1), which the module uses as a backend.
 
 secp256k1 private keys need to be cryptographically secure random numbers with
-certain caracteristics. If this is not the case, the security of secp256k1 is
+certain characteristics. If this is not the case, the security of secp256k1 is
 compromised. We strongly recommend using `utils.randomPrivateKey()` to generate them.
 
 ```js
@@ -263,7 +263,7 @@ The `hdkey` submodule provides a library for keys derivation according to
 It has almost the exact same API than the version `1.x` of
 [`hdkey` from cryptocoinjs](https://github.com/cryptocoinjs/hdkey),
 but it's backed by this package's primitives, and has built-in TypeScript types.
-Its only difference is that it has to be be used with a named import.
+Its only difference is that it has to be used with a named import.
 The implementation is [loosely based on hdkey, which has MIT License](#LICENSE).
 
 ## BIP39 Mnemonic Seed Phrase
@@ -360,7 +360,7 @@ To encrypt new data, we recommend using the default.
 ### How to use the IV parameter
 
 The `iv` parameter of the `encrypt` function must be unique, or the security
-of the encryption algorithm can be compromissed.
+of the encryption algorithm can be compromised.
 
 You can generate a new `iv` using the `random` module.
 
@@ -435,7 +435,7 @@ console.log(Uint8Array.from(ecdsaSign(msgHash, privateKey).signature));
 
 ## Missing cryptographic primitives
 
-This package intentionally excludes the the cryptographic primitives necessary
+This package intentionally excludes the cryptographic primitives necessary
 to implement the following EIPs:
 
 * [EIP 196: Precompiled contracts for addition and scalar multiplication on the elliptic curve alt_bn128](https://eips.ethereum.org/EIPS/eip-196)
