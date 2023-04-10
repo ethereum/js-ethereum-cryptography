@@ -1,4 +1,4 @@
-import * as secp from "../../src/secp256k1";
+import { secp256k1 } from "../../src/secp256k1";
 import { deepStrictEqual } from "./assert";
 
 describe("secp256k1", () => {
@@ -9,8 +9,8 @@ describe("secp256k1", () => {
     const y = 17482644437196207387910659778872952193236850502325156318830589868678978890912n;
     const r = 432420386565659656852420866390673177323n;
     const s = 115792089237316195423570985008687907852837564279074904382605163141518161494334n;
-    const pub = new secp.Point(x, y);
-    const sig = new secp.Signature(r, s);
-    deepStrictEqual(secp.verify(sig, msg, pub, { strict: false }), true);
+    const pub = new secp256k1.ProjectivePoint(x, y, 1n);
+    const sig = new secp256k1.Signature(r, s);
+    deepStrictEqual(secp256k1.verify(sig, msg, pub.toRawBytes(), { lowS: false }), true);
   });
 });

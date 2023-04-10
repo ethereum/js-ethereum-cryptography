@@ -1,4 +1,4 @@
-import * as secp from "@noble/secp256k1";
+import { secp256k1 as secp } from "@noble/curves/secp256k1";
 import { HARDENED_OFFSET, HDKey } from "../../src/hdkey";
 import { hexToBytes, toHex } from "../../src/utils";
 import { deepStrictEqual, throws } from "./assert";

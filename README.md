@@ -167,31 +167,29 @@ console.log(getRandomBytesSync(32));
 ## secp256k1 curve
 
 ```ts
-function getPublicKey(privateKey: Uint8Array, isCompressed?: false): Uint8Array;
-function getSharedSecret(privateKeyA: Uint8Array, publicKeyB: Uint8Array): Uint8Array;
-function sign(msgHash: Uint8Array, privateKey: Uint8Array, opts?: Options): Promise<Uint8Array>;
-function signSync(msgHash: Uint8Array, privateKey: Uint8Array, opts?: Options): Uint8Array;
+function getPublicKey(privateKey: Uint8Array, isCompressed = true): Uint8Array;
+function sign(msgHash: Uint8Array, privateKey: Uint8Array): { r: bigint; s: bigint; recovery: number };
 function verify(signature: Uint8Array, msgHash: Uint8Array, publicKey: Uint8Array): boolean
-function recoverPublicKey(msgHash: Uint8Array, signature: Uint8Array, recovery: number): Uint8Array | undefined;
+function getSharedSecret(privateKeyA: Uint8Array, publicKeyB: Uint8Array): Uint8Array;
 function utils.randomPrivateKey(): Uint8Array;
 ```
 
 The `secp256k1` submodule provides a library for elliptic curve operations on
-the curve secp256k1. For detailed documentation, follow [README of `noble-secp256k1`](https://github.com/paulmillr/noble-secp256k1), which the module uses as a backend.
+the curve secp256k1. For detailed documentation, follow [README of `noble-curves`](https://github.com/paulmillr/noble-curves), which the module uses as a backend.
 
 secp256k1 private keys need to be cryptographically secure random numbers with
 certain caracteristics. If this is not the case, the security of secp256k1 is
 compromised. We strongly recommend using `utils.randomPrivateKey()` to generate them.
 
 ```js
-const secp = require("ethereum-cryptography/secp256k1");
+const {secp256k1} = require("ethereum-cryptography/secp256k1");
 (async () => {
   // You pass either a hex string, or Uint8Array
   const privateKey = "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
   const messageHash = "a33321f98e4ff1c283c76998f14f57447545d339b3db534c6d886decb4209f28";
-  const publicKey = secp.getPublicKey(privateKey);
-  const signature = await secp.sign(messageHash, privateKey);
-  const isSigned = secp.verify(signature, messageHash, publicKey);
+  const publicKey = secp256k1.getPublicKey(privateKey);
+  const signature = secp256k1.sign(messageHash, privateKey);
+  const isSigned = secp256k1.verify(signature, messageHash, publicKey);
 })();
 ```
 
@@ -448,9 +446,12 @@ you found another primitive that is missing.
 
 ## Upgrading
 
-Version 1.0 changes from 0.1:
+Upgrading from 1.0 to 2.0: `secp256k1` module was changed massively:
+before, it was using [noble-secp256k1 1.7](https://github.com/paulmillr/noble-secp256k1);
+now it uses safer [noble-curves](https://github.com/paulmillr/noble-curves). Please refer
+to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
 
-**Same functionality**, all old APIs remain the same except for the breaking changes:
+Upgrading from 0.1 to 1.0: **Same functionality**, all old APIs remain the same except for the breaking changes:
 
 1. We return `Uint8Array` from all methods that worked with `Buffer` before.
 `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
