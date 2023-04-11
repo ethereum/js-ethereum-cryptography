@@ -46,6 +46,11 @@ export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
   };
 }
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface Crypto {}
+}
+
 export const crypto: { node?: any; web?: Crypto } = (() => {
   const webCrypto =
     typeof self === "object" && "crypto" in self ? self.crypto : undefined;
