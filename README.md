@@ -446,10 +446,13 @@ you found another primitive that is missing.
 
 ## Upgrading
 
-Upgrading from 1.0 to 2.0: `secp256k1` module was changed massively:
-before, it was using [noble-secp256k1 1.7](https://github.com/paulmillr/noble-secp256k1);
-now it uses safer [noble-curves](https://github.com/paulmillr/noble-curves). Please refer
-to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
+Upgrading from 1.0 to 2.0:
+
+1. `secp256k1` module was changed massively:
+  before, it was using [noble-secp256k1 1.7](https://github.com/paulmillr/noble-secp256k1);
+  now it uses safer [noble-curves](https://github.com/paulmillr/noble-curves). Please refer
+  to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
+2. node.js 14 and older support was dropped. Upgrade to node.js 16 or later. 
 
 Upgrading from 0.1 to 1.0: **Same functionality**, all old APIs remain the same except for the breaking changes:
 
