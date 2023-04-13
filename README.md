@@ -5,7 +5,7 @@
 All pure-js cryptographic primitives normally used when
 developing Javascript / TypeScript applications and tools for Ethereum.
 
-April 2023 update: v2.0 is out, switching
+**April 2023 update:** v2.0 is out, switching
 [noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
 [noble-curves](https://github.com/paulmillr/noble-curves),
 which changes re-exported api of `secp256k1` submodule.
