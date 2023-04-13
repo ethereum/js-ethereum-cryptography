@@ -1,5 +1,7 @@
-import { crypto } from "@noble/hashes/crypto";
+import { crypto as cr } from "@noble/hashes/crypto";
 import { concatBytes, equalsBytes } from "./utils";
+
+const crypto: any = { web: cr };
 
 function validateOpt(key: Uint8Array, iv: Uint8Array, mode: string) {
   if (!mode.startsWith("aes-")) {
