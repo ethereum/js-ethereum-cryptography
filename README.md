@@ -5,6 +5,12 @@
 All pure-js cryptographic primitives normally used when
 developing Javascript / TypeScript applications and tools for Ethereum.
 
+April 2023 update: v2.0 is out, switching
+[noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
+[noble-curves](https://github.com/paulmillr/noble-curves),
+which changes re-exported api of `secp256k1` submodule.
+There have been no other changes. Check out [Upgrading](#upgrading).
+
 **January 2022 update:** We've released v1.0 of the package, a complete rewrite:
 
 - **6x smaller:** ~5,000 lines of code instead of ~24,000 (with all deps); 650KB instead of 10.2MB
@@ -452,6 +458,8 @@ Upgrading from 1.0 to 2.0:
   before, it was using [noble-secp256k1 1.7](https://github.com/paulmillr/noble-secp256k1);
   now it uses safer [noble-curves](https://github.com/paulmillr/noble-curves). Please refer
   to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
+  Main changes to keep in mind: a) `sign` now returns `Signature` instance
+  b) `recoverPublicKey` got moved onto a `Signature` instance
 2. node.js 14 and older support was dropped. Upgrade to node.js 16 or later. 
 
 Upgrading from 0.1 to 1.0: **Same functionality**, all old APIs remain the same except for the breaking changes:
