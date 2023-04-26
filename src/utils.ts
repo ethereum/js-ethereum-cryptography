@@ -12,6 +12,11 @@ export {
   utf8ToBytes
 } from "@noble/hashes/utils";
 
+// Global symbols in both browsers and Node.js since v11
+// See https://github.com/microsoft/TypeScript/issues/31535
+declare const TextEncoder: any;
+declare const TextDecoder: any;
+
 // buf.toString('utf8') -> bytesToUtf8(buf)
 export function bytesToUtf8(data: Uint8Array): string {
   if (!(data instanceof Uint8Array)) {
@@ -46,9 +51,10 @@ export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
   };
 }
 
-export const crypto: { node?: any; web?: Crypto } = (() => {
+// TODO(v3): switch away from node crypto, remove this unnecessary variable.
+export const crypto: { node?: any; web?: any } = (() => {
   const webCrypto =
-    typeof self === "object" && "crypto" in self ? self.crypto : undefined;
+    typeof globalThis === "object" && "crypto" in globalThis ? globalThis.crypto : undefined;
   const nodeRequire =
     typeof module !== "undefined" &&
     typeof module.require === "function" &&
