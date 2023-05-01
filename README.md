@@ -31,7 +31,7 @@ The cryptographic primitives included are:
 
 ## Usage
 
-Use NPM / Yarn in node.js / browser:
+Use NPM / Yarn in Node.js / browser:
 
 ```bash
 # NPM
@@ -163,7 +163,7 @@ function getRandomBytesSync(bytes: number): Uint8Array;
 The `random` submodule has functions to generate cryptographically strong
 pseudo-random data in synchronous and asynchronous ways.
 
-Backed by [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) in browser and by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) in node.js. If backends are somehow not available, the module would throw an error and won't work, as keeping them working would be insecure.
+Backed by [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) in browser and by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) in Node.js. If backends are somehow not available, the module would throw an error and won't work, as keeping them working would be insecure.
 
 ```js
 const { getRandomBytesSync } = require("ethereum-cryptography/random");
@@ -460,15 +460,15 @@ Upgrading from 1.0 to 2.0:
   to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
   Main changes to keep in mind: a) `sign` now returns `Signature` instance
   b) `recoverPublicKey` got moved onto a `Signature` instance
-2. node.js 14 and older support was dropped. Upgrade to node.js 16 or later. 
+2. Node.js 14 and older support was dropped. Upgrade to Node.js 16 or later.
 
 Upgrading from 0.1 to 1.0: **Same functionality**, all old APIs remain the same except for the breaking changes:
 
 1. We return `Uint8Array` from all methods that worked with `Buffer` before.
 `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
-browsers and node.js.
+browsers and Node.js.
 2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
-which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
+which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, Node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
 3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
 
 ```
