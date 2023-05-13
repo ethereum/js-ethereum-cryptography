@@ -1,9 +1,18 @@
 # ethereum-cryptography
 
-[![npm version][1]][2] [![Travis CI][3]][4] [![license][5]][6] [![Types][7]][8]
+[![npm version][1]][2] [![license][3]][4]
 
-All pure-js cryptographic primitives normally used when
-developing Javascript / TypeScript applications and tools for Ethereum.
+Audited pure JS library containing all Ethereum-related cryptographic primitives.
+
+Included algorithms:
+
+* [Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b](#hashes-sha256-keccak-256-ripemd160-blake2b)
+* [KDFs: PBKDF2, Scrypt](#kdfs-pbkdf2-scrypt)
+* [CSPRNG (Cryptographically Secure Pseudorandom Number Generator)](#csprng-cryptographically-strong-pseudorandom-number-generator)
+* [secp256k1 elliptic curve](#secp256k1-curve)
+* [BIP32 HD Keygen](#bip32-hd-keygen)
+* [BIP39 Mnemonic phrases](#bip39-mnemonic-seed-phrase)
+* [AES Encryption](#aes-encryption)
 
 **April 2023 update:** v2.0 is out, switching
 [noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
@@ -18,16 +27,6 @@ There have been no other changes. Check out [Upgrading](#upgrading).
 - [Audited](#security) by an independent security firm
 - Check out the article about it: [A safer, smaller, and faster Ethereum cryptography stack](https://medium.com/nomic-labs-blog/a-safer-smaller-and-faster-ethereum-cryptography-stack-5eeb47f62d79)
 - Take a glance at the [Upgrading](#upgrading) section for breaking changes: there are almost none
-
-The cryptographic primitives included are:
-
-* [Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b](#hashes-sha256-keccak-256-ripemd160-blake2b)
-* [KDFs: PBKDF2, Scrypt](#kdfs-pbkdf2-scrypt)
-* [CSPRNG (Cryptographically strong pseudorandom number generator)](#csprng-cryptographically-strong-pseudorandom-number-generator)
-* [secp256k1 curve](#secp256k1-curve)
-* [BIP32 HD Keygen](#bip32-hd-keygen)
-* [BIP39 Mnemonic phrases](#bip39-mnemonic-seed-phrase)
-* [AES Encryption](#aes-encryption)
 
 ## Usage
 
@@ -55,31 +54,31 @@ tree-shaking, but the possibility of it not working properly on one of
 
 ```js
 // Hashes
-const { sha256 } = require("ethereum-cryptography/sha256");
-const { keccak256 } = require("ethereum-cryptography/keccak");
-const { ripemd160 } = require("ethereum-cryptography/ripemd160");
-const { blake2b } = require("ethereum-cryptography/blake2b");
+import { sha256 } from "ethereum-cryptography/sha256.js";
+import { keccak256 } from "ethereum-cryptography/keccak.js";
+import { ripemd160 } from "ethereum-cryptography/ripemd160.js";
+import { blake2b } from "ethereum-cryptography/blake2b.js";
 
 // KDFs
-const { pbkdf2Sync } = require("ethereum-cryptography/pbkdf2");
-const { scryptSync } = require("ethereum-cryptography/scrypt");
+import { pbkdf2Sync } from "ethereum-cryptography/pbkdf2.js";
+import { scryptSync } from "ethereum-cryptography/scrypt.js";
 
 // Random
-const { getRandomBytesSync } = require("ethereum-cryptography/random");
+import { getRandomBytesSync } from "ethereum-cryptography/random.js";
 
 // AES encryption
-const { encrypt } = require("ethereum-cryptography/aes");
+import { encrypt } from "ethereum-cryptography/aes.js";
 
 // secp256k1 elliptic curve operations
-const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1");
+import { secp256k1 } from "ethereum-cryptography/secp256k1.js";
 
 // BIP32 HD Keygen, BIP39 Mnemonic Phrases
-const { HDKey } = require("ethereum-cryptography/hdkey");
-const { generateMnemonic } = require("ethereum-cryptography/bip39");
-const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
+import { HDKey } from "ethereum-cryptography/hdkey.js";
+import { generateMnemonic } from "ethereum-cryptography/bip39/index.js";
+import { wordlist } from "ethereum-cryptography/bip39/wordlists/english.js";
 
 // utilities
-const { hexToBytes, toHex, utf8ToBytes } = require("ethereum-cryptography/utils");
+import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
 ```
 
 ## Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
@@ -100,20 +99,20 @@ and `keccak512`)
 - BLAKE2b
 
 ```js
-const { sha256 } = require("ethereum-cryptography/sha256");
-const { sha512 } = require("ethereum-cryptography/sha512");
-const { keccak256, keccak224, keccak384, keccak512 } = require("ethereum-cryptography/keccak");
-const { ripemd160 } = require("ethereum-cryptography/ripemd160");
-const { blake2b } = require("ethereum-cryptography/blake2b");
+import { sha256 } from "ethereum-cryptography/sha256.js";
+import { sha512 } from "ethereum-cryptography/sha512.js";
+import { keccak256, keccak224, keccak384, keccak512 } from "ethereum-cryptography/keccak.js";
+import { ripemd160 } from "ethereum-cryptography/ripemd160.js";
+import { blake2b } from "ethereum-cryptography/blake2b.js";
 
 sha256(Uint8Array.from([1, 2, 3]))
 
 // Can be used with strings
-const { utf8ToBytes } = require("ethereum-cryptography/utils");
+import { utf8ToBytes } from "ethereum-cryptography/utils.js";
 sha256(utf8ToBytes("abc"))
 
 // If you need hex
-const { bytesToHex as toHex } = require("ethereum-cryptography/utils");
+import { bytesToHex as toHex } from "ethereum-cryptography/utils.js";
 toHex(sha256(utf8ToBytes("abc")))
 ```
 
@@ -141,15 +140,15 @@ Encoding passwords is a frequent source of errors. Please read
 before using these submodules.
 
 ```js
-const { pbkdf2 } = require("ethereum-cryptography/pbkdf2");
-const { utf8ToBytes } = require("ethereum-cryptography/utils");
+import { pbkdf2 } from "ethereum-cryptography/pbkdf2.js";
+import { utf8ToBytes } from "ethereum-cryptography/utils.js";
 // Pass Uint8Array, or convert strings to Uint8Array
 console.log(await pbkdf2(utf8ToBytes("password"), utf8ToBytes("salt"), 131072, 32, "sha256"));
 ```
 
 ```js
-const { scrypt } = require("ethereum-cryptography/scrypt");
-const { utf8ToBytes } = require("ethereum-cryptography/utils");
+import { scrypt } from "ethereum-cryptography/scrypt.js";
+import { utf8ToBytes } from "ethereum-cryptography/utils.js";
 console.log(await scrypt(utf8ToBytes("password"), utf8ToBytes("salt"), 262144, 8, 1, 32));
 ```
 
@@ -166,7 +165,7 @@ pseudo-random data in synchronous and asynchronous ways.
 Backed by [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) in browser and by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) in node.js. If backends are somehow not available, the module would throw an error and won't work, as keeping them working would be insecure.
 
 ```js
-const { getRandomBytesSync } = require("ethereum-cryptography/random");
+import { getRandomBytesSync } from "ethereum-cryptography/random.js";
 console.log(getRandomBytesSync(32));
 ```
 
@@ -188,7 +187,7 @@ certain characteristics. If this is not the case, the security of secp256k1 is
 compromised. We strongly recommend using `utils.randomPrivateKey()` to generate them.
 
 ```js
-const {secp256k1} = require("ethereum-cryptography/secp256k1");
+import { secp256k1 } from "ethereum-cryptography/secp256k1.js";
 (async () => {
   // You pass either a hex string, or Uint8Array
   const privateKey = "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
@@ -199,7 +198,9 @@ const {secp256k1} = require("ethereum-cryptography/secp256k1");
 })();
 ```
 
-Note: if you've been using ethereum-cryptography v0.1, it had different API. We're providing a compatibility layer for users who want to upgrade without hassle. Check out [the legacy documentation](#legacy-secp256k1-compatibility-layer).
+We're also providing a compatibility layer for users who want to upgrade
+from `tiny-secp256k1` or `secp256k1` modules without hassle.
+Check out [secp256k1 compatibility layer](#legacy-secp256k1-compatibility-layer).
 
 ## BIP32 HD Keygen
 
@@ -209,7 +210,7 @@ Also available as standalone package [scure-bip32](https://github.com/paulmillr/
 This module exports a single class `HDKey`, which should be used like this:
 
 ```ts
-const { HDKey } = require("ethereum-cryptography/hdkey");
+import { HDKey } from "ethereum-cryptography/hdkey.js";
 const hdkey1 = HDKey.fromMasterSeed(seed);
 const hdkey2 = HDKey.fromExtendedKey(base58key);
 const hdkey3 = HDKey.fromJSON({ xpriv: string });
@@ -287,8 +288,8 @@ recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/maste
 Also available as standalone package [scure-bip39](https://github.com/paulmillr/scure-bip39).
 
 ```js
-const { generateMnemonic } = require("ethereum-cryptography/bip39");
-const { wordlist } = require("ethereum-cryptography/bip39/wordlists/english");
+import { generateMnemonic } from "ethereum-cryptography/bip39/index.js";
+import { wordlist } from "ethereum-cryptography/bip39/wordlists/english.js";
 console.log(generateMnemonic(wordlist));
 ```
 
@@ -385,8 +386,8 @@ exception.
 ### Example usage
 
 ```js
-const { encrypt } = require("ethereum-cryptography/aes");
-const { hexToBytes, utf8ToBytes } = require("ethereum-cryptography/utils");
+import { encrypt } from "ethereum-cryptography/aes.js";
+import { hexToBytes, utf8ToBytes } from "ethereum-cryptography/utils.js";
 
 console.log(
   encrypt(
@@ -420,15 +421,13 @@ These can be used by setting your `plugins` array like this:
 
 ## Legacy secp256k1 compatibility layer
 
-**Note:** consider using `secp256k1` instead;
-This module is only for users who upgraded
-from ethereum-cryptography v0.1. It could be removed in the future,
-but we're keeping it around for now, for backwards-compatibility.
+**Warning:** use `secp256k1` instead. This module is only for users who upgraded
+from ethereum-cryptography v0.1. It could be removed in the future.
 
 The API of `secp256k1-compat` is the same as [secp256k1-node](https://github.com/cryptocoinjs/secp256k1-node):
 
 ```js
-const { createPrivateKeySync, ecdsaSign } = require("ethereum-cryptography/secp256k1-compat");
+import { createPrivateKeySync, ecdsaSign } from "ethereum-cryptography/secp256k1-compat";
 const msgHash = Uint8Array.from(
   "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
   "hex"
@@ -460,7 +459,7 @@ Upgrading from 1.0 to 2.0:
   to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
   Main changes to keep in mind: a) `sign` now returns `Signature` instance
   b) `recoverPublicKey` got moved onto a `Signature` instance
-2. node.js 14 and older support was dropped. Upgrade to node.js 16 or later. 
+2. node.js 14 and older support was dropped. Upgrade to node.js 16 or later.
 
 Upgrading from 0.1 to 1.0: **Same functionality**, all old APIs remain the same except for the breaking changes:
 
@@ -471,14 +470,14 @@ browsers and node.js.
 which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
 3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
 
-```
-const { sha256 } = require("ethereum-cryptography/sha256");
+```js
+import { sha256 } from "ethereum-cryptography/sha256.js";
 
 // Old usage
 const hasho = sha256(Buffer.from("string", "utf8")).toString("hex");
 
 // New usage
-const { toHex } = require("ethereum-cryptography/utils");
+import { toHex } from "ethereum-cryptography/utils.js";
 const hashn = toHex(sha256("string"));
 
 // If you have `Buffer` module and want to preserve it:
@@ -505,9 +504,5 @@ Copyright (c) 2018 cryptocoinjs
 
 [1]: https://img.shields.io/npm/v/ethereum-cryptography.svg
 [2]: https://www.npmjs.com/package/ethereum-cryptography
-[3]: https://img.shields.io/travis/ethereum/js-ethereum-cryptography/master.svg?label=Travis%20CI
-[4]: https://travis-ci.org/ethereum/js-ethereum-cryptography
-[5]: https://img.shields.io/npm/l/ethereum-cryptography
-[6]: https://github.com/ethereum/js-ethereum-cryptography/blob/master/packages/ethereum-cryptography/LICENSE
-[7]: https://img.shields.io/npm/types/ethereum-cryptography.svg
-[8]: https://www.npmjs.com/package/ethereum-cryptography
+[3]: https://img.shields.io/npm/l/ethereum-cryptography
+[4]: https://github.com/ethereum/js-ethereum-cryptography/blob/master/packages/ethereum-cryptography/LICENSE
