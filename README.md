@@ -2,9 +2,9 @@
 
 [![npm version][1]][2] [![license][3]][4]
 
-Audited pure JS library containing all Ethereum-related cryptographic primitives.
+[Audited](#security) pure JS library containing all Ethereum-related cryptographic primitives.
 
-Included algorithms:
+Included algorithms, implemented with 5 @noble & @scure packages:
 
 * [Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b](#hashes-sha256-keccak-256-ripemd160-blake2b)
 * [KDFs: PBKDF2, Scrypt](#kdfs-pbkdf2-scrypt)
@@ -18,15 +18,15 @@ Included algorithms:
 [noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
 [noble-curves](https://github.com/paulmillr/noble-curves),
 which changes re-exported api of `secp256k1` submodule.
-There have been no other changes. Check out [Upgrading](#upgrading).
+There have been no other changes.
 
-**January 2022 update:** We've released v1.0 of the package, a complete rewrite:
+**January 2022 update:** v1.0 has been released. We've rewritten the library from
+scratch and [audited](#security) it. It became **6x smaller:** ~5,000 lines of
+code instead of ~24,000 (with all deps); 650KB instead of 10.2MB.
+5 dependencies by 1 author are now used, instead of 38 by 5 authors.
 
-- **6x smaller:** ~5,000 lines of code instead of ~24,000 (with all deps); 650KB instead of 10.2MB
-- 5 dependencies by 1 author instead of 38 by 5 authors
-- [Audited](#security) by an independent security firm
-- Check out the article about it: [A safer, smaller, and faster Ethereum cryptography stack](https://medium.com/nomic-labs-blog/a-safer-smaller-and-faster-ethereum-cryptography-stack-5eeb47f62d79)
-- Take a glance at the [Upgrading](#upgrading) section for breaking changes: there are almost none
+Check out [Upgrading](#upgrading) section and an article about the library:
+[A safer, smaller, and faster Ethereum cryptography stack](https://medium.com/nomic-labs-blog/a-safer-smaller-and-faster-ethereum-cryptography-stack-5eeb47f62d79).
 
 ## Usage
 
