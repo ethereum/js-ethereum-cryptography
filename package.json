@@ -1,6 +1,6 @@
 {
   "name": "ethereum-cryptography",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "All the cryptographic primitives used in Ethereum",
   "contributors": [
     {
@@ -21,13 +21,14 @@
     "bip39/wordlists/*.js",
     "bip39/wordlists/*.d.ts",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "esm"
   ],
   "dependencies": {
-    "@noble/curves": "1.0.0",
-    "@noble/hashes": "1.3.0",
+    "@noble/curves": "1.1.0",
+    "@noble/hashes": "1.3.1",
     "@scure/bip32": "1.3.0",
-    "@scure/bip39": "1.2.0"
+    "@scure/bip39": "1.2.1"
   },
   "browser": {
     "crypto": false
@@ -36,7 +37,7 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm-run-all build:tsc",
-    "build:tsc": "tsc --project tsconfig.prod.json",
+    "build:tsc": "tsc --project tsconfig.prod.json && tsc --project tsconfig.prod.esm.json",
     "test": "npm-run-all test:node",
     "test:node": "mocha",
     "clean": "rimraf test-builds bip39 '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",

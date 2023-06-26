@@ -51,6 +51,8 @@ export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
   };
 }
 
+declare const globalThis: Record<string, any> | undefined;
+
 // TODO(v3): switch away from node crypto, remove this unnecessary variable.
 export const crypto: { node?: any; web?: any } = (() => {
   const webCrypto =
