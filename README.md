@@ -4,7 +4,7 @@
 
 [Audited](#security) pure JS library containing all Ethereum-related cryptographic primitives.
 
-Included algorithms, implemented with 5 @noble & @scure packages:
+Included algorithms, implemented with just 5 [noble & scure](https://paulmillr.com/noble/) dependencies:
 
 * [Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b](#hashes-sha256-keccak-256-ripemd160-blake2b)
 * [KDFs: PBKDF2, Scrypt](#kdfs-pbkdf2-scrypt)

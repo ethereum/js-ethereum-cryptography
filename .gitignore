@@ -6,3 +6,4 @@
 /test-builds
 /node_modules
 /.parcel-cache
+/esm
