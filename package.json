@@ -332,7 +332,7 @@
     "ts-node": "10.9.1",
     "typescript": "5.0.2",
     "webpack": "5.76.0",
-    "webpack-cli": "4.10"
+    "webpack-cli": "4.10.0"
   },
   "keywords": [
     "ethereum",
