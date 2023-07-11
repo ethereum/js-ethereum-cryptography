@@ -4,7 +4,7 @@ import {
 } from "@noble/hashes/pbkdf2";
 import { sha256 } from "@noble/hashes/sha256";
 import { sha512 } from "@noble/hashes/sha512";
-import { assertBytes } from "./utils";
+import { assertBytes } from "./utils.js";
 
 export async function pbkdf2(
   password: Uint8Array,

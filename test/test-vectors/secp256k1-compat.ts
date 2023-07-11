@@ -1,6 +1,6 @@
-import * as secp from "../../src/secp256k1-compat";
-import { sha256 } from "../../src/sha256";
-import { concatBytes, hexToBytes, toHex } from "../../src/utils";
+import * as secp from "ethereum-cryptography/secp256k1-compat";
+import { sha256 } from "ethereum-cryptography/sha256";
+import { concatBytes, hexToBytes, toHex } from "ethereum-cryptography/utils";
 import { deepStrictEqual, throws } from "./assert";
 import { VECTORS } from "./secp256k1_lib_vectors";
 

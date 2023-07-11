@@ -1,5 +1,5 @@
 import { crypto as cr } from "@noble/hashes/crypto";
-import { concatBytes, equalsBytes } from "./utils";
+import { concatBytes, equalsBytes } from "./utils.js";
 
 const crypto: any = { web: cr };
 

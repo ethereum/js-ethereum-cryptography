@@ -1,7 +1,7 @@
 import { sha256 } from "@noble/hashes/sha256";
 import { mod } from "@noble/curves/abstract/modular";
-import { secp256k1 } from "./secp256k1";
-import { assertBool, assertBytes, hexToBytes, toHex } from "./utils";
+import { secp256k1 } from "./secp256k1.js";
+import { assertBool, assertBytes, hexToBytes, toHex } from "./utils.js";
 
 // Use `secp256k1` module directly.
 // This is a legacy compatibility layer for the npm package `secp256k1` via noble-secp256k1

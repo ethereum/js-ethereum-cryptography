@@ -1,5 +1,5 @@
-import { scrypt as scryptAsync, scryptSync } from "../../src/scrypt";
-import { hexToBytes, toHex } from "../../src/utils";
+import { scrypt as scryptAsync, scryptSync } from "ethereum-cryptography/scrypt";
+import { hexToBytes, toHex } from "ethereum-cryptography/utils";
 import { deepStrictEqual } from "./assert";
 
 const TEST_VECTORS = [

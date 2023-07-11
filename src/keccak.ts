@@ -6,7 +6,7 @@ import {
   keccak_512
 } from "@noble/hashes/sha3";
 import { Hash } from "@noble/hashes/utils";
-import { wrapHash } from "./utils";
+import { wrapHash } from "./utils.js";
 
 // Expose create only for keccak256
 interface K256 {

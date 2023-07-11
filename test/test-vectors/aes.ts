@@ -1,5 +1,5 @@
-import { decrypt, encrypt } from "../../src/aes";
-import { hexToBytes, toHex } from "../../src/utils";
+import { decrypt, encrypt } from "ethereum-cryptography/aes";
+import { hexToBytes, toHex } from "ethereum-cryptography/utils";
 import { deepStrictEqual, rejects } from "./assert";
 // Test vectors taken from https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf
 const TEST_VECTORS = [
