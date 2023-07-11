@@ -36,6 +36,131 @@
       "import": "./esm/index.js",
       "default": "./index.js"
     },
+    "./aes": {
+      "types": "./aes.d.ts",
+      "import": "./esm/aes.js",
+      "default": "./aes.js"
+    },
+    "./bip39": {
+      "types": "./bip39.d.ts",
+      "import": "./esm/bip39.js",
+      "default": "./bip39.js"
+    },
+    "./blake2b": {
+      "types": "./blake2b.d.ts",
+      "import": "./esm/blake2b.js",
+      "default": "./blake2b.js"
+    },
+    "./hdkey": {
+      "types": "./hdkey.d.ts",
+      "import": "./esm/hdkey.js",
+      "default": "./hdkey.js"
+    },
+    "./index": {
+      "types": "./index.d.ts",
+      "import": "./esm/index.js",
+      "default": "./index.js"
+    },
+    "./keccak": {
+      "types": "./keccak.d.ts",
+      "import": "./esm/keccak.js",
+      "default": "./keccak.js"
+    },
+    "./pbkdf2": {
+      "types": "./pbkdf2.d.ts",
+      "import": "./esm/pbkdf2.js",
+      "default": "./pbkdf2.js"
+    },
+    "./random": {
+      "types": "./random.d.ts",
+      "import": "./esm/random.js",
+      "default": "./random.js"
+    },
+    "./ripemd160": {
+      "types": "./ripemd160.d.ts",
+      "import": "./esm/ripemd160.js",
+      "default": "./ripemd160.js"
+    },
+    "./scrypt": {
+      "types": "./scrypt.d.ts",
+      "import": "./esm/scrypt.js",
+      "default": "./scrypt.js"
+    },
+    "./secp256k1-compat": {
+      "types": "./secp256k1-compat.d.ts",
+      "import": "./esm/secp256k1-compat.js",
+      "default": "./secp256k1-compat.js"
+    },
+    "./secp256k1": {
+      "types": "./secp256k1.d.ts",
+      "import": "./esm/secp256k1.js",
+      "default": "./secp256k1.js"
+    },
+    "./sha256": {
+      "types": "./sha256.d.ts",
+      "import": "./esm/sha256.js",
+      "default": "./sha256.js"
+    },
+    "./sha512": {
+      "types": "./sha512.d.ts",
+      "import": "./esm/sha512.js",
+      "default": "./sha512.js"
+    },
+    "./utils": {
+      "types": "./utils.d.ts",
+      "import": "./esm/utils.js",
+      "default": "./utils.js"
+    },
+    "./bip39/index": {
+      "types": "./bip39/index.d.ts",
+      "import": "./esm/bip39/index.js",
+      "default": "./bip39/index.js"
+    },
+    "./bip39/wordlists/czech": {
+      "types": "./bip39/wordlists/czech.d.ts",
+      "import": "./esm/bip39/wordlists/czech.js",
+      "default": "./bip39/wordlists/czech.js"
+    },
+    "./bip39/wordlists/english": {
+      "types": "./bip39/wordlists/english.d.ts",
+      "import": "./esm/bip39/wordlists/english.js",
+      "default": "./bip39/wordlists/english.js"
+    },
+    "./bip39/wordlists/french": {
+      "types": "./bip39/wordlists/french.d.ts",
+      "import": "./esm/bip39/wordlists/french.js",
+      "default": "./bip39/wordlists/french.js"
+    },
+    "./bip39/wordlists/italian": {
+      "types": "./bip39/wordlists/italian.d.ts",
+      "import": "./esm/bip39/wordlists/italian.js",
+      "default": "./bip39/wordlists/italian.js"
+    },
+    "./bip39/wordlists/japanese": {
+      "types": "./bip39/wordlists/japanese.d.ts",
+      "import": "./esm/bip39/wordlists/japanese.js",
+      "default": "./bip39/wordlists/japanese.js"
+    },
+    "./bip39/wordlists/korean": {
+      "types": "./bip39/wordlists/korean.d.ts",
+      "import": "./esm/bip39/wordlists/korean.js",
+      "default": "./bip39/wordlists/korean.js"
+    },
+    "./bip39/wordlists/simplified-chinese": {
+      "types": "./bip39/wordlists/simplified-chinese.d.ts",
+      "import": "./esm/bip39/wordlists/simplified-chinese.js",
+      "default": "./bip39/wordlists/simplified-chinese.js"
+    },
+    "./bip39/wordlists/spanish": {
+      "types": "./bip39/wordlists/spanish.d.ts",
+      "import": "./esm/bip39/wordlists/spanish.js",
+      "default": "./bip39/wordlists/spanish.js"
+    },
+    "./bip39/wordlists/traditional-chinese": {
+      "types": "./bip39/wordlists/traditional-chinese.d.ts",
+      "import": "./esm/bip39/wordlists/traditional-chinese.js",
+      "default": "./bip39/wordlists/traditional-chinese.js"
+    },
     "./aes.js": {
       "types": "./aes.d.ts",
       "import": "./esm/aes.js",
