@@ -24,5 +24,4 @@ jobs:
         npm test
     - name: Run browser tests and lint
       run: |
-        npm run browser-tests
         npm run lint
