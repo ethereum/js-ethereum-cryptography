@@ -296,7 +296,7 @@
     "build": "npm-run-all build:tsc",
     "build:tsc": "tsc --project tsconfig.prod.json && tsc --project tsconfig.prod.esm.json",
     "test": "npm-run-all test:node",
-    "test:node": "mocha",
+    "test:node": "cd test && npm install && cd .. && mocha",
     "clean": "rimraf test-builds bip39 '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
