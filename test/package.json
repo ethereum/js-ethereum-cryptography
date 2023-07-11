@@ -10,6 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ethereum-cryptography": "file:.."
+    "ethereum-cryptography": "file:..",
+    "@types/mocha": "9.1.1"
+  },
+  "targets": {
+    "parcel_tests": {
+      "context": "browser"
+    }
   }
 }

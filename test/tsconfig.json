@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "downlevelIteration": true,
+    "rootDirs": [
+      "./"
+    ],
+    "outDir": "./test-builds/tsc",
+    "noUnusedLocals": true,
+    "declaration": true
+  },
+  "include": [
+    "./**/*.ts",
+  ]
+}
