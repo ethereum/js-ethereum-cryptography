@@ -1,6 +1,6 @@
 import { secp256k1 as secp } from "@noble/curves/secp256k1";
-import { HARDENED_OFFSET, HDKey } from "../../src/hdkey";
-import { hexToBytes, toHex } from "../../src/utils";
+import { HARDENED_OFFSET, HDKey } from "ethereum-cryptography/hdkey";
+import { hexToBytes, toHex } from "ethereum-cryptography/utils";
 import { deepStrictEqual, throws } from "./assert";
 // https://github.com/cryptocoinjs/hdkey/blob/42637e381bdef0c8f785b14f5b66a80dad969514/test/fixtures/hdkey.json
 const fixtures = [

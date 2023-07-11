@@ -1,6 +1,6 @@
 {
   "name": "ethereum-cryptography",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "All the cryptographic primitives used in Ethereum",
   "contributors": [
     {
@@ -296,8 +296,8 @@
     "build": "npm-run-all build:tsc",
     "build:tsc": "tsc --project tsconfig.prod.json && tsc --project tsconfig.prod.esm.json",
     "test": "npm-run-all test:node",
-    "test:node": "mocha",
-    "clean": "rimraf test-builds bip39 '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
+    "test:node": "cd test && npm install && cd .. && mocha",
+    "clean": "rimraf test/test-builds bip39 '*.js' '*.js.map' '*.d.ts' '*.d.ts.map' 'src/**/*.js'",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "browser-tests": "npm-run-all browser-tests:build browser-tests:test",

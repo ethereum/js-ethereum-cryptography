@@ -1,5 +1,5 @@
-import { sha512 } from "../../src/sha512";
-import { toHex, utf8ToBytes } from "../../src/utils";
+import { sha512 } from "ethereum-cryptography/sha512";
+import { toHex, utf8ToBytes } from "ethereum-cryptography/utils";
 import { deepStrictEqual } from "./assert";
 
 const TEST_VECTORS = [

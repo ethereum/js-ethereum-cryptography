@@ -1,4 +1,3 @@
-// buf.toString('hex') -> toHex(buf)
 import assert from "@noble/hashes/_assert";
 import { hexToBytes as _hexToBytes } from "@noble/hashes/utils";
 const assertBool = assert.bool;
@@ -11,6 +10,8 @@ export {
   createView,
   utf8ToBytes
 } from "@noble/hashes/utils";
+
+// buf.toString('hex') -> toHex(buf)
 
 // Global symbols in both browsers and Node.js since v11
 // See https://github.com/microsoft/TypeScript/issues/31535

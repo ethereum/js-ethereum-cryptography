@@ -1,4 +1,4 @@
-import { secp256k1 } from "../../src/secp256k1";
+import { secp256k1 } from "ethereum-cryptography/secp256k1";
 import { deepStrictEqual } from "./assert";
 
 describe("secp256k1", () => {

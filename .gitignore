@@ -7,3 +7,4 @@
 /node_modules
 /.parcel-cache
 /esm
+/test/node_modules

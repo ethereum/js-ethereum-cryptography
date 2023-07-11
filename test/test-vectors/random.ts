@@ -1,5 +1,5 @@
-import { getRandomBytes, getRandomBytesSync } from "../../src/random";
-import { equalsBytes } from "../../src/utils";
+import { getRandomBytes, getRandomBytesSync } from "ethereum-cryptography/random";
+import { equalsBytes } from "ethereum-cryptography/utils";
 import { deepStrictEqual } from "./assert";
 
 describe("Random number generation", () => {

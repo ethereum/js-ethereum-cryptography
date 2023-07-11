@@ -1,5 +1,5 @@
-import { blake2b } from "../../src/blake2b";
-import { hexToBytes, toHex } from "../../src/utils";
+import { blake2b } from "ethereum-cryptography/blake2b";
+import { hexToBytes, toHex } from "ethereum-cryptography/utils";
 import { deepStrictEqual, throws } from "./assert";
 // Vectors extracted from https://github.com/emilbayes/blake2b/blob/f0a7c7b550133eca5f5fc3b751ccfd2335ce736f/test-vectors.json
 const TEST_VECTORS = [

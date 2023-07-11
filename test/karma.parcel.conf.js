@@ -1,7 +1,7 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     frameworks: ["mocha"],
-    files: ["../test-builds/parcel/*.js"],
+    files: ["./test-builds/parcel/*.js"],
     colors: true,
     logLevel: config.LOG_INFO,
     browsers: ["ChromeHeadless"],
@@ -12,7 +12,7 @@ module.exports = function(config) {
     concurrency: Infinity,
     reporters: ["mocha"],
     client: {
-      captureConsole: true
-    }
+      captureConsole: true,
+    },
   });
 };
