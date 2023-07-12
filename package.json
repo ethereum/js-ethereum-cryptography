@@ -42,9 +42,9 @@
       "default": "./aes.js"
     },
     "./bip39": {
-      "types": "./bip39.d.ts",
-      "import": "./esm/bip39.js",
-      "default": "./bip39.js"
+      "types": "./bip39/index.d.ts",
+      "import": "./esm/bip39/index.js",
+      "default": "./bip39/index.js"
     },
     "./blake2b": {
       "types": "./blake2b.d.ts",
@@ -167,9 +167,9 @@
       "default": "./aes.js"
     },
     "./bip39.js": {
-      "types": "./bip39.d.ts",
-      "import": "./esm/bip39.js",
-      "default": "./bip39.js"
+      "types": "./bip39/index.d.ts",
+      "import": "./esm/bip39/index.js",
+      "default": "./bip39/index.js"
     },
     "./blake2b.js": {
       "types": "./blake2b.d.ts",
