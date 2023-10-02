@@ -329,7 +329,7 @@ compromise your users' security.
 The `key` parameters in this submodule are meant to be strong cryptographic
 keys. If you want to obtain such a key from a password, please use a
 [key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function)
-like [pbkdf2](#pbkdf2-submodule) or [scrypt](#scrypt-submodule).
+like [pbkdf2](#kdfs-pbkdf2-scrypt) or [scrypt](#kdfs-pbkdf2-scrypt).
 
 ### Operation modes
 
