@@ -1,17 +1,7 @@
 {
   "name": "ethereum-cryptography",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "All the cryptographic primitives used in Ethereum",
-  "contributors": [
-    {
-      "name": "Patricio Palladino",
-      "email": "patricio@nomiclabs.io"
-    },
-    {
-      "name": "Paul Miller",
-      "url": "https://paulmillr.com"
-    }
-  ],
   "repository": "https://github.com/ethereum/js-ethereum-cryptography",
   "license": "MIT",
   "main": "./index.js",
@@ -145,6 +135,11 @@
       "types": "./bip39/wordlists/korean.d.ts",
       "import": "./esm/bip39/wordlists/korean.js",
       "default": "./bip39/wordlists/korean.js"
+    },
+    "./bip39/wordlists/portuguese": {
+      "types": "./bip39/wordlists/portuguese.d.ts",
+      "import": "./esm/bip39/wordlists/portuguese.js",
+      "default": "./bip39/wordlists/portuguese.js"
     },
     "./bip39/wordlists/simplified-chinese": {
       "types": "./bip39/wordlists/simplified-chinese.d.ts",
@@ -355,6 +350,16 @@
     "hierarchical deterministic keys",
     "hdwallet",
     "hdkeys"
+  ],
+  "contributors": [
+    {
+      "name": "Patricio Palladino",
+      "email": "patricio@nomiclabs.io"
+    },
+    {
+      "name": "Paul Miller",
+      "url": "https://paulmillr.com"
+    }
   ],
   "targets": {
     "parcel_tests": {

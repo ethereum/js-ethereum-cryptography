@@ -306,6 +306,7 @@ The word lists are exported as a `wordlist` variable in each of these submodules
 * `ethereum-cryptography/bip39/wordlists/italian.js`
 * `ethereum-cryptography/bip39/wordlists/japanese.js`
 * `ethereum-cryptography/bip39/wordlists/korean.js`
+* `ethereum-cryptography/bip39/wordlists/portuguese.js`
 * `ethereum-cryptography/bip39/wordlists/simplified-chinese.js`
 * `ethereum-cryptography/bip39/wordlists/spanish.js`
 * `ethereum-cryptography/bip39/wordlists/traditional-chinese.js`
