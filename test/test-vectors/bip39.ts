@@ -51,7 +51,7 @@ describe("BIP39", () => {
     });
   });
 
-  describe("Entropy-mnemonic convertions", () => {
+  describe("Entropy-mnemonic conversions", () => {
     describe("Should convert from mnemonic to entropy and back", () => {
       it("should work with the English wodlist", () => {
         const mnemonic = generateMnemonic(englishWordlist, 128);
