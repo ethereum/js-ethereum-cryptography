@@ -15,7 +15,7 @@
     "esm"
   ],
   "dependencies": {
-    "@noble/curves": "1.4.1",
+    "@noble/curves": "1.4.2",
     "@noble/hashes": "1.4.0",
     "@scure/bip32": "1.4.0",
     "@scure/bip39": "1.3.0"
