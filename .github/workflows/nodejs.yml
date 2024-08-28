@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
       with:
         node-version: ${{ matrix.node }}
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'npm'
     - run: npm install
     - name: Build and run tests
       run: |
