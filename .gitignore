@@ -8,3 +8,5 @@
 /.parcel-cache
 /esm
 /test/node_modules
+/test/package-lock.json
+/test/test-builds
