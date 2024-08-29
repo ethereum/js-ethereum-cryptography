@@ -13,7 +13,10 @@ jobs:
         node:
           - 18
           - 20
-          - 22
+          # TODO: Unpin to `22` once parcel incomaptibility with 22.7+ is resolved
+          # - https://github.com/nodejs/node/issues/54573
+          # - https://github.com/parcel-bundler/parcel/issues/9926
+          - 22.6
         os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
