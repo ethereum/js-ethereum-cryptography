@@ -4,7 +4,9 @@ cd ./test/
 echo "Install package to tests"
 # Cleanup old module build
 rm -rf ./node_modules
-npm install
+npm install --production=false
+
+export PATH="${PWD}/node_modules/.bin:${PATH}"
 
 echo "Building tests with TypeScript"
 tsc --project ./tsconfig.json
