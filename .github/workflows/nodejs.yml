@@ -17,7 +17,9 @@ jobs:
           # - https://github.com/nodejs/node/issues/54573
           # - https://github.com/parcel-bundler/parcel/issues/9926
           - 22.6
-        os: [ubuntu-latest]
+        os:
+          - ubuntu-latest
+          - macOS-latest
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
     - name: Use Node.js ${{ matrix.node }}
