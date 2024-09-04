@@ -37,6 +37,14 @@
       "import": "./esm/blake2b.js",
       "require": "./blake2b.js"
     },
+    "./bls": {
+      "import": "./esm/bls.js",
+      "require": "./bls.js"
+    },
+    "./bn": {
+      "import": "./esm/bn.js",
+      "require": "./bn.js"
+    },
     "./hdkey": {
       "import": "./esm/hdkey.js",
       "require": "./hdkey.js"
@@ -44,6 +52,10 @@
     "./index": {
       "import": "./esm/index.js",
       "require": "./index.js"
+    },
+    "./math": {
+      "import": "./esm/math.js",
+      "require": "./math.js"
     },
     "./keccak": {
       "import": "./esm/keccak.js",
@@ -141,6 +153,14 @@
       "import": "./esm/blake2b.js",
       "require": "./blake2b.js"
     },
+    "./bls.js": {
+      "import": "./esm/bls.js",
+      "require": "./bls.js"
+    },
+    "./bn.js": {
+      "import": "./esm/bn.js",
+      "require": "./bn.js"
+    },
     "./hdkey.js": {
       "import": "./esm/hdkey.js",
       "require": "./hdkey.js"
@@ -148,6 +168,10 @@
     "./index.js": {
       "import": "./esm/index.js",
       "require": "./index.js"
+    },
+    "./math.js": {
+      "import": "./esm/math.js",
+      "require": "./math.js"
     },
     "./keccak.js": {
       "import": "./esm/keccak.js",
