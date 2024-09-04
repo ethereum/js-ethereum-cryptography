@@ -9,14 +9,15 @@ jobs:
       contents: read
       id-token: write
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-    - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
-      with:
-        node-version: ${{ matrix.node }}
-        registry-url: 'https://registry.npmjs.org'
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - run: npm publish --provenance --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4
+      - uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+      - run: npm install -g npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
