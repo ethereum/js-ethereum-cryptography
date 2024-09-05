@@ -43,42 +43,41 @@ yarn add ethereum-cryptography
 See [browser usage](#browser-usage) for information on using the package with major Javascript bundlers. It is
 tested with **Webpack, Rollup, Parcel and Browserify**.
 
-This package has no single entry-point, but submodule for each cryptographic
-primitive. Read each primitive's section of this document to learn how to use
-them.
+This package has submodules for each cryptographic primitive.
+Read each primitive's section of this document to learn how to use them.
 
-The reason for this is that importing everything from a single file will lead to
-huge bundles when using this package for the web. This could be avoided through
-tree-shaking, but the possibility of it not working properly on one of
-[the supported bundlers](#browser-usage) is too high.
+The reason for preferring importing from submodules is that importing everything
+from a single file will lead to huge bundles when using this package for the web.
+This could be avoided through tree-shaking, but the possibility of it not working
+properly on one of [the supported bundlers](#browser-usage) is too high.
 
 ```js
 // Hashes
-import { sha256 } from "ethereum-cryptography/sha256.js";
-import { keccak256 } from "ethereum-cryptography/keccak.js";
-import { ripemd160 } from "ethereum-cryptography/ripemd160.js";
-import { blake2b } from "ethereum-cryptography/blake2b.js";
+import { sha256 } from "ethereum-cryptography/sha256";
+import { keccak256 } from "ethereum-cryptography/keccak";
+import { ripemd160 } from "ethereum-cryptography/ripemd160";
+import { blake2b } from "ethereum-cryptography/blake2b";
 
 // KDFs
-import { pbkdf2Sync } from "ethereum-cryptography/pbkdf2.js";
-import { scryptSync } from "ethereum-cryptography/scrypt.js";
+import { pbkdf2Sync } from "ethereum-cryptography/pbkdf2";
+import { scryptSync } from "ethereum-cryptography/scrypt";
 
 // Random
-import { getRandomBytesSync } from "ethereum-cryptography/random.js";
+import { getRandomBytesSync } from "ethereum-cryptography/random";
 
 // AES encryption
-import { encrypt } from "ethereum-cryptography/aes.js";
+import { encrypt } from "ethereum-cryptography/aes";
 
 // secp256k1 elliptic curve operations
-import { secp256k1 } from "ethereum-cryptography/secp256k1.js";
+import { secp256k1 } from "ethereum-cryptography/secp256k1";
 
 // BIP32 HD Keygen, BIP39 Mnemonic Phrases
-import { HDKey } from "ethereum-cryptography/hdkey.js";
-import { generateMnemonic } from "ethereum-cryptography/bip39/index.js";
+import { HDKey } from "ethereum-cryptography/hdkey";
+import { generateMnemonic } from "ethereum-cryptography/bip39";
 import { wordlist } from "ethereum-cryptography/bip39/wordlists/english.js";
 
 // utilities
-import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
+import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils";
 ```
 
 ## Hashes: SHA256, keccak-256, RIPEMD160, BLAKE2b
@@ -99,20 +98,20 @@ and `keccak512`)
 - BLAKE2b
 
 ```js
-import { sha256 } from "ethereum-cryptography/sha256.js";
-import { sha512 } from "ethereum-cryptography/sha512.js";
-import { keccak256, keccak224, keccak384, keccak512 } from "ethereum-cryptography/keccak.js";
-import { ripemd160 } from "ethereum-cryptography/ripemd160.js";
-import { blake2b } from "ethereum-cryptography/blake2b.js";
+import { sha256 } from "ethereum-cryptography/sha256";
+import { sha512 } from "ethereum-cryptography/sha512";
+import { keccak256, keccak224, keccak384, keccak512 } from "ethereum-cryptography/keccak";
+import { ripemd160 } from "ethereum-cryptography/ripemd160";
+import { blake2b } from "ethereum-cryptography/blake2b";
 
 sha256(Uint8Array.from([1, 2, 3]))
 
 // Can be used with strings
-import { utf8ToBytes } from "ethereum-cryptography/utils.js";
+import { utf8ToBytes } from "ethereum-cryptography/utils";
 sha256(utf8ToBytes("abc"))
 
 // If you need hex
-import { bytesToHex as toHex } from "ethereum-cryptography/utils.js";
+import { bytesToHex as toHex } from "ethereum-cryptography/utils";
 toHex(sha256(utf8ToBytes("abc")))
 ```
 
@@ -140,15 +139,15 @@ Encoding passwords is a frequent source of errors. Please read
 before using these submodules.
 
 ```js
-import { pbkdf2 } from "ethereum-cryptography/pbkdf2.js";
-import { utf8ToBytes } from "ethereum-cryptography/utils.js";
+import { pbkdf2 } from "ethereum-cryptography/pbkdf2";
+import { utf8ToBytes } from "ethereum-cryptography/utils";
 // Pass Uint8Array, or convert strings to Uint8Array
 console.log(await pbkdf2(utf8ToBytes("password"), utf8ToBytes("salt"), 131072, 32, "sha256"));
 ```
 
 ```js
-import { scrypt } from "ethereum-cryptography/scrypt.js";
-import { utf8ToBytes } from "ethereum-cryptography/utils.js";
+import { scrypt } from "ethereum-cryptography/scrypt";
+import { utf8ToBytes } from "ethereum-cryptography/utils";
 console.log(await scrypt(utf8ToBytes("password"), utf8ToBytes("salt"), 262144, 8, 1, 32));
 ```
 
@@ -165,7 +164,7 @@ pseudo-random data in synchronous and asynchronous ways.
 Backed by [`crypto.getRandomValues`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) in browser and by [`crypto.randomBytes`](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) in node.js. If backends are somehow not available, the module would throw an error and won't work, as keeping them working would be insecure.
 
 ```js
-import { getRandomBytesSync } from "ethereum-cryptography/random.js";
+import { getRandomBytesSync } from "ethereum-cryptography/random";
 console.log(getRandomBytesSync(32));
 ```
 
@@ -187,7 +186,7 @@ certain characteristics. If this is not the case, the security of secp256k1 is
 compromised. We strongly recommend using `utils.randomPrivateKey()` to generate them.
 
 ```js
-import { secp256k1 } from "ethereum-cryptography/secp256k1.js";
+import { secp256k1 } from "ethereum-cryptography/secp256k1";
 (async () => {
   // You pass either a hex string, or Uint8Array
   const privateKey = "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
@@ -210,7 +209,7 @@ Also available as standalone package [scure-bip32](https://github.com/paulmillr/
 This module exports a single class `HDKey`, which should be used like this:
 
 ```ts
-import { HDKey } from "ethereum-cryptography/hdkey.js";
+import { HDKey } from "ethereum-cryptography/hdkey";
 const hdkey1 = HDKey.fromMasterSeed(seed);
 const hdkey2 = HDKey.fromExtendedKey(base58key);
 const hdkey3 = HDKey.fromJSON({ xpriv: string });
@@ -288,7 +287,7 @@ recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/maste
 Also available as standalone package [scure-bip39](https://github.com/paulmillr/scure-bip39).
 
 ```js
-import { generateMnemonic } from "ethereum-cryptography/bip39/index.js";
+import { generateMnemonic } from "ethereum-cryptography/bip39";
 import { wordlist } from "ethereum-cryptography/bip39/wordlists/english.js";
 console.log(generateMnemonic(wordlist));
 ```
@@ -387,8 +386,8 @@ exception.
 ### Example usage
 
 ```js
-import { encrypt } from "ethereum-cryptography/aes.js";
-import { hexToBytes, utf8ToBytes } from "ethereum-cryptography/utils.js";
+import { encrypt } from "ethereum-cryptography/aes";
+import { hexToBytes, utf8ToBytes } from "ethereum-cryptography/utils";
 
 console.log(
   encrypt(
@@ -472,13 +471,13 @@ which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need
 3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
 
 ```js
-import { sha256 } from "ethereum-cryptography/sha256.js";
+import { sha256 } from "ethereum-cryptography/sha256";
 
 // Old usage
 const hasho = sha256(Buffer.from("string", "utf8")).toString("hex");
 
 // New usage
-import { toHex } from "ethereum-cryptography/utils.js";
+import { toHex } from "ethereum-cryptography/utils";
 const hashn = toHex(sha256("string"));
 
 // If you have `Buffer` module and want to preserve it:
