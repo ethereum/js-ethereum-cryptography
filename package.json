@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "./index.js",
   "engines": {
-    "node": "^16.20 || ^18 || ^20 || >=22"
+    "node": "16.x || >= 18.0.0"
   },
   "files": [
     "bip39/*.js",
