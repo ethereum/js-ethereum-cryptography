@@ -5,6 +5,9 @@
   "repository": "https://github.com/ethereum/js-ethereum-cryptography",
   "license": "MIT",
   "main": "./index.js",
+  "engines": {
+    "node": "16.x || >= 18.0.0"
+  },
   "files": [
     "bip39/*.js",
     "bip39/*.d.ts",
