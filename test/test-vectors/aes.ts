@@ -1,6 +1,6 @@
 import { decrypt, encrypt } from "ethereum-cryptography/aes";
 import { hexToBytes, toHex } from "ethereum-cryptography/utils";
-import { deepStrictEqual, rejects } from "./assert";
+import { deepStrictEqual, throws } from "./assert";
 // Test vectors taken from https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf
 const TEST_VECTORS = [
   {
@@ -94,8 +94,8 @@ const TEST_VECTORS = [
 
 describe("aes", () => {
   for (const [i, vector] of TEST_VECTORS.entries()) {
-    it(`Should encrypt the test ${i} correctly`, async () => {
-      const encrypted = await encrypt(
+    it(`Should encrypt the test ${i} correctly`, () => {
+      const encrypted = encrypt(
         hexToBytes(vector.msg),
         hexToBytes(vector.key),
         hexToBytes(vector.iv),
@@ -106,8 +106,8 @@ describe("aes", () => {
       deepStrictEqual(toHex(encrypted), vector.cypherText);
     });
 
-    it(`Should decrypt the test ${i} correctly`, async () => {
-      const decrypted = await decrypt(
+    it(`Should decrypt the test ${i} correctly`, () => {
+      const decrypted = decrypt(
         hexToBytes(vector.cypherText),
         hexToBytes(vector.key),
         hexToBytes(vector.iv),
@@ -119,8 +119,8 @@ describe("aes", () => {
     });
   }
 
-  it("Should throw when not padding automatically and the message isn't the right size", async () => {
-    rejects(() =>
+  it("Should throw when not padding automatically and the message isn't the right size", () => {
+    throws(() =>
       encrypt(
         hexToBytes("abcd"),
         hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
@@ -131,8 +131,8 @@ describe("aes", () => {
     );
   });
 
-  it("Should throw when trying to use non-aes modes", async () => {
-    rejects(() =>
+  it("Should throw when trying to use non-aes modes", () => {
+    throws(() =>
       encrypt(
         hexToBytes("abcd"),
         hexToBytes("2b7e151628aed2a6abf7158809cf4f3c"),
@@ -143,7 +143,7 @@ describe("aes", () => {
     );
   });
 
-  it("aes-ctr bug (browser/node result mismatch)", async () => {
+  it("aes-ctr bug (browser/node result mismatch)", () => {
     // NOTE: full 0xff iv causes difference on counter overflow in CTR mode
     const iv = "ffffffffffffffffffffffffffffffff";
     const vectors = [
@@ -184,9 +184,9 @@ describe("aes", () => {
       const msg = hexToBytes(v.msg);
       const key = hexToBytes(v.key);
       const iv = hexToBytes(v.iv);
-      const res = await encrypt(msg, key, iv, v.mode);
+      const res = encrypt(msg, key, iv, v.mode);
       deepStrictEqual(toHex(res), v.result);
-      const clearText = await decrypt(res, key, iv, v.mode);
+      const clearText = decrypt(res, key, iv, v.mode);
       deepStrictEqual(clearText, msg);
     }
   });
