@@ -10,8 +10,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        include:
+          # @actions/setup-node does not support Node.js v14 for macOS
+          - node: 14
+            os: ubuntu-latest
         node:
-          - 14
           - 16.0.0
           - 16
           - 18.0.0
@@ -21,6 +24,7 @@ jobs:
           - 22.6
         os:
           - ubuntu-latest
+          - macOS-latest
     steps:
     - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
     - name: Use Node.js ${{ matrix.node }}
