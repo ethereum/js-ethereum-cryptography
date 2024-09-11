@@ -33,14 +33,13 @@ on one of [the supported bundlers](#browser-usage) is too high.
   * [secp256k1-compat: compatibility layer with other libraries](#secp256k1-compat-compatibility-layer-with-other-libraries)
   * [All imports](#all-imports)
 * [Caveats](#caveats)
+  * [Browser usage: Rollup setup](#browser-usage-rollup-setup)
   * [AES](#aes)
       * [Encrypting with passwords](#encrypting-with-passwords)
       * [Operation modes](#operation-modes)
       * [Padding plaintext messages](#padding-plaintext-messages)
       * [How to use the IV parameter](#how-to-use-the-iv-parameter)
       * [How to handle errors with this module](#how-to-handle-errors-with-this-module)
-* [Browser usage](#browser-usage)
-  * [Rollup setup](#rollup-setup)
 * [Upgrading](#upgrading)
   * [Changelog](#changelog)
   * [From v2 to v3](#from-v2-to-v3)
@@ -335,6 +334,25 @@ import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
 
 ## Caveats
 
+### Browser usage: Rollup setup
+
+Using this library with Rollup requires the following plugins:
+
+* [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
+* [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
+
+These can be used by setting your `plugins` array like this:
+
+```js
+  plugins: [
+    commonjs(),
+    resolve({
+      browser: true,
+      preferBuiltins: false,
+    }),
+  ]
+```
+
 ### AES
 
 #### Encrypting with passwords
@@ -399,35 +417,13 @@ Note that implementing this can mean catching all errors that can be thrown
 when calling on of this module's functions, and just throwing a new generic
 exception.
 
-## Browser usage
-
-### Rollup setup
-
-Using this library with Rollup requires the following plugins:
-
-* [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
-* [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
-
-These can be used by setting your `plugins` array like this:
-
-```js
-  plugins: [
-    commonjs(),
-    resolve({
-      browser: true,
-      preferBuiltins: false,
-    }),
-  ]
-```
-
-
 ## Upgrading
 
 ### Changelog
 
 * v3.0 (Sep 2024): new modules `bls`, `bn`, `math`
 change async AES to non-native sync,
-improve typescript compatibility, new dependency `noble-ciphers`
+improve typescript compatibility, new dependency [noble-ciphers](https://github.com/paulmillr/noble-ciphers)
 * v2.0 (Apr 2023): switched
 [noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
 [noble-curves](https://github.com/paulmillr/noble-curves),
