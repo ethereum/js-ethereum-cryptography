@@ -9,7 +9,8 @@ Check out [Changelog / Upgrading](#upgrading) and an article about the library:
 
 > npm install ethereum-cryptography
 
-We support all major platforms and runtimes.
+We explicitly support major browsers and Node.js on x86 and arm64. Other major runtimes and platforms are supported on a best-effort basis.
+Refer to `engines` field of `package.json` for runtime support information for each version.
 Tests are being ran with Webpack, Rollup, Parcel and Browserify.
 
 This package has no single entry-point, but submodule for each cryptographic
