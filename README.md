@@ -28,6 +28,8 @@ on one of [the supported bundlers](#browser-usage) is too high.
   * [aes: encryption](#aes-encryption)
   * [hdkey: bip32 HD wallets](#hdkey-bip32-hd-wallets)
   * [bip39: mnemonic phrases](#bip39-mnemonic-phrases)
+  * [math: utilities](#math-utilities)
+  * [utils: generic utilities](#utils-generic-utilities)
   * [secp256k1-compat: compatibility layer with other libraries](#secp256k1-compat-compatibility-layer-with-other-libraries)
   * [All imports](#all-imports)
 * [Caveats](#caveats)
@@ -271,6 +273,20 @@ recovery phrases according to [BIP39](https://github.com/bitcoin/bips/blob/maste
 Wordlists for different languages are not imported by default,
 as that would increase bundle sizes too much. Instead, you should import and use them explicitly.
 
+### math: utilities
+
+```js
+import { modPow, modInvert } from "ethereum-cryptography/math.js";
+modPow(123n, 456n, 789n);
+modInvert(22n, 5n);
+```
+
+### utils: generic utilities
+
+```js
+import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
+```
+
 ### secp256k1-compat: compatibility layer with other libraries
 
 ```js
@@ -313,6 +329,7 @@ import { HDKey } from "ethereum-cryptography/hdkey.js";
 import { generateMnemonic } from "ethereum-cryptography/bip39/index.js";
 import { wordlist } from "ethereum-cryptography/bip39/wordlists/english.js";
 
+import { modPow, modInvert } from "ethereum-cryptography/math.js";
 import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
 ```
 
@@ -408,7 +425,9 @@ These can be used by setting your `plugins` array like this:
 
 ### Changelog
 
-* v3.0 (Sep 2024): 
+* v3.0 (Sep 2024): new modules `bls`, `bn`, `math`
+change async AES to non-native sync,
+improve typescript compatibility, new dependency `noble-ciphers`
 * v2.0 (Apr 2023): switched
 [noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
 [noble-curves](https://github.com/paulmillr/noble-curves),
