@@ -10,12 +10,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        include:
+          # @actions/setup-node does not support Node.js v14 for macOS
+          - node: 14
+            os: ubuntu-latest
         node:
+          - 16.0.0
+          - 16
+          - 18.0.0
           - 18
           - 20
-          # TODO: Unpin to `22` once parcel incomaptibility with 22.7+ is resolved
-          # - https://github.com/nodejs/node/issues/54573
-          # - https://github.com/parcel-bundler/parcel/issues/9926
+          # TODO: change to `22` once they fix https://github.com/nodejs/node/issues/54573
           - 22.6
         os:
           - ubuntu-latest
@@ -28,12 +33,9 @@ jobs:
         node-version: ${{ matrix.node }}
         registry-url: 'https://registry.npmjs.org'
         cache: 'npm'
+    - run: npm install -g npm@9.x
     - run: npm ci
-    - name: Build and run tests
-      run: |
-        npm run build --if-present
-        npm test
-    - name: Run browser tests and lint
-      run: |
-        npm run browser-tests
-        npm run lint
+    - run: npm run build --if-present
+    - run: npm test
+    - run: npm run browser-tests
+    - run: npm run lint --if-present

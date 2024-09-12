@@ -51,19 +51,3 @@ export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
     return hash(msg);
   };
 }
-
-declare const globalThis: Record<string, any> | undefined;
-
-// TODO(v3): switch away from node crypto, remove this unnecessary variable.
-export const crypto: { node?: any; web?: any } = (() => {
-  const webCrypto =
-    typeof globalThis === "object" && "crypto" in globalThis ? globalThis.crypto : undefined;
-  const nodeRequire =
-    typeof module !== "undefined" &&
-    typeof module.require === "function" &&
-    module.require.bind(module);
-  return {
-    node: nodeRequire && !webCrypto ? nodeRequire("crypto") : undefined,
-    web: webCrypto
-  };
-})();

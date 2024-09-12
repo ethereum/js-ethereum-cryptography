@@ -5,7 +5,7 @@
 /bip39
 /test-builds
 /node_modules
-/.parcel-cache
+.parcel-cache
 /esm
 /test/node_modules
 /test/package-lock.json
