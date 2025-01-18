@@ -7,7 +7,9 @@ Check out [Changelog / Upgrading](#upgrading) and an article about the library:
 
 ## Usage
 
-> npm install ethereum-cryptography
+```shell
+npm install ethereum-cryptography
+```
 
 We explicitly support major browsers and Node.js on x86 and arm64. Other major runtimes and platforms are supported on a best-effort basis.
 Refer to `engines` field of `package.json` for runtime support information for each version.
