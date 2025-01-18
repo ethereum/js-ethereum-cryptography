@@ -1,15 +1,15 @@
-import assert from "@noble/hashes/_assert";
+import { abool as assertBool } from "@noble/curves/abstract/utils";
+import { abytes as assertBytes } from "@noble/hashes/_assert";
 import { hexToBytes as _hexToBytes } from "@noble/hashes/utils";
-const assertBool = assert.bool;
-const assertBytes = assert.bytes;
-export { assertBool, assertBytes };
+
 export {
   bytesToHex,
-  bytesToHex as toHex,
   concatBytes,
   createView,
-  utf8ToBytes
+  bytesToHex as toHex,
+  utf8ToBytes,
 } from "@noble/hashes/utils";
+export { assertBool, assertBytes };
 
 // buf.toString('hex') -> toHex(buf)
 
@@ -47,7 +47,7 @@ export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
 // Internal utils
 export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
   return (msg: Uint8Array) => {
-    assert.bytes(msg);
+    assertBytes(msg);
     return hash(msg);
   };
 }

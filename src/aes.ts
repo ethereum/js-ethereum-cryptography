@@ -1,4 +1,4 @@
-import { ctr, cbc } from "@noble/ciphers/aes";
+import { cbc, ctr } from "@noble/ciphers/aes";
 import type { CipherWithOutput } from "@noble/ciphers/utils";
 
 function getCipher(
@@ -11,7 +11,10 @@ function getCipher(
     throw new Error("AES: unsupported mode");
   }
   const len = key.length;
-  if ((mode.startsWith("aes-128") && len !== 16) || (mode.startsWith("aes-256") && len !== 32)) {
+  if (
+    (mode.startsWith("aes-128") && len !== 16) ||
+    (mode.startsWith("aes-256") && len !== 32)
+  ) {
     throw new Error("AES: wrong key length");
   }
   if (iv.length !== 16) {

@@ -1,5 +1,5 @@
-import { sha256 } from "@noble/hashes/sha256";
 import { mod } from "@noble/curves/abstract/modular";
+import { sha256 } from "@noble/hashes/sha256";
 import { secp256k1 } from "./secp256k1.js";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils.js";
 
@@ -68,7 +68,7 @@ export function publicKeyCreate(
   out?: Output
 ): Uint8Array {
   assertBytes(privateKey, 32);
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const res = secp256k1.getPublicKey(privateKey, compressed);
   return output(out, compressed ? 33 : 65, res);
 }
@@ -89,7 +89,7 @@ export function publicKeyConvert(
   out?: Output
 ): Uint8Array {
   assertBytes(publicKey, 33, 65);
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const res = Point.fromHex(publicKey).toRawBytes(compressed);
   return output(out, compressed ? 33 : 65, res);
 }
@@ -125,7 +125,7 @@ export function ecdsaRecover(
   out?: Output
 ) {
   assertBytes(msgHash, 32);
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const sign = getSignature(signature);
   const point = sign.addRecoveryBit(recid).recoverPublicKey(msgHash);
   return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
@@ -195,7 +195,7 @@ export function publicKeyNegate(
   out?: Output
 ) {
   assertBytes(publicKey, 33, 65);
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const point = Point.fromHex(publicKey).negate();
   return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
 }
@@ -213,7 +213,7 @@ export function publicKeyCombine(
   for (const publicKey of publicKeys) {
     assertBytes(publicKey, 33, 65);
   }
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const combined = publicKeys
     .map((pub) => Point.fromHex(pub))
     .reduce((res, curr) => res.add(curr), Point.ZERO);
@@ -232,7 +232,7 @@ export function publicKeyTweakAdd(
 ) {
   assertBytes(publicKey, 33, 65);
   assertBytes(tweak, 32);
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const p1 = Point.fromHex(publicKey);
   const p2 = Point.fromPrivateKey(tweak);
   const point = p1.add(p2);
@@ -250,7 +250,7 @@ export function publicKeyTweakMul(
 ) {
   assertBytes(publicKey, 33, 65);
   assertBytes(tweak, 32);
-  assertBool(compressed);
+  assertBool("compressed", compressed);
   const bn = bytesToNumber(tweak);
   if (bn === 0n) {
     throw new Error("Tweak must not be zero");
@@ -287,10 +287,7 @@ export function signatureExport(
   out?: Output
 ): Uint8Array {
   const res = getSignature(signature).toDERRawBytes();
-  return output(out, 72, res.slice()).slice(
-    0,
-    res.length
-  );
+  return output(out, 72, res.slice()).slice(0, res.length);
 }
 // DER -> internal
 export function signatureImport(
