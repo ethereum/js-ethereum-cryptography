@@ -20,36 +20,36 @@ primitive. The reason for this is that importing everything from a single file w
 avoided through tree-shaking, but the possibility of it not working properly
 on one of [the supported bundlers](#browser-usage) is too high.
 
-* [Usage](#usage)
-  * [Dependencies](#dependencies)
-  * [hashes: sha256, sha512, keccak, ripemd160, blake2b](#hashes-sha256-sha512-keccak-ripemd160-blake2b)
-  * [kdfs: pbkdf2, scrypt](#kdfs-pbkdf2-scrypt)
-  * [random: secure randomness](#random-secure-randomness)
-  * [secp256k1: curve operations](#secp256k1-curve-operations)
-  * [bn: pairing-friendly curve](#bn-pairing-friendly-curve)
-  * [bls: pairing-friendly curve](#bls-pairing-friendly-curve)
-  * [aes: encryption](#aes-encryption)
-  * [hdkey: bip32 HD wallets](#hdkey-bip32-hd-wallets)
-  * [bip39: mnemonic phrases](#bip39-mnemonic-phrases)
-  * [math: utilities](#math-utilities)
-  * [utils: generic utilities](#utils-generic-utilities)
-  * [secp256k1-compat: compatibility layer with other libraries](#secp256k1-compat-compatibility-layer-with-other-libraries)
-  * [All imports](#all-imports)
-* [Caveats](#caveats)
-  * [Browser usage: Rollup setup](#browser-usage-rollup-setup)
-  * [AES](#aes)
-      * [Encrypting with passwords](#encrypting-with-passwords)
-      * [Operation modes](#operation-modes)
-      * [Padding plaintext messages](#padding-plaintext-messages)
-      * [How to use the IV parameter](#how-to-use-the-iv-parameter)
-      * [How to handle errors with this module](#how-to-handle-errors-with-this-module)
-* [Upgrading](#upgrading)
-  * [Changelog](#changelog)
-  * [From v2 to v3](#from-v2-to-v3)
-  * [From v1 to v2](#from-v1-to-v2)
-  * [From v0.1 to v1](#from-v01-to-v1)
-* [Security](#security)
-* [License](#license)
+- [Usage](#usage)
+  - [Dependencies](#dependencies)
+  - [hashes: sha256, sha512, keccak, ripemd160, blake2b](#hashes-sha256-sha512-keccak-ripemd160-blake2b)
+  - [kdfs: pbkdf2, scrypt](#kdfs-pbkdf2-scrypt)
+  - [random: secure randomness](#random-secure-randomness)
+  - [secp256k1: curve operations](#secp256k1-curve-operations)
+  - [bn: pairing-friendly curve](#bn-pairing-friendly-curve)
+  - [bls: pairing-friendly curve](#bls-pairing-friendly-curve)
+  - [aes: encryption](#aes-encryption)
+  - [hdkey: bip32 HD wallets](#hdkey-bip32-hd-wallets)
+  - [bip39: mnemonic phrases](#bip39-mnemonic-phrases)
+  - [math: utilities](#math-utilities)
+  - [utils: generic utilities](#utils-generic-utilities)
+  - [secp256k1-compat: compatibility layer with other libraries](#secp256k1-compat-compatibility-layer-with-other-libraries)
+  - [All imports](#all-imports)
+- [Caveats](#caveats)
+  - [Browser usage: Rollup setup](#browser-usage-rollup-setup)
+  - [AES](#aes)
+    - [Encrypting with passwords](#encrypting-with-passwords)
+    - [Operation modes](#operation-modes)
+    - [Padding plaintext messages](#padding-plaintext-messages)
+    - [How to use the IV parameter](#how-to-use-the-iv-parameter)
+    - [How to handle errors with this module](#how-to-handle-errors-with-this-module)
+- [Upgrading](#upgrading)
+  - [Changelog](#changelog)
+  - [From v2 to v3](#from-v2-to-v3)
+  - [From v1 to v2](#from-v1-to-v2)
+  - [From v0.1 to v1](#from-v01-to-v1)
+- [Security](#security)
+- [License](#license)
 
 ### Dependencies
 
@@ -61,23 +61,28 @@ re-export of 6 audited [noble & scure libraries](https://paulmillr.com/noble/):
 
 ethereum-cryptography pins versions of the libraries to ensure good
 protection against supply chain attacks. Ideally, your app would also
-pin version of ethereum-cryptography. That means, no `^3.0.0` - use `3.0.0` instead.
+pin version of ethereum-cryptography. That means, no `^3.1.0` - use `3.1.0` instead.
 
 ### hashes: sha256, sha512, keccak, ripemd160, blake2b
 
 ```js
 import { sha256 } from "ethereum-cryptography/sha256.js";
 import { sha512 } from "ethereum-cryptography/sha512.js";
-import { keccak256, keccak224, keccak384, keccak512 } from "ethereum-cryptography/keccak.js";
+import {
+  keccak256,
+  keccak224,
+  keccak384,
+  keccak512,
+} from "ethereum-cryptography/keccak.js";
 import { ripemd160 } from "ethereum-cryptography/ripemd160.js";
 import { blake2b } from "ethereum-cryptography/blake2b.js";
-sha256(Uint8Array.from([1, 2, 3])) // A: buffers
+sha256(Uint8Array.from([1, 2, 3])); // A: buffers
 
 import { utf8ToBytes } from "ethereum-cryptography/utils.js";
-sha256(utf8ToBytes("abc")) // B: strings
+sha256(utf8ToBytes("abc")); // B: strings
 
 import { bytesToHex as toHex } from "ethereum-cryptography/utils.js";
-toHex(sha256(utf8ToBytes("abc"))) // C: hex
+toHex(sha256(utf8ToBytes("abc"))); // C: hex
 ```
 
 ### kdfs: pbkdf2, scrypt
@@ -88,8 +93,8 @@ import { scrypt, scryptSync } from "ethereum-cryptography/scrypt.js";
 import { utf8ToBytes } from "ethereum-cryptography/utils.js";
 
 // Pass Uint8Array, or convert strings to Uint8Array
-const pass = utf8ToBytes("password")
-const salt = utf8ToBytes("salt")
+const pass = utf8ToBytes("password");
+const salt = utf8ToBytes("salt");
 const iters = 131072;
 const outLength = 32;
 console.log(await pbkdf2(pass, salt, iters, outLength, "sha256"));
@@ -130,8 +135,10 @@ pseudo-random data in synchronous and asynchronous ways. Backed by [`crypto.getR
 ```js
 import { secp256k1 } from "ethereum-cryptography/secp256k1.js";
 // You pass either a hex string, or Uint8Array
-const privateKey = "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
-const messageHash = "a33321f98e4ff1c283c76998f14f57447545d339b3db534c6d886decb4209f28";
+const privateKey =
+  "6b911fd37cdf5c81d4c0adb1ab7fa822ed253ab0ad9aa18d77257c88b29b718e";
+const messageHash =
+  "a33321f98e4ff1c283c76998f14f57447545d339b3db534c6d886decb4209f28";
 const publicKey = secp256k1.getPublicKey(privateKey);
 const signature = secp256k1.sign(messageHash, privateKey);
 const isSigned = secp256k1.verify(signature, messageHash, publicKey);
@@ -148,11 +155,7 @@ compromised.
 ```js
 import { bn } from "ethereum-cryptography/bls.js";
 
-console.log(
-  bn254.G1,
-  bn254.G2,
-  bn254.pairing
-)
+console.log(bn254.G1, bn254.G2, bn254.pairing);
 ```
 
 For example usage, check out [the implementation of bn254 EVM precompiles](https://github.com/paulmillr/noble-curves/blob/3ed792f8ad9932765b84d1064afea8663a255457/test/bn254.test.js#L697).
@@ -163,8 +166,9 @@ For example usage, check out [the implementation of bn254 EVM precompiles](https
 import { bls12_381 as bls } from "ethereum-cryptography/bls.js";
 
 // G1 keys, G2 signatures
-const privateKey = '67d53f170b908cabb9eb326c3c337762d59289a8fec79f7bc9254b584b73265c';
-const message = '64726e3da8';
+const privateKey =
+  "67d53f170b908cabb9eb326c3c337762d59289a8fec79f7bc9254b584b73265c";
+const message = "64726e3da8";
 const publicKey = bls.getPublicKey(privateKey);
 const signature = bls.sign(message, privateKey);
 const isValid = bls.verify(signature, message, publicKey);
@@ -177,12 +181,15 @@ console.log({ publicKey, signature, isValid });
 // aggregateShortSignatures(signatures)
 
 // Custom DST
-const htfEthereum = { DST: 'BLS_SIG_BLS12381G2_XMD:SHA-256_SSWU_RO_POP_' };
+const htfEthereum = { DST: "BLS_SIG_BLS12381G2_XMD:SHA-256_SSWU_RO_POP_" };
 const signatureEth = bls.sign(message, privateKey, htfEthereum);
 const isValidEth = bls.verify(signature, message, publicKey, htfEthereum);
 
 // Aggregation
-const aggregatedKey = bls.aggregatePublicKeys([bls.utils.randomPrivateKey(), bls.utils.randomPrivateKey()])
+const aggregatedKey = bls.aggregatePublicKeys([
+  bls.utils.randomPrivateKey(),
+  bls.utils.randomPrivateKey(),
+]);
 // const aggregatedSig = bls.aggregateSignatures(sigs)
 
 // Pairings, with and without final exponentiation
@@ -256,7 +263,7 @@ const mn = bip39.generateMnemonic(wordlist);
 console.log(mn);
 
 // Reversible: Converts mnemonic string to raw entropy in form of byte array.
-const ent = bip39.mnemonicToEntropy(mn, wordlist)
+const ent = bip39.mnemonicToEntropy(mn, wordlist);
 
 // Reversible: Converts raw entropy in form of byte array to mnemonic string.
 bip39.entropyToMnemonic(ent, wordlist);
@@ -265,8 +272,8 @@ bip39.entropyToMnemonic(ent, wordlist);
 bip39.validateMnemonic(mn, wordlist);
 
 // Irreversible: Uses KDF to derive 64 bytes of key data from mnemonic + optional password.
-await bip39.mnemonicToSeed(mn, 'password');
-bip39.mnemonicToSeedSync(mn, 'password');
+await bip39.mnemonicToSeed(mn, "password");
+bip39.mnemonicToSeedSync(mn, "password");
 ```
 
 The `bip39` submodule provides functions to generate, validate and use seed
@@ -292,7 +299,10 @@ import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
 ### secp256k1-compat: compatibility layer with other libraries
 
 ```js
-import { createPrivateKeySync, ecdsaSign } from "ethereum-cryptography/secp256k1-compat";
+import {
+  createPrivateKeySync,
+  ecdsaSign,
+} from "ethereum-cryptography/secp256k1-compat";
 const msgHash = Uint8Array.from(
   "82ff40c0a986c6a5cfad4ddf4c3aa6996f1a7837f9c398e17e5de5cbd5a12b28",
   "hex"
@@ -311,7 +321,12 @@ The API of `secp256k1-compat` is the same as [secp256k1-node](https://github.com
 ```js
 import { sha256 } from "ethereum-cryptography/sha256.js";
 import { sha512 } from "ethereum-cryptography/sha512.js";
-import { keccak256, keccak224, keccak384, keccak512 } from "ethereum-cryptography/keccak.js";
+import {
+  keccak256,
+  keccak224,
+  keccak384,
+  keccak512,
+} from "ethereum-cryptography/keccak.js";
 import { ripemd160 } from "ethereum-cryptography/ripemd160.js";
 import { blake2b } from "ethereum-cryptography/blake2b.js";
 
@@ -341,19 +356,19 @@ import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils.js";
 
 Using this library with Rollup requires the following plugins:
 
-* [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
-* [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
+- [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs)
+- [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)
 
 These can be used by setting your `plugins` array like this:
 
 ```js
-  plugins: [
-    commonjs(),
-    resolve({
-      browser: true,
-      preferBuiltins: false,
-    }),
-  ]
+plugins: [
+  commonjs(),
+  resolve({
+    browser: true,
+    preferBuiltins: false,
+  }),
+];
 ```
 
 ### AES
@@ -424,17 +439,17 @@ exception.
 
 ### Changelog
 
-* v3.0 (Sep 2024): new modules `bls`, `bn`, `math`
-change async AES to non-native sync,
-improve typescript compatibility, new dependency [noble-ciphers](https://github.com/paulmillr/noble-ciphers)
-* v2.0 (Apr 2023): switched
-[noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
-[noble-curves](https://github.com/paulmillr/noble-curves),
-which changes re-exported api of `secp256k1` submodule.
-* v1.0 (Jan 2022): rewritten the library from
-scratch and [audited](#security) it. It became **6x smaller:** ~5,000 lines of
-code instead of ~24,000 (with all deps); 650KB instead of 10.2MB.
-5 dependencies by 1 author are now used, instead of 38 by 5 authors.
+- v3.0 (Sep 2024): new modules `bls`, `bn`, `math`
+  change async AES to non-native sync,
+  improve typescript compatibility, new dependency [noble-ciphers](https://github.com/paulmillr/noble-ciphers)
+- v2.0 (Apr 2023): switched
+  [noble-secp256k1](https://github.com/paulmillr/noble-secp256k1) to
+  [noble-curves](https://github.com/paulmillr/noble-curves),
+  which changes re-exported api of `secp256k1` submodule.
+- v1.0 (Jan 2022): rewritten the library from
+  scratch and [audited](#security) it. It became **6x smaller:** ~5,000 lines of
+  code instead of ~24,000 (with all deps); 650KB instead of 10.2MB.
+  5 dependencies by 1 author are now used, instead of 38 by 5 authors.
 
 ### From v2 to v3
 
@@ -444,11 +459,11 @@ code instead of ~24,000 (with all deps); 650KB instead of 10.2MB.
 ### From v1 to v2
 
 1. `secp256k1` module was changed massively:
-  before, it was using [noble-secp256k1 1.7](https://github.com/paulmillr/noble-secp256k1);
-  now it uses safer [noble-curves](https://github.com/paulmillr/noble-curves). Please refer
-  to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
-  Main changes to keep in mind: a) `sign` now returns `Signature` instance
-  b) `recoverPublicKey` got moved onto a `Signature` instance
+   before, it was using [noble-secp256k1 1.7](https://github.com/paulmillr/noble-secp256k1);
+   now it uses safer [noble-curves](https://github.com/paulmillr/noble-curves). Please refer
+   to [upgrading section from curves README](https://github.com/paulmillr/noble-curves#upgrading).
+   Main changes to keep in mind: a) `sign` now returns `Signature` instance
+   b) `recoverPublicKey` got moved onto a `Signature` instance
 2. node.js 14 and older support was dropped. Upgrade to node.js 16 or later.
 
 ### From v0.1 to v1
@@ -456,10 +471,10 @@ code instead of ~24,000 (with all deps); 650KB instead of 10.2MB.
 All old APIs remain the same except for the breaking changes:
 
 1. We return `Uint8Array` from all methods that worked with `Buffer` before.
-`Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
-browsers and node.js.
+   `Buffer` has never been supported in browsers, while `Uint8Array`s are supported natively in both
+   browsers and node.js.
 2. We target runtimes with [bigint](https://caniuse.com/bigint) support,
-which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
+   which is Chrome 67+, Edge 79+, Firefox 68+, Safari 14+, node.js 10+. If you need to support older runtimes, use `ethereum-cryptography@0.1`
 3. If you've used `secp256k1`, [rename it to `secp256k1-compat`](#legacy-secp256k1-compatibility-layer)
 
 ```js
