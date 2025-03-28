@@ -187,8 +187,8 @@ const isValidEth = bls.verify(signature, message, publicKey, htfEthereum);
 
 // Aggregation
 const aggregatedKey = bls.aggregatePublicKeys([
-  bls.utils.randomPrivateKey(),
-  bls.utils.randomPrivateKey(),
+  bls.getPublicKey(bls.utils.randomPrivateKey()),
+  bls.getPublicKey(bls.utils.randomPrivateKey()),
 ]);
 // const aggregatedSig = bls.aggregateSignatures(sigs)
 
