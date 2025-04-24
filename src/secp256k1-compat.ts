@@ -30,10 +30,10 @@ interface Signature {
 }
 
 function output(
-  out: Output = (len: number) => new Uint8Array(len),
+  out: Output = (len: number): Uint8Array => new Uint8Array(len),
   length: number,
   value?: Uint8Array
-) {
+): Uint8Array {
   if (typeof out === "function") {
     out = out(length);
   }
@@ -123,7 +123,7 @@ export function ecdsaRecover(
   msgHash: Uint8Array,
   compressed = true,
   out?: Output
-) {
+): Uint8Array {
   assertBytes(msgHash, 32);
   assertBool("compressed", compressed);
   const sign = getSignature(signature);
@@ -193,7 +193,7 @@ export function publicKeyNegate(
   publicKey: Uint8Array,
   compressed = true,
   out?: Output
-) {
+): Uint8Array {
   assertBytes(publicKey, 33, 65);
   assertBool("compressed", compressed);
   const point = Point.fromHex(publicKey).negate();
@@ -204,7 +204,7 @@ export function publicKeyCombine(
   publicKeys: Uint8Array[],
   compressed = true,
   out?: Output
-) {
+): Uint8Array {
   if (!Array.isArray(publicKeys) || !publicKeys.length) {
     throw new TypeError(
       `Expected array with one or more items, not ${publicKeys}`
@@ -229,7 +229,7 @@ export function publicKeyTweakAdd(
   tweak: Uint8Array,
   compressed = true,
   out?: Output
-) {
+): Uint8Array {
   assertBytes(publicKey, 33, 65);
   assertBytes(tweak, 32);
   assertBool("compressed", compressed);
@@ -247,7 +247,7 @@ export function publicKeyTweakMul(
   tweak: Uint8Array,
   compressed = true,
   out?: Output
-) {
+): Uint8Array {
   assertBytes(publicKey, 33, 65);
   assertBytes(tweak, 32);
   assertBool("compressed", compressed);
@@ -317,7 +317,7 @@ export function ecdh(
     hashfn?: (x: Uint8Array, y: Uint8Array, data: Uint8Array) => Uint8Array;
   } = {},
   out?: Output
-) {
+): Uint8Array {
   assertBytes(publicKey, 33, 65);
   assertBytes(privateKey, 32);
   if (typeof options !== "object" || options === null) {

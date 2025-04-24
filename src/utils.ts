@@ -7,7 +7,7 @@ export {
   concatBytes,
   createView,
   bytesToHex as toHex,
-  utf8ToBytes,
+  utf8ToBytes
 } from "@noble/hashes/utils";
 export { assertBool, assertBytes };
 
@@ -46,7 +46,7 @@ export function equalsBytes(a: Uint8Array, b: Uint8Array): boolean {
 
 // Internal utils
 export function wrapHash(hash: (msg: Uint8Array) => Uint8Array) {
-  return (msg: Uint8Array) => {
+  return (msg: Uint8Array): Uint8Array => {
     assertBytes(msg);
     return hash(msg);
   };
