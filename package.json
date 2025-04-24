@@ -298,7 +298,7 @@
     "ts-node": "10.9.1",
     "typescript": "5.8.3"
   },
-  "packageManager": "npm@9.9.3",
+  "packageManager": "npm@9.9.4",
   "keywords": [
     "ethereum",
     "cryptography",
