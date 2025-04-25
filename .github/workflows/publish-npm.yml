@@ -4,12 +4,15 @@ on:
     types: [created]
 jobs:
   build:
+    name: "Publish to NPM"
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
     steps:
       - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4
         with:
           node-version: 20
