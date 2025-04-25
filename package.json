@@ -1,7 +1,7 @@
 {
   "name": "ethereum-cryptography",
   "version": "3.2.0",
-  "description": "All the cryptographic primitives used in Ethereum",
+  "description": "All the cryptographic primitives used in Ethereum.",
   "repository": "https://github.com/ethereum/js-ethereum-cryptography",
   "license": "MIT",
   "main": "./index.js",
