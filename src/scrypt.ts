@@ -1,4 +1,7 @@
-import { scrypt as _sync, scryptAsync as _async } from "@noble/hashes/scrypt";
+import {
+  scrypt as _sync,
+  scryptAsync as _async,
+} from "@noble/hashes/scrypt.js";
 import { assertBytes } from "./utils.js";
 
 type OnProgressCallback = (progress: number) => void;

@@ -1,8 +1,8 @@
 import {
   pbkdf2 as _pbkdf2,
-  pbkdf2Async as _pbkdf2Async
-} from "@noble/hashes/pbkdf2";
-import { sha256, sha512 } from "@noble/hashes/sha2";
+  pbkdf2Async as _pbkdf2Async,
+} from "@noble/hashes/pbkdf2.js";
+import { sha256, sha512 } from "@noble/hashes/sha2.js";
 import { assertBytes } from "./utils.js";
 
 export async function pbkdf2(
@@ -19,7 +19,7 @@ export async function pbkdf2(
   assertBytes(salt);
   return _pbkdf2Async(digest === "sha256" ? sha256 : sha512, password, salt, {
     c: iterations,
-    dkLen: keylen
+    dkLen: keylen,
   });
 }
 
@@ -37,6 +37,6 @@ export function pbkdf2Sync(
   assertBytes(salt);
   return _pbkdf2(digest === "sha256" ? sha256 : sha512, password, salt, {
     c: iterations,
-    dkLen: keylen
+    dkLen: keylen,
   });
 }

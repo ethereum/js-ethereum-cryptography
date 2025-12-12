@@ -1,4 +1,4 @@
-import { blake2b as _blake2b } from "@noble/hashes/blake2";
+import { blake2b as _blake2b } from "@noble/hashes/blake2.js";
 import { assertBytes } from "./utils.js";
 
 export const blake2b = (msg: Uint8Array, outputLength = 64): Uint8Array => {

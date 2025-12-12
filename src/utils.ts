@@ -1,14 +1,16 @@
-import { abool as assertBool } from "@noble/curves/abstract/utils";
-import { abytes as assertBytes } from "@noble/hashes/_assert";
-import { hexToBytes as _hexToBytes } from "@noble/hashes/utils";
+import {
+  abool as assertBool,
+  abytes as assertBytes,
+} from "@noble/curves/utils.js";
+import { hexToBytes as _hexToBytes } from "@noble/hashes/utils.js";
 
 export {
   bytesToHex,
   concatBytes,
   createView,
   bytesToHex as toHex,
-  utf8ToBytes
-} from "@noble/hashes/utils";
+  utf8ToBytes,
+} from "@noble/hashes/utils.js";
 export { assertBool, assertBytes };
 
 // buf.toString('hex') -> toHex(buf)

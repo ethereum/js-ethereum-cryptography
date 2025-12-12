@@ -1,4 +1,4 @@
-import { secp256k1 as secp } from "@noble/curves/secp256k1";
+import { secp256k1 as secp } from "@noble/curves/secp256k1.js";
 import { HARDENED_OFFSET, HDKey } from "ethereum-cryptography/hdkey";
 import { hexToBytes, toHex } from "ethereum-cryptography/utils";
 import { deepStrictEqual, throws } from "./assert";
@@ -181,7 +181,7 @@ describe("hdkey", () => {
     });
 
     it("should not throw if key is 33 bytes (compressed)", () => {
-      const pub = secp.getPublicKey(secp.utils.randomPrivateKey(), true);
+      const pub = secp.getPublicKey(secp.utils.randomSecretKey(), true);
       deepStrictEqual(pub.length, 33);
       const seed =
         "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
@@ -194,7 +194,7 @@ describe("hdkey", () => {
     });
 
     it("should not throw if key is 65 bytes (not compressed)", () => {
-      const pub = secp.getPublicKey(secp.utils.randomPrivateKey(), false);
+      const pub = secp.getPublicKey(secp.utils.randomSecretKey(), false);
       deepStrictEqual(pub.length, 65);
       const seed =
         "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";

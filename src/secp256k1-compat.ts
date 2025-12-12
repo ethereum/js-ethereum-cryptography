@@ -1,12 +1,12 @@
-import { mod } from "@noble/curves/abstract/modular";
-import { sha256 } from "@noble/hashes/sha256";
+import { mod } from "@noble/curves/abstract/modular.js";
+import { sha256 } from "@noble/hashes/sha2.js";
 import { secp256k1 } from "./secp256k1.js";
 import { assertBool, assertBytes, hexToBytes, toHex } from "./utils.js";
 
 // Use `secp256k1` module directly.
 // This is a legacy compatibility layer for the npm package `secp256k1` via noble-secp256k1
 
-const Point = secp256k1.ProjectivePoint;
+const Point = secp256k1.Point;
 
 function hexToNumber(hex: string): bigint {
   if (typeof hex !== "string") {
@@ -21,7 +21,7 @@ const numberToHex = (num: number | bigint) =>
   num.toString(16).padStart(64, "0");
 const numberToBytes = (num: number | bigint) => hexToBytes(numberToHex(num));
 
-const ORDER = secp256k1.CURVE.n;
+const ORDER = Point.Fn.ORDER;
 
 type Output = Uint8Array | ((len: number) => Uint8Array);
 interface Signature {
@@ -46,11 +46,11 @@ function output(
 
 function getSignature(signature: Uint8Array) {
   assertBytes(signature, 64);
-  return secp256k1.Signature.fromCompact(signature);
+  return secp256k1.Signature.fromBytes(signature, "compact");
 }
 
 export function createPrivateKeySync(): Uint8Array {
-  return secp256k1.utils.randomPrivateKey();
+  return secp256k1.utils.randomSecretKey();
 }
 
 export async function createPrivateKey(): Promise<Uint8Array> {
@@ -59,7 +59,7 @@ export async function createPrivateKey(): Promise<Uint8Array> {
 
 export function privateKeyVerify(privateKey: Uint8Array): boolean {
   assertBytes(privateKey, 32);
-  return secp256k1.utils.isValidPrivateKey(privateKey);
+  return secp256k1.utils.isValidSecretKey(privateKey);
 }
 
 export function publicKeyCreate(
@@ -68,15 +68,19 @@ export function publicKeyCreate(
   out?: Output
 ): Uint8Array {
   assertBytes(privateKey, 32);
-  assertBool("compressed", compressed);
+  assertBool(compressed, "compressed");
   const res = secp256k1.getPublicKey(privateKey, compressed);
   return output(out, compressed ? 33 : 65, res);
 }
 
 export function publicKeyVerify(publicKey: Uint8Array): boolean {
-  assertBytes(publicKey, 33, 65);
+  assertBytes(publicKey);
+  if (![33, 65].includes(publicKey.length))
+    throw new Error(
+      "Expected public key to be an Uint8Array with length [33, 65]"
+    );
   try {
-    Point.fromHex(publicKey);
+    Point.fromBytes(publicKey);
     return true;
   } catch (e) {
     return false;
@@ -88,9 +92,13 @@ export function publicKeyConvert(
   compressed = true,
   out?: Output
 ): Uint8Array {
-  assertBytes(publicKey, 33, 65);
-  assertBool("compressed", compressed);
-  const res = Point.fromHex(publicKey).toRawBytes(compressed);
+  assertBytes(publicKey);
+  if (![33, 65].includes(publicKey.length))
+    throw new Error(
+      "Expected public key to be an Uint8Array with length [33, 65]"
+    );
+  assertBool(compressed, "compressed");
+  const res = Point.fromBytes(publicKey).toBytes(compressed);
   return output(out, compressed ? 33 : 65, res);
 }
 
@@ -112,9 +120,13 @@ export function ecdsaSign(
   ) {
     throw new Error("Secp256k1: noncefn && data is unsupported");
   }
-  const sig = secp256k1.sign(msgHash, privateKey);
-  const recid = sig.recovery!;
-  return { signature: output(out, 64, sig.toCompactRawBytes()), recid };
+  const sig = secp256k1.sign(msgHash, privateKey, {
+    prehash: false,
+    format: "recovered",
+  });
+  const sigObj = secp256k1.Signature.fromBytes(sig, "recovered");
+  const recid = sigObj.recovery!;
+  return { signature: output(out, 64, sigObj.toBytes("compact")), recid };
 }
 
 export function ecdsaRecover(
@@ -125,10 +137,13 @@ export function ecdsaRecover(
   out?: Output
 ): Uint8Array {
   assertBytes(msgHash, 32);
-  assertBool("compressed", compressed);
+  assertBool(compressed, "compressed");
   const sign = getSignature(signature);
-  const point = sign.addRecoveryBit(recid).recoverPublicKey(msgHash);
-  return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
+  const signBytes = sign.addRecoveryBit(recid).toBytes("recovered");
+  const recovered = secp256k1.recoverPublicKey(signBytes, msgHash, {
+    prehash: false,
+  });
+  return publicKeyConvert(recovered, compressed, out);
 }
 
 export function ecdsaVerify(
@@ -138,14 +153,18 @@ export function ecdsaVerify(
 ) {
   assertBytes(signature, 64);
   assertBytes(msgHash, 32);
-  assertBytes(publicKey, 33, 65);
+  assertBytes(publicKey);
+  if (![33, 65].includes(publicKey.length))
+    throw new Error(
+      "Expected public key to be an Uint8Array with length [33, 65]"
+    );
   assertBytes(signature, 64);
   const r = bytesToNumber(signature.slice(0, 32));
   const s = bytesToNumber(signature.slice(32, 64));
   if (r >= ORDER || s >= ORDER) {
     throw new Error("Cannot parse signature");
   }
-  const pub = Point.fromHex(publicKey); // can throw error
+  const pub = Point.fromBytes(publicKey); // can throw error
   pub; // typescript
   let sig;
   try {
@@ -153,7 +172,9 @@ export function ecdsaVerify(
   } catch (error) {
     return false;
   }
-  return secp256k1.verify(sig, msgHash, publicKey);
+  return secp256k1.verify(sig.toBytes(), msgHash, publicKey, {
+    prehash: false,
+  });
 }
 
 export function privateKeyTweakAdd(
@@ -194,10 +215,10 @@ export function publicKeyNegate(
   compressed = true,
   out?: Output
 ): Uint8Array {
-  assertBytes(publicKey, 33, 65);
-  assertBool("compressed", compressed);
-  const point = Point.fromHex(publicKey).negate();
-  return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
+  assertBytes(publicKey);
+  assertBool(compressed, "compressed");
+  const point = Point.fromBytes(publicKey).negate();
+  return output(out, compressed ? 33 : 65, point.toBytes(compressed));
 }
 
 export function publicKeyCombine(
@@ -211,17 +232,17 @@ export function publicKeyCombine(
     );
   }
   for (const publicKey of publicKeys) {
-    assertBytes(publicKey, 33, 65);
+    assertBytes(publicKey);
   }
-  assertBool("compressed", compressed);
+  assertBool(compressed, "compressed");
   const combined = publicKeys
-    .map((pub) => Point.fromHex(pub))
+    .map((pub) => Point.fromBytes(pub))
     .reduce((res, curr) => res.add(curr), Point.ZERO);
   // Prohibit returning ZERO point
   if (combined.equals(Point.ZERO)) {
     throw new Error("Combined result must not be zero");
   }
-  return output(out, compressed ? 33 : 65, combined.toRawBytes(compressed));
+  return output(out, compressed ? 33 : 65, combined.toBytes(compressed));
 }
 
 export function publicKeyTweakAdd(
@@ -230,16 +251,20 @@ export function publicKeyTweakAdd(
   compressed = true,
   out?: Output
 ): Uint8Array {
-  assertBytes(publicKey, 33, 65);
+  assertBytes(publicKey);
+  if (![33, 65].includes(publicKey.length))
+    throw new Error(
+      "Expected public key to be an Uint8Array with length [33, 65]"
+    );
   assertBytes(tweak, 32);
-  assertBool("compressed", compressed);
-  const p1 = Point.fromHex(publicKey);
-  const p2 = Point.fromPrivateKey(tweak);
+  assertBool(compressed, "compressed");
+  const p1 = Point.fromBytes(publicKey);
+  const p2 = Point.BASE.multiply(Point.Fn.fromBytes(tweak));
   const point = p1.add(p2);
   if (p2.equals(Point.ZERO) || point.equals(Point.ZERO)) {
     throw new Error("Tweak must not be zero");
   }
-  return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
+  return output(out, compressed ? 33 : 65, point.toBytes(compressed));
 }
 
 export function publicKeyTweakMul(
@@ -248,9 +273,13 @@ export function publicKeyTweakMul(
   compressed = true,
   out?: Output
 ): Uint8Array {
-  assertBytes(publicKey, 33, 65);
+  assertBytes(publicKey);
+  if (![33, 65].includes(publicKey.length))
+    throw new Error(
+      "Expected public key to be an Uint8Array with length [33, 65]"
+    );
   assertBytes(tweak, 32);
-  assertBool("compressed", compressed);
+  assertBool(compressed, "compressed");
   const bn = bytesToNumber(tweak);
   if (bn === 0n) {
     throw new Error("Tweak must not be zero");
@@ -258,8 +287,8 @@ export function publicKeyTweakMul(
   if (bn <= 1 || bn >= ORDER) {
     throw new Error("Tweak is zero or bigger than curve order");
   }
-  const point = Point.fromHex(publicKey).multiply(bn);
-  return output(out, compressed ? 33 : 65, point.toRawBytes(compressed));
+  const point = Point.fromBytes(publicKey).multiply(bn);
+  return output(out, compressed ? 33 : 65, point.toBytes(compressed));
 }
 
 export function privateKeyTweakMul(
@@ -286,7 +315,7 @@ export function signatureExport(
   signature: Uint8Array,
   out?: Output
 ): Uint8Array {
-  const res = getSignature(signature).toDERRawBytes();
+  const res = getSignature(signature).toBytes("der");
   return output(out, 72, res.slice()).slice(0, res.length);
 }
 // DER -> internal
@@ -295,8 +324,8 @@ export function signatureImport(
   out?: Output
 ): Uint8Array {
   assertBytes(signature);
-  const sig = secp256k1.Signature.fromDER(signature);
-  return output(out, 64, hexToBytes(sig.toCompactHex()));
+  const sig = secp256k1.Signature.fromBytes(signature, "der");
+  return output(out, 64, sig.toBytes("compact"));
 }
 
 export function signatureNormalize(signature: Uint8Array): Uint8Array {
@@ -318,7 +347,11 @@ export function ecdh(
   } = {},
   out?: Output
 ): Uint8Array {
-  assertBytes(publicKey, 33, 65);
+  assertBytes(publicKey);
+  if (![33, 65].includes(publicKey.length))
+    throw new Error(
+      "Expected public key to be an Uint8Array with length [33, 65]"
+    );
   assertBytes(privateKey, 32);
   if (typeof options !== "object" || options === null) {
     throw new TypeError("secp256k1.ecdh: options should be object");
@@ -326,9 +359,11 @@ export function ecdh(
   if (options.data !== undefined) {
     assertBytes(options.data);
   }
-  const point = Point.fromHex(secp256k1.getSharedSecret(privateKey, publicKey));
+  const point = Point.fromBytes(
+    secp256k1.getSharedSecret(privateKey, publicKey)
+  );
   if (options.hashfn === undefined) {
-    return output(out, 32, sha256(point.toRawBytes(true)));
+    return output(out, 32, sha256(point.toBytes(true)));
   }
   if (typeof options.hashfn !== "function") {
     throw new TypeError("secp256k1.ecdh: options.hashfn should be function");

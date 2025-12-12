@@ -1,5 +1,5 @@
-import { cbc, ctr } from "@noble/ciphers/aes";
-import type { CipherWithOutput } from "@noble/ciphers/utils";
+import { cbc, ctr } from "@noble/ciphers/aes.js";
+import type { CipherWithOutput } from "@noble/ciphers/utils.js";
 
 function getCipher(
   key: Uint8Array,

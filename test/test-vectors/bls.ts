@@ -1,9 +1,10 @@
 import { bls12_381 } from "ethereum-cryptography/bls";
 import { deepStrictEqual } from "./assert";
+import { hexToBytes } from "ethereum-cryptography/utils";
 
 describe("bls12-381", () => {
-  const PointG1 = bls12_381.G1.ProjectivePoint;
-  const PointG2 = bls12_381.G2.ProjectivePoint;
+  const PointG1 = bls12_381.G1.Point;
+  const PointG2 = bls12_381.G2.Point;
   const { Fp, Fp12 } = bls12_381.fields;
 
   it("basic", () => {
@@ -22,9 +23,10 @@ describe("bls12-381", () => {
       "0d1bd9077705325666408124339dca98c0c842b35a90bc3cea8e0c36f2d35583:c43623:94f60dc44a4dbb2505befe346c0c143190fc877ded5e877418f0f890b8ae357a40e8fcc189139aaa509d2b6500f623a5".split(
         ":"
       );
-    const sig = bls12_381.signShortSignature(msg, priv);
-    const pub = bls12_381.getPublicKeyForShortSignatures(priv);
-    const res = bls12_381.verifyShortSignature(sig, msg, pub);
+    const hashed = bls12_381.shortSignatures.hash(hexToBytes(msg));
+    const sig = bls12_381.shortSignatures.sign(hashed, hexToBytes(priv));
+    const pub = bls12_381.shortSignatures.getPublicKey(hexToBytes(priv));
+    const res = bls12_381.shortSignatures.verify(sig, hashed, pub);
     deepStrictEqual(res, true, `${priv}-${msg}`);
   });
   it("pairing", () => {

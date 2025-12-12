@@ -1,9 +1,9 @@
 import { bn254 } from "ethereum-cryptography/bn";
 import { deepStrictEqual } from "./assert";
 
-describe("bls12-381", () => {
-  const PointG1 = bn254.G1.ProjectivePoint;
-  const PointG2 = bn254.G2.ProjectivePoint;
+describe("bn-254", () => {
+  const PointG1 = bn254.G1.Point;
+  const PointG2 = bn254.G2.Point;
   const { Fp12 } = bn254.fields;
 
   it("basic", () => {
