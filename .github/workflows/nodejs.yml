@@ -10,17 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          # @actions/setup-node does not support Node.js v14 for macOS
-          - node: 14
-            os: ubuntu-latest
         node:
-          - 16.0.0
-          - 16
-          - 18.0.0
-          - 18
-          - 20
           - 22
+          - 24
         os:
           - ubuntu-latest
           - macOS-latest
@@ -33,7 +25,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           registry-url: "https://registry.npmjs.org"
-      - run: npm install -g npm@9.x
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test

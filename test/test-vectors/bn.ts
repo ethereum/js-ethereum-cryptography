@@ -1,5 +1,5 @@
 import { bn254 } from "ethereum-cryptography/bn";
-import { deepStrictEqual } from "./assert";
+import { deepStrictEqual } from "./assert.ts";
 
 describe("bn-254", () => {
   const PointG1 = bn254.G1.Point;

@@ -1,6 +1,6 @@
 import { sha256 } from "ethereum-cryptography/sha256";
 import { toHex, utf8ToBytes } from "ethereum-cryptography/utils";
-import { deepStrictEqual } from "./assert";
+import { deepStrictEqual } from "./assert.ts";
 
 const TEST_VECTORS = [
   {
