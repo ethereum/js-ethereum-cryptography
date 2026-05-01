@@ -4,10 +4,11 @@
   "description": "All the cryptographic primitives used in Ethereum.",
   "repository": "https://github.com/ethereum/js-ethereum-cryptography",
   "license": "MIT",
+  "type": "module",
   "main": "./index.js",
+  "module": "./index.js",
   "engines": {
-    "node": "^14.21.3 || >=16",
-    "npm": ">=9"
+    "node": ">= 20.19.0"
   },
   "files": [
     "bip39/*.js",
@@ -19,245 +20,70 @@
     "esm"
   ],
   "dependencies": {
-    "@noble/ciphers": "2.1.1",
-    "@noble/curves": "2.0.1",
-    "@noble/hashes": "2.0.1",
-    "@scure/bip32": "2.0.1",
-    "@scure/bip39": "2.0.1"
+    "@noble/ciphers": "2.2.0",
+    "@noble/curves": "2.2.0",
+    "@noble/hashes": "2.2.0",
+    "@scure/bip32": "2.2.0",
+    "@scure/bip39": "2.2.0"
   },
   "exports": {
-    ".": {
-      "import": "./esm/index.js",
-      "require": "./index.js"
-    },
-    "./aes": {
-      "import": "./esm/aes.js",
-      "require": "./aes.js"
-    },
-    "./bip39": {
-      "import": "./esm/bip39/index.js",
-      "require": "./bip39/index.js"
-    },
-    "./blake2b": {
-      "import": "./esm/blake2b.js",
-      "require": "./blake2b.js"
-    },
-    "./bls": {
-      "import": "./esm/bls.js",
-      "require": "./bls.js"
-    },
-    "./bn": {
-      "import": "./esm/bn.js",
-      "require": "./bn.js"
-    },
-    "./hdkey": {
-      "import": "./esm/hdkey.js",
-      "require": "./hdkey.js"
-    },
-    "./index": {
-      "import": "./esm/index.js",
-      "require": "./index.js"
-    },
-    "./math": {
-      "import": "./esm/math.js",
-      "require": "./math.js"
-    },
-    "./keccak": {
-      "import": "./esm/keccak.js",
-      "require": "./keccak.js"
-    },
-    "./pbkdf2": {
-      "import": "./esm/pbkdf2.js",
-      "require": "./pbkdf2.js"
-    },
-    "./random": {
-      "import": "./esm/random.js",
-      "require": "./random.js"
-    },
-    "./ripemd160": {
-      "import": "./esm/ripemd160.js",
-      "require": "./ripemd160.js"
-    },
-    "./scrypt": {
-      "import": "./esm/scrypt.js",
-      "require": "./scrypt.js"
-    },
-    "./secp256k1-compat": {
-      "import": "./esm/secp256k1-compat.js",
-      "require": "./secp256k1-compat.js"
-    },
-    "./secp256k1": {
-      "import": "./esm/secp256k1.js",
-      "require": "./secp256k1.js"
-    },
-    "./sha256": {
-      "import": "./esm/sha256.js",
-      "require": "./sha256.js"
-    },
-    "./sha512": {
-      "import": "./esm/sha512.js",
-      "require": "./sha512.js"
-    },
-    "./utils": {
-      "import": "./esm/utils.js",
-      "require": "./utils.js"
-    },
-    "./bip39/index": {
-      "import": "./esm/bip39/index.js",
-      "require": "./bip39/index.js"
-    },
-    "./bip39/wordlists/czech": {
-      "import": "./esm/bip39/wordlists/czech.js",
-      "require": "./bip39/wordlists/czech.js"
-    },
-    "./bip39/wordlists/english": {
-      "import": "./esm/bip39/wordlists/english.js",
-      "require": "./bip39/wordlists/english.js"
-    },
-    "./bip39/wordlists/french": {
-      "import": "./esm/bip39/wordlists/french.js",
-      "require": "./bip39/wordlists/french.js"
-    },
-    "./bip39/wordlists/italian": {
-      "import": "./esm/bip39/wordlists/italian.js",
-      "require": "./bip39/wordlists/italian.js"
-    },
-    "./bip39/wordlists/japanese": {
-      "import": "./esm/bip39/wordlists/japanese.js",
-      "require": "./bip39/wordlists/japanese.js"
-    },
-    "./bip39/wordlists/korean": {
-      "import": "./esm/bip39/wordlists/korean.js",
-      "require": "./bip39/wordlists/korean.js"
-    },
-    "./bip39/wordlists/portuguese": {
-      "import": "./esm/bip39/wordlists/portuguese.js",
-      "require": "./bip39/wordlists/portuguese.js"
-    },
-    "./bip39/wordlists/simplified-chinese": {
-      "import": "./esm/bip39/wordlists/simplified-chinese.js",
-      "require": "./bip39/wordlists/simplified-chinese.js"
-    },
-    "./bip39/wordlists/spanish": {
-      "import": "./esm/bip39/wordlists/spanish.js",
-      "require": "./bip39/wordlists/spanish.js"
-    },
-    "./bip39/wordlists/traditional-chinese": {
-      "import": "./esm/bip39/wordlists/traditional-chinese.js",
-      "require": "./bip39/wordlists/traditional-chinese.js"
-    },
-    "./aes.js": {
-      "import": "./esm/aes.js",
-      "require": "./aes.js"
-    },
-    "./bip39.js": {
-      "import": "./esm/bip39/index.js",
-      "require": "./bip39/index.js"
-    },
-    "./blake2b.js": {
-      "import": "./esm/blake2b.js",
-      "require": "./blake2b.js"
-    },
-    "./bls.js": {
-      "import": "./esm/bls.js",
-      "require": "./bls.js"
-    },
-    "./bn.js": {
-      "import": "./esm/bn.js",
-      "require": "./bn.js"
-    },
-    "./hdkey.js": {
-      "import": "./esm/hdkey.js",
-      "require": "./hdkey.js"
-    },
-    "./index.js": {
-      "import": "./esm/index.js",
-      "require": "./index.js"
-    },
-    "./math.js": {
-      "import": "./esm/math.js",
-      "require": "./math.js"
-    },
-    "./keccak.js": {
-      "import": "./esm/keccak.js",
-      "require": "./keccak.js"
-    },
-    "./pbkdf2.js": {
-      "import": "./esm/pbkdf2.js",
-      "require": "./pbkdf2.js"
-    },
-    "./random.js": {
-      "import": "./esm/random.js",
-      "require": "./random.js"
-    },
-    "./ripemd160.js": {
-      "import": "./esm/ripemd160.js",
-      "require": "./ripemd160.js"
-    },
-    "./scrypt.js": {
-      "import": "./esm/scrypt.js",
-      "require": "./scrypt.js"
-    },
-    "./secp256k1-compat.js": {
-      "import": "./esm/secp256k1-compat.js",
-      "require": "./secp256k1-compat.js"
-    },
-    "./secp256k1.js": {
-      "import": "./esm/secp256k1.js",
-      "require": "./secp256k1.js"
-    },
-    "./sha256.js": {
-      "import": "./esm/sha256.js",
-      "require": "./sha256.js"
-    },
-    "./sha512.js": {
-      "import": "./esm/sha512.js",
-      "require": "./sha512.js"
-    },
-    "./utils.js": {
-      "import": "./esm/utils.js",
-      "require": "./utils.js"
-    },
-    "./bip39/index.js": {
-      "import": "./esm/bip39/index.js",
-      "require": "./bip39/index.js"
-    },
-    "./bip39/wordlists/czech.js": {
-      "import": "./esm/bip39/wordlists/czech.js",
-      "require": "./bip39/wordlists/czech.js"
-    },
-    "./bip39/wordlists/english.js": {
-      "import": "./esm/bip39/wordlists/english.js",
-      "require": "./bip39/wordlists/english.js"
-    },
-    "./bip39/wordlists/french.js": {
-      "import": "./esm/bip39/wordlists/french.js",
-      "require": "./bip39/wordlists/french.js"
-    },
-    "./bip39/wordlists/italian.js": {
-      "import": "./esm/bip39/wordlists/italian.js",
-      "require": "./bip39/wordlists/italian.js"
-    },
-    "./bip39/wordlists/japanese.js": {
-      "import": "./esm/bip39/wordlists/japanese.js",
-      "require": "./bip39/wordlists/japanese.js"
-    },
-    "./bip39/wordlists/korean.js": {
-      "import": "./esm/bip39/wordlists/korean.js",
-      "require": "./bip39/wordlists/korean.js"
-    },
-    "./bip39/wordlists/simplified-chinese.js": {
-      "import": "./esm/bip39/wordlists/simplified-chinese.js",
-      "require": "./bip39/wordlists/simplified-chinese.js"
-    },
-    "./bip39/wordlists/spanish.js": {
-      "import": "./esm/bip39/wordlists/spanish.js",
-      "require": "./bip39/wordlists/spanish.js"
-    },
-    "./bip39/wordlists/traditional-chinese.js": {
-      "import": "./esm/bip39/wordlists/traditional-chinese.js",
-      "require": "./bip39/wordlists/traditional-chinese.js"
-    }
+    ".": "./index.js",
+    "./aes": "./aes.js",
+    "./bip39": "./bip39/index.js",
+    "./blake2b": "./blake2b.js",
+    "./bls": "./bls.js",
+    "./bn": "./bn.js",
+    "./hdkey": "./hdkey.js",
+    "./index": "./index.js",
+    "./math": "./math.js",
+    "./keccak": "./keccak.js",
+    "./pbkdf2": "./pbkdf2.js",
+    "./random": "./random.js",
+    "./ripemd160": "./ripemd160.js",
+    "./scrypt": "./scrypt.js",
+    "./secp256k1-compat": "./secp256k1-compat.js",
+    "./secp256k1": "./secp256k1.js",
+    "./sha256": "./sha256.js",
+    "./sha512": "./sha512.js",
+    "./utils": "./utils.js",
+    "./bip39/index": "./bip39/index.js",
+    "./bip39/wordlists/czech": "./bip39/wordlists/czech.js",
+    "./bip39/wordlists/english": "./bip39/wordlists/english.js",
+    "./bip39/wordlists/french": "./bip39/wordlists/french.js",
+    "./bip39/wordlists/italian": "./bip39/wordlists/italian.js",
+    "./bip39/wordlists/japanese": "./bip39/wordlists/japanese.js",
+    "./bip39/wordlists/korean": "./bip39/wordlists/korean.js",
+    "./bip39/wordlists/simplified-chinese": "./bip39/wordlists/simplified-chinese.js",
+    "./bip39/wordlists/spanish": "./bip39/wordlists/spanish.js",
+    "./bip39/wordlists/traditional-chinese": "./bip39/wordlists/traditional-chinese.js",
+    "./aes.js": "./aes.js",
+    "./bip39.js": "./bip39/index.js",
+    "./blake2b.js": "./blake2b.js",
+    "./bls.js": "./bls.js",
+    "./bn.js": "./bn.js",
+    "./hdkey.js": "./hdkey.js",
+    "./index.js": "./index.js",
+    "./math.js": "./math.js",
+    "./keccak.js": "./keccak.js",
+    "./pbkdf2.js": "./pbkdf2.js",
+    "./random.js": "./random.js",
+    "./ripemd160.js": "./ripemd160.js",
+    "./scrypt.js": "./scrypt.js",
+    "./secp256k1-compat.js": "./secp256k1-compat.js",
+    "./secp256k1.js": "./secp256k1.js",
+    "./sha256.js": "./sha256.js",
+    "./sha512.js": "./sha512.js",
+    "./utils.js": "./utils.js",
+    "./bip39/index.js": "./bip39/index.js",
+    "./bip39/wordlists/czech.js": "./bip39/wordlists/czech.js",
+    "./bip39/wordlists/english.js": "./bip39/wordlists/english.js",
+    "./bip39/wordlists/french.js": "./bip39/wordlists/french.js",
+    "./bip39/wordlists/italian.js": "./bip39/wordlists/italian.js",
+    "./bip39/wordlists/japanese.js": "./bip39/wordlists/japanese.js",
+    "./bip39/wordlists/korean.js": "./bip39/wordlists/korean.js",
+    "./bip39/wordlists/simplified-chinese.js": "./bip39/wordlists/simplified-chinese.js",
+    "./bip39/wordlists/spanish.js": "./bip39/wordlists/spanish.js",
+    "./bip39/wordlists/traditional-chinese.js": "./bip39/wordlists/traditional-chinese.js"
   },
   "browser": {
     "crypto": false
@@ -266,9 +92,9 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm-run-all build:tsc",
-    "build:tsc": "tsc --project tsconfig.prod.json && tsc --project tsconfig.prod.esm.json",
+    "build:tsc": "tsc --project tsconfig.prod.json",
     "test": "npm-run-all test:node",
-    "test:node": "cd test && npm install && cd .. && NODE_OPTIONS='--loader ts-node/esm' mocha",
+    "test:node": "cd test && npm install && cd .. && mocha",
     "clean": "rm -rf test/test-builds bip39 *.js *.js.map *.d.ts *.d.ts.map src/**/*.js",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -292,7 +118,7 @@
     "karma-chrome-launcher": "3.1.1",
     "karma-mocha": "2.0.1",
     "karma-mocha-reporter": "2.2.5",
-    "mocha": "10.7.3",
+    "mocha": "12.0.0-beta-9.2",
     "npm-run-all": "4.1.5",
     "prettier": "2.7.1",
     "ts-node": "10.9.2",
