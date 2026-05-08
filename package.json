@@ -16,8 +16,7 @@
     "bip39/wordlists/*.js",
     "bip39/wordlists/*.d.ts",
     "*.js",
-    "*.d.ts",
-    "esm"
+    "*.d.ts"
   ],
   "dependencies": {
     "@noble/ciphers": "2.2.0",
@@ -102,7 +101,6 @@
     "browser-tests:build": "bash -x ./scripts/build-browser-tests.sh",
     "browser-tests:test": "npm-run-all browser-tests:test-parcel browser-tests:test-webpack browser-tests:test-rollup",
     "browser-tests:test-parcel": "karma start --single-run --browsers ChromeHeadless test/karma.parcel.conf.js",
-    "browser-tests:test-browserify": "karma start --single-run --browsers ChromeHeadless test/karma.browserify.conf.js",
     "browser-tests:test-webpack": "karma start --single-run --browsers ChromeHeadless test/karma.webpack.conf.js",
     "browser-tests:test-rollup": "karma start --single-run --browsers ChromeHeadless test/karma.rollup.conf.js"
   },
