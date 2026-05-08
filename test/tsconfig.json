@@ -7,11 +7,18 @@
     "rootDirs": [
       "./"
     ],
+    // Preserve repo-relative paths under test-builds/tsc while keeping all artifacts disposable.
+    "rootDir": "../",
     "outDir": "./test-builds/tsc",
     "noUnusedLocals": true,
+    // Browser builds emit JS from tests that use explicit .ts imports for the ESM node runner.
+    "rewriteRelativeImportExtensions": true,
     "declaration": true
   },
   "include": [
     "./**/*.ts",
+  ],
+  "exclude": [
+    "./test-builds"
   ]
 }
