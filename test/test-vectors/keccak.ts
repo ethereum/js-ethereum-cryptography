@@ -1,6 +1,6 @@
 import { keccak224, keccak256, keccak384, keccak512 } from "ethereum-cryptography/keccak";
 import { hexToBytes, toHex, utf8ToBytes } from "ethereum-cryptography/utils";
-import { deepStrictEqual } from "./assert";
+import { deepStrictEqual } from "./assert.ts";
 
 export const keccak224Vectors = [
   {

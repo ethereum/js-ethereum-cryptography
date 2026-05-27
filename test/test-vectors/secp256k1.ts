@@ -1,6 +1,6 @@
 import { secp256k1 } from "ethereum-cryptography/secp256k1";
 import { hexToBytes } from "ethereum-cryptography/utils";
-import { deepStrictEqual } from "./assert";
+import { deepStrictEqual } from "./assert.ts";
 
 describe("secp256k1", () => {
   it("should verify msg bb5a...", async () => {

@@ -1,12 +1,12 @@
-import { modPow, modInvert } from "ethereum-cryptography/math";
-import { deepStrictEqual, throws } from "./assert";
+import { modInvert, modPow } from "ethereum-cryptography/math";
+import { deepStrictEqual, throws } from "./assert.ts";
 
 describe("math", () => {
   it("pow", () => {
     deepStrictEqual(modPow(123n, 456n, 789n), 699n);
     deepStrictEqual(modPow(123n, 0n, 789n), 1n);
     deepStrictEqual(modPow(2n, 5n, 789n), 32n);
-    deepStrictEqual(modPow(123n, 456n, 1n), 0n);
+    throws(() => modPow(123n, 456n, 1n));
     deepStrictEqual(
       modPow(
         0x17f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bbn,

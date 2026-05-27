@@ -1,26 +1,24 @@
-name: Publish package to npm
+name: Publish release
 on:
   release:
     types: [created]
+permissions:
+  contents: read
+  id-token: write # For OIDC Trusted Publishing
 jobs:
   build:
-    name: "Publish to NPM"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
+    name: Publish to NPM
+    runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          persist-credentials: false
-      - uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4
+          persist-credentials: false # Remove git token after fetch
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4
         with:
-          node-version: 20
-          registry-url: 'https://registry.npmjs.org'
-          cache: npm
-      - run: npm install -g npm@9.x
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          registry-url: "https://registry.npmjs.org"
+          node-version: 24.15.0 # Relevant as per May 2026, must be specific for determinism.
+      - run: npm ci # Built-in NPM version, do not install newer
+      - run: npm run build --if-present
+      - name: Ensure NPM version has not been published yet
+        run: npm publish --dry-run
+      - run: npm publish --access public

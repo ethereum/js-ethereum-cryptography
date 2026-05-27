@@ -5,12 +5,12 @@ import {
   mnemonicToSeed,
   mnemonicToSeedSync,
   validateMnemonic
-} from "../../src/bip39";
-import { wordlist as englishWordlist } from "../../src/bip39/wordlists/english";
-import { wordlist as japaneseWordlist } from "../../src/bip39/wordlists/japanese";
-import { wordlist as spanishWordlist } from "../../src/bip39/wordlists/spanish";
-import { equalsBytes, hexToBytes, toHex } from "../../src/utils";
-import { deepStrictEqual, throws } from "./assert";
+} from "ethereum-cryptography/bip39";
+import { wordlist as englishWordlist } from "ethereum-cryptography/bip39/wordlists/english";
+import { wordlist as japaneseWordlist } from "ethereum-cryptography/bip39/wordlists/japanese";
+import { wordlist as spanishWordlist } from "ethereum-cryptography/bip39/wordlists/spanish";
+import { equalsBytes, hexToBytes, toHex } from "ethereum-cryptography/utils";
+import { deepStrictEqual, throws } from "./assert.ts";
 
 describe("BIP39", () => {
   describe("Mnemonic generation", () => {

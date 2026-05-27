@@ -1,6 +1,6 @@
 import { ripemd160 } from "ethereum-cryptography/ripemd160";
 import { toHex, utf8ToBytes } from "ethereum-cryptography/utils";
-import { deepStrictEqual } from "./assert";
+import { deepStrictEqual } from "./assert.ts";
 
 const TEST_VECTORS = [
   {

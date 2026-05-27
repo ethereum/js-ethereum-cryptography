@@ -1,6 +1,6 @@
 import { bls12_381 } from "ethereum-cryptography/bls";
-import { deepStrictEqual } from "./assert";
 import { hexToBytes } from "ethereum-cryptography/utils";
+import { deepStrictEqual } from "./assert.ts";
 
 describe("bls12-381", () => {
   const PointG1 = bls12_381.G1.Point;
